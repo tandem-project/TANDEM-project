@@ -1,4 +1,0 @@
--sudo apt update
--sudo apt install nginx
-Update nginx.conf file under /etc/nginx/conf.d
--sudo systemctl start nginx
