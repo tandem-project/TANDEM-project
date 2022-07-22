@@ -1,0 +1,1586 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Service catalogue with list of Tandem services",
+    "version": "1.0.0",
+    "title": "Tandem service catalogue"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "admin-rest-controller",
+      "description": "Admin Rest Controller"
+    },
+    {
+      "name": "service-rest-controller",
+      "description": "Service REST Controller"
+    },
+    {
+      "name": "workflow-rest-controller",
+      "description": "Workflow Rest Controller"
+    }
+  ],
+  "paths": {
+    "/servicecatalogue/admin/sercategories": {
+      "get": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "getServiceCategories",
+        "operationId": "getServiceCategoriesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/admin/serstates": {
+      "get": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "getServiceStates",
+        "operationId": "getServiceStatesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/admin/servicecategories": {
+      "post": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "createServiceCategories",
+        "operationId": "createServiceCategoriesUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newServiceCategories",
+            "description": "newServiceCategories",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SerCategory"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "deleteServiceCategories",
+        "operationId": "deleteServiceCategoriesUsingDELETE",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "serviceCategories",
+            "description": "serviceCategories",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SerCategory"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/admin/servicecategory": {
+      "get": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "getAllServiceCategories",
+        "operationId": "getAllServiceCategoriesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SerCategory"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "createServiceCategory",
+        "operationId": "createServiceCategoryUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newServiceCategory",
+            "description": "newServiceCategory",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SerCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "deleteServiceCategory",
+        "operationId": "deleteServiceCategoryUsingDELETE",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "serviceCategory",
+            "description": "serviceCategory",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SerCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/admin/servicestate": {
+      "get": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "getAllServiceStates",
+        "operationId": "getAllServiceStatesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SerState"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "createServiceState",
+        "operationId": "createServiceStateUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newServiceState",
+            "description": "newServiceState",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SerState"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "deleteServiceState",
+        "operationId": "deleteServiceStateUsingDELETE",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "serviceState",
+            "description": "serviceState",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SerState"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/admin/servicestates": {
+      "post": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "createServiceStates",
+        "operationId": "createServiceStatesUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newServiceStates",
+            "description": "newServiceStates",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SerState"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-rest-controller"
+        ],
+        "summary": "deleteServiceStates",
+        "operationId": "deleteServiceStatesUsingDELETE",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "serviceStates",
+            "description": "serviceStates",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SerState"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/create/services": {
+      "post": {
+        "tags": [
+          "service-rest-controller"
+        ],
+        "summary": "createService",
+        "operationId": "createServiceUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newService",
+            "description": "newService",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceRes"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/delete/services/{id}": {
+      "delete": {
+        "tags": [
+          "service-rest-controller"
+        ],
+        "summary": "deleteServiceById",
+        "operationId": "deleteServiceByIdUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/get/services": {
+      "get": {
+        "tags": [
+          "service-rest-controller"
+        ],
+        "summary": "getAllServices",
+        "operationId": "getAllServicesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ServiceRes"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/get/services/{id}": {
+      "get": {
+        "tags": [
+          "service-rest-controller"
+        ],
+        "summary": "getServiceById",
+        "operationId": "getServiceByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceRes"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/search": {
+      "get": {
+        "tags": [
+          "service-rest-controller"
+        ],
+        "summary": "getServicesByProperties",
+        "operationId": "getServicesByPropertiesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "serName",
+            "in": "query",
+            "description": "serName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "state",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "version",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/servicecatalogue/update/services/{id}": {
+      "put": {
+        "tags": [
+          "service-rest-controller"
+        ],
+        "summary": "updateService",
+        "operationId": "updateServiceUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "newService",
+            "description": "newService",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceRes"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/create": {
+      "post": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "createWorkflow",
+        "operationId": "createWorkflowUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newWorkflow",
+            "description": "newWorkflow",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Workflow"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/delete/{name}": {
+      "delete": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "createWorkflow",
+        "operationId": "createWorkflowUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/workflows/descriptions": {
+      "get": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "getDescriptions",
+        "operationId": "getDescriptionsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/list": {
+      "get": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "getAllWorkflows",
+        "operationId": "getAllWorkflowsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Workflow"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/names": {
+      "get": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "getNames",
+        "operationId": "getNamesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/types": {
+      "get": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "getTypes",
+        "operationId": "getTypesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/update": {
+      "put": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "updateWorkflow",
+        "operationId": "updateWorkflowUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "updatedWorkflow",
+            "description": "updatedWorkflow",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Workflow"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/workflows/{name}": {
+      "get": {
+        "tags": [
+          "workflow-rest-controller"
+        ],
+        "summary": "getWorkflowByName",
+        "operationId": "getWorkflowByNameUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CategoryRefReq": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string",
+          "enum": [
+            "AI Services",
+            "Augmented Reality",
+            "Content Cashing",
+            "Gaming",
+            "Industrial Internet of Things (IIoT)",
+            "Internet of Things (IoT)",
+            "Location Based Services",
+            "Notification Services",
+            "Object Detection & Tracking Services",
+            "Optimized Local Content Distribution",
+            "Prediction Services",
+            "Vehicle to Vehicle",
+            "Video Analytics",
+            "eHealth"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "title": "CategoryRefReq"
+    },
+    "CategoryRefRes": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "title": "CategoryRefRes"
+    },
+    "SerCategory": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        }
+      },
+      "title": "SerCategory"
+    },
+    "SerState": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string"
+        }
+      },
+      "title": "SerState"
+    },
+    "ServiceComputeRequirement": {
+      "type": "object",
+      "properties": {
+        "serCPUArchitecture": {
+          "type": "string"
+        },
+        "serMemorySize": {
+          "type": "string"
+        },
+        "serMemorySizeMU": {
+          "type": "string"
+        },
+        "serNumVirtualCPUs": {
+          "type": "string"
+        },
+        "serNumVirtualCPUsMU": {
+          "type": "string"
+        },
+        "serNumVirtualGPUs": {
+          "type": "string"
+        },
+        "serVirtualCPUClock": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceComputeRequirement"
+    },
+    "ServiceConfigParameter": {
+      "type": "object",
+      "properties": {
+        "serParamDescr": {
+          "type": "string"
+        },
+        "serParamName": {
+          "type": "string"
+        },
+        "serParamType": {
+          "type": "string"
+        },
+        "serParamTypicalValue": {
+          "type": "string"
+        },
+        "serParamValue": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceConfigParameter"
+    },
+    "ServiceLatencyRequirement": {
+      "type": "object",
+      "properties": {
+        "serLatencyTimeUnit": {
+          "type": "string"
+        },
+        "serLatencyValue": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceLatencyRequirement"
+    },
+    "ServiceOperation": {
+      "type": "object",
+      "properties": {
+        "serOperationDescription": {
+          "type": "string"
+        },
+        "serOperationEndPoint": {
+          "type": "string"
+        },
+        "serOperationInputParams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceOperationParameter"
+          }
+        },
+        "serOperationName": {
+          "type": "string"
+        },
+        "serOperationOutputParams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceOperationParameter"
+          }
+        },
+        "serOperationType": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceOperation"
+    },
+    "ServiceOperationParameter": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "typical_value": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceOperationParameter"
+    },
+    "ServiceOptional": {
+      "type": "object",
+      "properties": {
+        "serServiceId": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ServiceOptional"
+    },
+    "ServiceReq": {
+      "type": "object",
+      "properties": {
+        "consumedLocalOnly": {
+          "type": "boolean"
+        },
+        "isLocal": {
+          "type": "boolean"
+        },
+        "local": {
+          "type": "boolean"
+        },
+        "piEdgeInfo": {
+          "$ref": "#/definitions/piEdgeInfo"
+        },
+        "scopeOfLocality": {
+          "type": "string"
+        },
+        "serCategory": {
+          "$ref": "#/definitions/CategoryRefReq"
+        },
+        "serComputeReq": {
+          "$ref": "#/definitions/ServiceComputeRequirement"
+        },
+        "serConfigParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceConfigParameter"
+          }
+        },
+        "serDescription": {
+          "type": "string"
+        },
+        "serId": {
+          "type": "string"
+        },
+        "serLatencyReq": {
+          "$ref": "#/definitions/ServiceLatencyRequirement"
+        },
+        "serName": {
+          "type": "string"
+        },
+        "serOperations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceOperation"
+          }
+        },
+        "serProvider": {
+          "type": "string"
+        },
+        "serServiceOptional": {
+          "$ref": "#/definitions/ServiceOptional"
+        },
+        "serServiceReq": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceRequirement"
+          }
+        },
+        "serStorageReq": {
+          "$ref": "#/definitions/ServiceStorgeRequirement"
+        },
+        "serSwImage": {
+          "$ref": "#/definitions/ServiceSWImage"
+        },
+        "serThroughputReq": {
+          "$ref": "#/definitions/ServiceThroughputRequirement"
+        },
+        "serType": {
+          "type": "string",
+          "enum": [
+            "Device Services",
+            "FaaS Services",
+            "Support (PaaS) Services",
+            "TANDEM App. Services",
+            "User App. Services"
+          ]
+        },
+        "serVersion": {
+          "type": "string"
+        },
+        "serializer": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "In Design",
+            "In Organization Approve",
+            "In Study",
+            "In TANDEM Test",
+            "Instantiated",
+            "Launched",
+            "Rejected",
+            "Retired"
+          ]
+        },
+        "transportProtocol": {
+          "type": "string"
+        },
+        "transportType": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceReq"
+    },
+    "ServiceRequirement": {
+      "type": "object",
+      "properties": {
+        "serServiceId": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ServiceRequirement"
+    },
+    "ServiceRes": {
+      "type": "object",
+      "properties": {
+        "consumedLocalOnly": {
+          "type": "boolean"
+        },
+        "isLocal": {
+          "type": "boolean"
+        },
+        "local": {
+          "type": "boolean"
+        },
+        "piEdgeInfo": {
+          "$ref": "#/definitions/piEdgeInfo"
+        },
+        "scopeOfLocality": {
+          "type": "string"
+        },
+        "serCategory": {
+          "$ref": "#/definitions/CategoryRefRes"
+        },
+        "serComputeReq": {
+          "$ref": "#/definitions/ServiceComputeRequirement"
+        },
+        "serConfigParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceConfigParameter"
+          }
+        },
+        "serDescription": {
+          "type": "string"
+        },
+        "serId": {
+          "type": "string"
+        },
+        "serLatencyReq": {
+          "$ref": "#/definitions/ServiceLatencyRequirement"
+        },
+        "serName": {
+          "type": "string"
+        },
+        "serOperations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceOperation"
+          }
+        },
+        "serProvider": {
+          "type": "string"
+        },
+        "serServiceOptional": {
+          "$ref": "#/definitions/ServiceOptional"
+        },
+        "serServiceReq": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceRequirement"
+          }
+        },
+        "serStorageReq": {
+          "$ref": "#/definitions/ServiceStorgeRequirement"
+        },
+        "serSwImage": {
+          "$ref": "#/definitions/ServiceSWImage"
+        },
+        "serThroughputReq": {
+          "$ref": "#/definitions/ServiceThroughputRequirement"
+        },
+        "serType": {
+          "type": "string",
+          "enum": [
+            "Device Services",
+            "FaaS Services",
+            "Support (PaaS) Services",
+            "TANDEM App. Services",
+            "User App. Services"
+          ]
+        },
+        "serVersion": {
+          "type": "string"
+        },
+        "serializer": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "In Design",
+            "In Organization Approve",
+            "In Study",
+            "In TANDEM Test",
+            "Instantiated",
+            "Launched",
+            "Rejected",
+            "Retired"
+          ]
+        },
+        "transportProtocol": {
+          "type": "string"
+        },
+        "transportType": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceRes"
+    },
+    "ServiceSWImage": {
+      "type": "object",
+      "properties": {
+        "serSWImageContainerFormat": {
+          "type": "string"
+        },
+        "serSWImageId": {
+          "type": "string"
+        },
+        "serSWImageName": {
+          "type": "string"
+        },
+        "serSWImageOS": {
+          "type": "string"
+        },
+        "serSWImageSizeinMBs": {
+          "type": "string"
+        },
+        "serSWImageURL": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceSWImage"
+    },
+    "ServiceStorgeRequirement": {
+      "type": "object",
+      "properties": {
+        "serSizeOfStorage": {
+          "type": "string"
+        },
+        "serSizeOfStorageMU": {
+          "type": "string"
+        },
+        "serTypeOfStorage": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceStorgeRequirement"
+    },
+    "ServiceThroughputRequirement": {
+      "type": "object",
+      "properties": {
+        "serThroughputMU": {
+          "type": "string"
+        },
+        "serThroughputValue": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceThroughputRequirement"
+    },
+    "Workflow": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "json": {
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "Workflow"
+    },
+    "piEdgeInfo": {
+      "type": "object",
+      "properties": {
+        "count_max": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "count_min": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "location": {
+          "type": "string"
+        },
+        "paas_input_name": {
+          "type": "string"
+        },
+        "paas_service_name": {
+          "type": "string"
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scaling_metric": {
+          "type": "string"
+        }
+      },
+      "title": "piEdgeInfo"
+    }
+  }
+}

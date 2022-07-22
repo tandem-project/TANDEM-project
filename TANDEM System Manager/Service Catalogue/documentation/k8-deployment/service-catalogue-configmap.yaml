@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  application.properties: "#-------Web-------\r\n#spring.web.resources.static-locations=file:\\\\C:\\\\Users\\\\konvasilop\\\\Desktop\\\\konvasilop\\\\projects\\\\Tandem\\\\static_test\\\\\r\n#spring.web.resources.static-locations[0]=file:src/main/resources/static/\r\n#spring.web.resources.static-locations[1]=classpath:/static/\r\n#spring.thymeleaf.cache=false\r\n\r\n#-------mongoDB-------\r\nspring.data.mongodb.host=service-catalogue-mongo\r\nspring.data.mongodb.port=27017\r\nspring.data.mongodb.database=java-to-dev-api\r\n\r\n#-------swagger-------\r\nspring.mvc.pathmatch.matching-strategy
+    = ANT_PATH_MATCHER\r\nspringfox.documentation.swagger-ui.base-url: /servicecatalogue\r\nspringfox.documentation.openApi.v3.path:
+    /servicecatalogue/v3/api-docs\r\nspringfox.documentation.swagger.v2.path: /servicecatalogue/v2/api-docs\r\n\r\n#-------keycloak-------\r\n#keycloak.auth-server-url=http://localhost:8180/auth\r\nkeycloak.auth-server-url=http://keycloak:31443/auth\r\nkeycloak.realm=ServiceCatalogueKeycloak\r\nkeycloak.resource=ServiceCatalogueLogin\r\nkeycloak.public-client=true\r\nkeycloak.bearer-only
+    = true\r\n#use-resource-role-mappings= false\r\nclient-id=ServiceCatalogueLogin\r\ngrant-type=password\r\nkeycloak.use-resource-role-mappings=false\r\nkeycloak.principal-attribute:
+    preferred_username\r\n##Allow bean definition overriding\r\nspring.main.allow-bean-definition-overriding=true\r\n\r\n#--------K8s
+    config--------\r\n#spring.config.import=\"optional:file:/config/application.properties\"\r\n\r\n#------------logging-------------\r\nlogging.level.ROOT=
+    DEBUG"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2022-05-31T12:58:54Z"
+  name: service-catalogue-configmap
+  namespace: service-catalogue
+  resourceVersion: "19181048"
+  selfLink: /api/v1/namespaces/service-catalogue/configmaps/service-catalogue-configmap
+  uid: 70fe5822-3818-40b3-bf9b-b96257f6f5a0

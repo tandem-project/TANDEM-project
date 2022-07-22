@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Services</title>
+</head>
+<body>
+<h1>Servicess List</h1>
+
+<table>
+    <tr>
+        <th>serInstanceId</th>
+        <th>serName</th>
+        <th>version</th>
+        <th>consumedLocalOnly</th>
+        <th>isLocal</th>
+        <th>state</th>
+    </tr>
+    <tr th:each="service : ${services}">
+        <td th:text="${service.serInstanceId}">123</td>
+        <td th:text="${service.serName}"> Spring in Action</td>
+        <td th:text="${service.version}">0.1</td>
+        <td th:text="${service.consumedLocalOnly}">0.1</td>
+        <td th:text="${service.isLocal}">0.1</td>
+        <td th:text="${service.state}">ACTIVE</td>
+    </tr>
+</table>
+
+</body>
+</html>

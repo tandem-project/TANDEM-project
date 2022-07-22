@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: service-catalogue
+  name: service-catalogue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: service-catalogue
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/service_catalogue: "true"
+        io.kompose.service: service-catalogue
+    spec:
+      containers:
+        - image: konvasilop/service-catalogue:0.0.8
+          name: service-catalogue
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+          - name: config-volume
+            mountPath: /config
+          imagePullPolicy: Always
+      volumes:
+        - name: config-volume
+          configMap:
+            name: service-catalogue-configmap
+      restartPolicy: Always
+status: {}

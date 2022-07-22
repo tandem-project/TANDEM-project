@@ -1,0 +1,120 @@
+[
+    {
+        "serId":"1",
+        "serName":"Temperature notification service",
+        "serType":null,"serProvider":"ICOM",
+        "serDescription":"Temperature notification service",
+        "serCategory":{
+            "href":"Notification Services",
+            "id":"1",
+            "name":"Notification",
+            "version":"0.1"
+        },
+        "serVersion":"0.1",
+        "state":"In Design",
+        "piEdgeInfo":{
+            "paas_service_name":"temperature service",
+            "paas_input_name":"temperature",
+            "scaling_metric":"celsius",
+            "count_min":1,
+            "count_max":5,
+            "location":"ICOM HQ",
+            "ports":["10000"]
+        },
+        "serMonURL":"http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
+    },
+    {
+        "serId":"2",
+        "serName":"Humidity notification service",
+        "serType":"Support (PaaS) Services",
+        "serProvider":"ICOM",
+        "serDescription":"Humidity notification service",
+        "serCategory":{
+            "href":"Notification Services",
+            "id":"1",
+            "name":"Notification",
+            "version":"0.1"
+        },
+        "serVersion":"0.1",
+        "state":"In Design",
+        "piEdgeInfo":{
+            "paas_service_name":"Humidity service",
+            "paas_input_name":"Humidity",
+            "scaling_metric":"hum degrees",
+            "count_min":1,
+            "count_max":5,
+            "location":"ICOM HQ",
+            "ports":["10001"]
+        },
+        "serMonURL":"http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
+    },
+    {
+        "serId":"TANDEM_ser1",
+        "serName":"Temperature Monitoring Service",
+        "serType":"FaaS Services",
+        "serProvider":"INTRACOM TELECOM S.A.",
+        "serDescription":"Receives temperature values and timestamps, undertakes to store them for further analysis as well as to send notifications or to activate an alarm depending on the temperature values",
+        "serCategory":{
+            "href":"AI Services",
+            "id":"serCat1",
+            "name":"IoT Services",
+            "version":"0.1"
+        },
+        "serVersion":"0.1",
+        "state":"In Design",
+        "piEdgeInfo":{
+            "paas_service_name":"Humidity service",
+            "paas_input_name":"Humidity",
+            "scaling_metric":"hum degrees",
+            "count_min":1,
+            "count_max":5,
+            "location":"ICOM HQ",
+            "ports":["10001"]
+        },
+        "serMonURL":"http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
+    },
+    {
+        "serId":"TANDEM_ser2",
+        "serName":"e-mail Notification Service",
+        "serType":"FaaS Services",
+        "serProvider":"INTRACOM TELECOM S.A.",
+        "serDescription":"The user defines the sender, the recipients and the text of the e-mail message and the service responds whether the sending was successful or not",
+            "serCategory":{
+                "href":"AI Services",
+                "id":"serCat2",
+                "name":"Notification Services",
+                 "version":"0.1"
+            },
+            "serVersion":"0.1",
+            "state":"In Design",
+            "piEdgeInfo":{
+                "paas_service_name":"eMail service",
+                "paas_input_name":"eMail",
+                "scaling_metric":"hum degrees",
+                "count_min":1,
+                "count_max":5,
+                "location":"ICOM HQ",
+                "ports":["10001"]
+        },
+        "serMonURL":"http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
+    },
+    {
+        "serId":"TANDEM_ser3",
+        "serName":"Object Detection Service",
+        "serType":"Support (PaaS) Services",
+        "serProvider":"INTRACOM TELECOM S.A.",
+        "serDescription":"The user defines the objects that he wants to be detected in the camera signal and the degree of certainty and the service returns the objects, in what position in the frame they were located and with what degree of certainty","serCategory":{"href":"Object Detection & Tracking Services","id":"serCat3","name":"Object Detection & Tracking Services","version":"0.1"},
+        "serVersion":"0.1",
+        "state":"In Design",
+        "piEdgeInfo":{
+            "paas_service_name":"eMail service",
+            "paas_input_name":"eMail",
+            "scaling_metric":"hum degrees",
+            "count_min":1,
+            "count_max":5,
+            "location":"ICOM HQ",
+            "ports":["10001"]
+        },
+        "serMonURL":"http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
+    }
+]

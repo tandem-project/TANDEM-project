@@ -1,0 +1,168 @@
+server {
+    listen       48080; #edgex-core-data
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30080;
+    }
+}
+
+server {
+    listen       48081; #edgex-core-metadata
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30081;
+    }
+}
+
+server {
+    listen       48082; #edgex-core-command
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30082;
+    }
+}
+
+server {
+    listen       8500; #edgex-core-consul
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30850;
+    }
+}
+
+server {
+    listen       48075; #edgex-support-rulesengine (Kuiper)
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30075;
+    }
+}
+
+server {
+    listen       48085; #edgex-support-scheduler
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30085;
+    }
+}
+
+server {
+    listen       48100; #edgex-appservice-rules
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30100;
+    }
+}
+
+server {
+    listen       49986; #edgex-device-rest
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:31986;
+    }
+}
+
+server {
+    listen       49990; #edgex-device-virtual
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:31990;
+    }
+}
+
+server {
+    listen       4000; #edgex-ui
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30400;
+    }
+}
+
+server {
+    listen       48090; #edgex-system
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30090;
+    }
+}
+
+server {
+    listen       6379; #edgex-redis
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:30079;
+    }
+}
+
+server {
+    listen       48101; #edgex-app-service-configurable-mqtt
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:31987;
+    }
+}
+
+server {
+    listen       48101; #edgex-app-service-configurable-mqtt
+    server_name  edgex;
+    location / {
+        proxy_pass http://0.0.0.0:31987;
+    }
+}
+
+server {
+    listen       8443; #keycloak https
+    server_name  keycloak_https;
+    location / {
+        proxy_pass https://146.124.106.209:31443;
+    }
+}
+
+server {
+    listen       8180; #keycloak http
+    server_name  keycloak_http;
+    location / {
+        proxy_pass http://10.152.183.239:8180; #keycloak service clusterIP
+    }
+}
+
+
+server {
+    listen       8080; #service-catalogue
+    server_name  edgex;
+    location / {
+        proxy_pass http://10.152.183.156:8080;
+    }
+}
+
+server {
+    listen       12000; #argo webhook
+    server_name  argo;
+    location / {
+        proxy_pass http://10.152.183.135:12000; #argo webhook service ip
+    }
+}
+
+
+
+server {
+  listen        80;
+  #server_name   www.mysite.com mysite.com;
+  #error_log     /home/www-data/logs/nginx_www.error.log;
+  #error_page    404    /404.html;
+  #root  /home/tanmaster/kostas/service_catalogue;
+  location /static/ {
+	alias /home/tanmaster/kostas/service_catalogue/static/;
+    }
+  location /testpage/ {
+
+  add_header Content-Type text/plain;
+
+      return 200 'test page!!!!';
+
+      }
+  location ~ ^/(servicecatalogue|workflows)/ {
+  #rewrite ^/swagger(.*)$ $1 break;
+  proxy_pass http://0.0.0.0:31880;
+	}
+}

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: keycloak
+    app: keycloak
+  name: keycloak
+spec:
+  type: NodePort
+  ports:
+    - name: https
+      port: 8443
+      targetPort: 8443
+      nodePort: 31443
+    - name: "8180"
+      port: 8180
+      targetPort: 8080
+      nodePort: 31180
+  selector:
+    io.kompose.service: keycloak
+status:
+  loadBalancer: {}

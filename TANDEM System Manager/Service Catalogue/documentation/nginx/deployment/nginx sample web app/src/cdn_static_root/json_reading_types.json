@@ -1,0 +1,82 @@
+{
+  "meterReadings": [
+    {
+      "source": "KPI",
+      "region": "Hinnoya",
+      "usagePoint": {
+        "id": "KPI2.1",
+        "name": "KPI2"
+      },
+      "meter": {
+        "id": "STORAGE_1_ACTUAL",
+        "name": "STORAGE_1_ACTUAL",
+        "isVirtual": true
+      }
+    },
+    {
+      "source": "KPI",
+      "region": "Hinnoya",
+      "usagePoint": {
+        "id": "KPI2.1",
+        "name": "KPI2"
+      },
+      "meter": {
+        "id": "STORAGE_1_PREDICTED",
+        "name": "STORAGE_1_PREDICTED",
+        "isVirtual": true
+      }
+    },
+    {
+      "source": "KPI",
+      "region": "Hinnoya",
+      "usagePoint": {
+        "id": "KPI2.1",
+        "name": "KPI2"
+      },
+      "meter": {
+        "id": "STORAGE_2_ACTUAL",
+        "name": "STORAGE_2_ACTUAL",
+        "isVirtual": true
+      }
+    },
+    {
+      "source": "KPI",
+      "region": "Hinnoya",
+      "usagePoint": {
+        "id": "KPI2.1",
+        "name": "KPI2"
+      },
+      "meter": {
+        "id": "STORAGE_2_PREDICTED",
+        "name": "STORAGE_2_PREDICTED",
+        "isVirtual": true
+      }
+    },
+    {
+      "source": "KPI",
+      "region": "Hinnoya",
+      "usagePoint": {
+        "id": "KPI2.1",
+        "name": "KPI2"
+      },
+      "meter": {
+        "id": "STORAGE_3_ACTUAL",
+        "name": "STORAGE_3_ACTUAL",
+        "isVirtual": true
+      }
+    },
+    {
+      "source": "KPI",
+      "region": "Hinnoya",
+      "usagePoint": {
+        "id": "KPI2.1",
+        "name": "KPI2"
+      },
+      "meter": {
+        "id": "STORAGE_3_PREDICTED",
+        "name": "STORAGE_3_PREDICTED",
+        "isVirtual": true
+      }
+    }
+  ]
+}

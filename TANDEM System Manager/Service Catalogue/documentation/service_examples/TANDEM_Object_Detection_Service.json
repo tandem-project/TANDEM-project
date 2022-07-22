@@ -1,0 +1,199 @@
+[
+  {
+    "serId": "TANDEM_ser3",
+    "serName": "Object Detection Service",
+    "serType": "PaaS Service",
+    "serProvider": "INTRACOM TELECOM S.A.",
+    "serDescription": "The user defines the objects that he wants to be detected in the camera signal and the degree of certainty and returns the objects, in what position in the frame they were located and with what degree of certainty",
+    "serCategory": {
+      "href": "string",
+      "id": "serCat1",
+      "name": "Object Detection & Tracking Services",
+      "version": "001"
+    },
+    "serVersion": "001",
+	"state": "string",
+
+    "serConfigParams": [{
+     "serParamName": "DetectObject1",
+     "serParamType": "string", 
+     "serParamValue": "string",
+     "serParamDescr": "Τhe name of the object to be detected",
+     "serParamTypicalValue": "car"
+      }
+	  {
+     "serParamName": "Certainty Level1",
+     "serParamType": "Percentage", 
+     "serParamValue": "strιng",
+     "serParamDescr": "The certainty threshold to assume that the object has been detected",
+     "serParamTypicalValue": "80%"
+      }],
+    
+	"startObjectDetection":{
+	"serInputParams": [{
+     "serParamName": "Timestamp",
+     "serParamType": "Timestamp", 
+     "serParamValue": "string",
+     "serParamDescr": "Timestamp",
+     "serParamTypicalValue": "Now"
+      }
+	],
+
+   
+   "serOuputParams": [{
+     "serParamName": "ObjectDetected",
+     "serParamType": "string", 
+     "serParamValue": "string",
+     "serParamDescr": "ObjectDetected",
+     "serParamTypicalValue": "string"
+      }
+
+],
+	}
+	
+	"stopObjectDetection":{
+	"serInputParams": [{
+     "serParamName": "Timestamp",
+     "serParamType": "Timestamp", 
+     "serParamValue": "string",
+     "serParamDescr": "Timestamp",
+     "serParamTypicalValue": "Now"
+      }
+	  {
+     "serParamName": "Temperature Timestamp",
+     "serParamType": "Timestamp", 
+     "serParamValue": "string",
+     "serParamDescr": "Temparature Timestamp",
+     "serParamTypicalValue": "string"
+      }],
+
+   
+   "serOuputParams": [{
+     "serParamName": "ObjectDetected",
+     "serParamType": "string", 
+     "serParamValue": "string",
+     "serParamDescr": "ObjectDetected",
+     "serParamTypicalValue": "string"
+      }
+	  {
+    "serParamName": "Certainty Level",
+     "serParamType": "Percentage", 
+     "serParamValue": "strιng",
+     "serParamDescr": "The certainty threshold to assume that the object has been detected",
+     "serParamTypicalValue": "80%"
+      }
+	{
+    "serParamName": "PositionofUpperleftCornerX",
+     "serParamType": "Integer", 
+     "serParamValue": "strιng",
+     "serParamDescr": "The position of the object in the frame -X of upper left corner of the rectangular",
+     "serParamTypicalValue": "string"
+      }
+	  {  
+	 "serParamName": "PositionofUpperleftCornerY",
+     "serParamType": "Integer", 
+     "serParamValue": "strιng",
+     "serParamDescr": "The position of the object in the frame -Y of upper left corner of the rectangular",
+     "serParamTypicalValue": "string"
+      }
+	  
+	 {  
+	 "serParamName": "Dimension X",
+     "serParamType": "Integer", 
+     "serParamValue": "strιng",
+     "serParamDescr": "X Dimension of the rectangular",
+     "serParamTypicalValue": "string"
+      } 
+	  
+	 {  
+	 "serParamName": "Dimension Y",
+     "serParamType": "Integer", 
+     "serParamValue": "strιng",
+     "serParamDescr": "Y Dimension of the rectangular",
+     "serParamTypicalValue": "string"
+      }  
+	  
+	  ],
+	}
+	
+   
+     "serComputeReq": {
+     "serMemorySize": "string",
+     "serCPUArchitecture": "string", 
+     "serNumVirtualCPUs": "string",
+     "serVirtualCPUClock": "string"
+      },
+    
+      "serStorageReq": {
+      "serTypeOfStorage": "string", 
+      "serSizeOfStorage": "string"
+     },
+
+     "serLatencyReq": {
+      "serLatencyTimeUnit": "string", 
+      "serLatencyValue": "string"
+     },
+
+   "serThroughputReq": {
+      "serThroughputUnit": "string", 
+      "serThroughputValue": "string"
+     },
+    
+     "serServiceReq": [{
+      "serServiceId": "string"
+     }],
+
+    "serServiceOptional": [{
+      "serServiceId": "string"
+     }],
+
+     "serSwImage": {
+      "serSWImageId": "string", 
+      "serSWImageName": "string",
+      "serSWImageContainerFormat": "string",
+      "serSWImageSize": "string",
+      "serSWImageOS": "string",
+      "serSWImageURL": "string"
+     },
+    
+ 
+    "serializer": "JSON",
+    "scopeOfLocality": "string",
+    "consumedLocalOnly": true,
+    "isLocal": true,
+
+
+
+    
+    "transportInfo": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "type": "REST_HTTP",
+      "protocol": "string",
+      "version": "string",
+      "security": {
+        "oAuth2Info": {
+          "grantTypes": [
+            "OAUTH2_AUTHORIZATION_CODE"
+          ],
+          "tokenEndpoint": "string"
+        }
+      },
+      "implSpecificInfo": {}
+    },
+    "serializer": "JSON",
+    "scopeOfLocality": "MEC_SYSTEM",
+    "consumedLocalOnly": true,
+    "isLocal": true,
+    "livenessInterval": 0,
+    "_links": {
+      "self": {
+        "href": "string"
+      },
+      "liveness": {
+        "href": "string"
+      }
+    }
+  }
+]

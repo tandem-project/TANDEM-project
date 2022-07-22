@@ -1,0 +1,123 @@
+{
+  "consumedLocalOnly": true,
+  "isLocal": true,
+  "local": true,
+  "piEdgeInfo": {
+    "count_max": 5,
+    "count_min": 1,
+    "location": "ICOM HQ",
+    "paas_input_name": "eMail",
+    "paas_service_name": "eMail service",
+    "ports": [
+      "10001"
+    ],
+    "scaling_metric": "hum degrees"
+  },
+  "scopeOfLocality": "TANDEM_SYSTEM",
+  "serCategory": {
+    "href": "Notification",
+    "id": "serCat2",
+    "name": "Notification Services",
+    "version": "1"
+  },
+  "serComputeReq": {
+    "serMemorySize": "5",
+    "serMemorySizeMU": "Mb",
+    "serCPUArchitecture": "X86",
+    "serNumVirtualCPUs": "100",
+    "serVirtualCPUClock": "string",
+    "serNumVirtualCPUsMU": "millicores",
+    "serNumVirtualGPUs": "0"
+  },
+  "serConfigParameters": [{
+    "serParamDescr": "string",
+    "serParamName": "string",
+    "serParamType": "string",
+    "serParamTypicalValue": "string",
+    "serParamValue": "string"
+  }],
+  "serDescription": "The user defines the sender, the recipients and the text of the e-mail message and the service responds whether the sending was successful or not",
+  "serId": "TANDEM_ser2",
+  "serLatencyReq": {
+    "serLatencyTimeUnit": "ms",
+    "serLatencyValue": "1000"
+  },
+  "serName": "Notification Service",
+  "serOperations": [{
+    "serOperationName": "SendNotification",
+    "serOperationEndPoint": "/ICOM/NotificationService/SendNotification",
+    "serOperationDescription": "send email Notification",
+    "serOperationType": "Synchonous",
+    "serInputParams": [{
+      "serParamName": "sender_email",
+      "serParamType": "string",
+      "serParamValue": "TANDEM-notifications@intracom-telecom.com",
+      "serParamDescr": "e-mail address of the Sender",
+      "serParamTypicalValue": "string"
+    },
+
+      {
+        "serParamName": "receiver_email1",
+        "serParamType": "string",
+        "serParamValue": "tandem-administrator@intracom-telecom.com",
+        "serParamDescr": "e-mail address of the Recipient1",
+        "serParamTypicalValue": "string"
+      }, {
+        "serParamName": "receiver_email2",
+        "serParamType": "string",
+        "serParamValue": "string",
+        "serParamDescr": "e-mail address of the Recipient2",
+        "serParamTypicalValue": "string"
+      },
+
+      {
+        "serParamName": "message_title",
+        "serParamType": "string",
+        "serParamValue": "string",
+        "serParamDescr": "The title of the message",
+        "serParamTypicalValue": "string"
+      },
+
+
+      {
+        "serParamName": "message_body",
+        "serParamType": "string",
+        "serParamValue": "string",
+        "serParamDescr": "e-mail text message",
+        "serParamTypicalValue": "string"
+      }
+    ],
+    "serProvider": "INTRACOM TELECOM S.A.",
+    "serServiceOptional": {
+      "serServiceId": [
+        "string"
+      ]
+    },
+    "serServiceReq": [{
+      "serServiceId": "e-mail server"
+    }],
+    "serStorageReq": {
+      "serTypeOfStorage": "string",
+      "serSizeOfStorage": "0",
+      "serSizeOfStorageMU": "Gb"
+    },
+    "serSwImage": {
+      "serSWImageId": "SWImage00015",
+      "serSWImageName": "SWImage00015",
+      "serSWImageContainerFormat": "Docker",
+      "serSWImageSizeinMBs": "0,5",
+      "serSWImageOS": "SWImage00015",
+      "serSWImageURL": "/ICOM/SWimages"
+    },
+    "serThroughputReq": {
+      "serThroughputMU": "mbps",
+      "serThroughputValue": "0.01"
+    },
+    "serType": "Device Services",
+    "serVersion": "001",
+    "serializer": "JSON",
+    "state": "In Design",
+    "transportProtocol": "TCP",
+    "transportType": "REST_HTTP"
+  }]
+}
