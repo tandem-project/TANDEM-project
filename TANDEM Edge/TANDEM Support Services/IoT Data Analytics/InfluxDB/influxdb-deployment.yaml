@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: influxdb
+  name: influxdb
+  namespace: kostas-tandem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      nodeSelector:
+        location: Peania_Athens_19002
+      tolerations:
+      - key: location
+        operator: Equal
+        value: Peania_Athens_19002
+        effect: NoSchedule
+      containers:
+      -  name: influxdb
+         image: influxdb:1.8.4-alpine
+         ports:
+         - containerPort: 8086
+         volumeMounts:
+         - mountPath: /var/lib/influxdb
+           name: influxdb-data
+         env:
+         - name: INFLUXDB_DB
+           value: "sensordata"
+         - name: INFLUXDB_ADMIN_USER
+           value: "root"
+         - name: INFLUXDB_ADMIN_PASSWORD
+           value: "pass"
+         - name: INFLUXDB_HTTP_AUTH_ENABLED
+           value: "true"
+      volumes:
+      - name: influxdb-data
+        persistentVolumeClaim:
+          claimName: influxdb-data
+      hostname: influxdb
+      restartPolicy: Always

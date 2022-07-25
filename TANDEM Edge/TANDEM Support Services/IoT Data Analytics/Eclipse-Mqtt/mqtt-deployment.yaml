@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mqtt
+  name: mqtt
+  namespace: kostas-tandem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt
+  template:
+    metadata:
+      labels:
+        app: mqtt
+    spec:
+      nodeSelector:
+        location: Peania_Athens_19002
+      tolerations:
+      - key: location
+        operator: Equal
+        value: Peania_Athens_19002
+        effect: NoSchedule
+      containers:
+      - name: mqtt
+        image: eclipse-mosquitto:1.6.15
+        ports:
+        - containerPort: 1883
+        - containerPort: 9001
+      hostname: mqtt
+      restartPolicy: Always

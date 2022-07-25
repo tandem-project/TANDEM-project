@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: messenger
+  name: messenger
+  namespace: kostas-tandem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messenger
+  template:
+    metadata:
+      labels:
+        app: messenger
+    spec:
+      nodeSelector:
+        location: Peania_Athens_19002
+      tolerations:
+      - key: location
+        operator: Equal
+        value: Peania_Athens_19002
+        effect: NoSchedule
+      containers:
+      -  name: messenger
+         image: alexvalas/k8s-messenger:v0.11
+         #imagePullPolicy: Never
+         env:
+         - name: INFLUXDB_NAME
+           value: "influxdb"
+         - name: INFLUXDB_IP
+           value: "8086"
+         - name: MQTT_NAME
+           value: "mqtt"
+         - name: MQTT_IP
+           value: "1883"
+      hostname: messenger
+      restartPolicy: Always
