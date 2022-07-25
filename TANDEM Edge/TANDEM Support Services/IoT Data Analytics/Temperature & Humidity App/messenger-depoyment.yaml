@@ -4,7 +4,7 @@ metadata:
   labels:
     app: messenger
   name: messenger
-  namespace: kostas-tandem
+  namespace: pi-edge
 spec:
   replicas: 1
   selector:
