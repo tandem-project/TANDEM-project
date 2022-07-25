@@ -1,0 +1,215 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform GUI</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+
+
+
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="applications.html">Applications</a>
+  <div class="dropdown">
+    <button class="dropbtn">Services
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Registration</a>
+      <a href="#">Management</a>
+    </div>
+  </div>
+  <a href="servicechainorchestrator.html">SCO</a>
+  <a href="#">Products</a>
+  <a href="users.html">Users</a>
+  <div class="dropdown">
+    <button class="dropbtn">Devices
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="">Registration</a>
+      <a href="devices.html">Discovery</a>
+    </div>
+  </div>    
+  <a href="infrastructure.html">Infrastructure</a>
+  <a href="#">Pricing & Billing</a>
+  <a href="#">Configuration</a>
+ <!-- <button type="button" id="login">Login</button>-->
+
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e" onkeyup="myFunction('myTable', 0)" placeholder="Search for Service names.." title="Type in a name">
+
+    
+    
+    <!-- TABLE ------------------------------------------------------------------------>
+    <div id="servicestable">
+
+        <table id="myTable"></table>
+    </div>
+<!-- TABLE ------------------------------------------------------------------------>
+  </div>
+<script type="text/javascript" src="js/management.js"></script>
+
+<script>
+    //displayServices();
+    getjsoninfo("0");
+</script>
+
+
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+      <div style="font-size: 20px;"><b><u>Service Filters</u></b></div>
+<br>
+<div class="container">
+ <!-- <form action="/action_page.php">-->
+  <form>
+    <div class="row">
+      <div class="col-25">
+        <label for="fname">Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="servicename" name="servicename" placeholder="Service name..">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="servicetype">Type</label>
+      </div>
+      <div class="col-75">
+       <!-- <input type="text" id="lname" name="lastname" placeholder="Your last name..">-->
+        <select id="servicetype" name="servicetype">
+          <option value="Select">Select</option>
+          <option value="Support (PaaS) Services">Support (PaaS) Services</option>
+          <option value="FaaS Services">FaaS Services</option>
+          <option value="TANDEM App. Services">TANDEM App. Services</option>
+          <option value="User App. Services">User App. Services</option>
+          <option value="Device Services">Device Services</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="servicecategory">Category</label>
+      </div>
+      <div class="col-75">
+        <select id="servicecategory" name="servicecategory">
+          <option value="Select">Select</option>
+          <option value="Location Based Services">Location Based Services</option>
+          <option value="Internet of Things (IoT) Services">Internet of Things (IoT) Services</option>
+          <option value="Industrial Internet of Things (IIoT) Services">Industrial Internet of Things (IIoT) Services</option>
+          <option value="Video Analytics Services">Video Analytics Services</option>
+          <option value="Data Analytics Services">Data Analytics Services</option>
+          <option value="Object Detection & Tracking Services">Object Detection & Tracking Services</option>
+          <option value="Notification Services">Notification Services</option>
+          <option value="Augmented Reality Services">Augmented Reality Services</option>
+          <option value="Optimized Local Content Distribution Services">Optimized Local Content Distribution Services</option>
+          <option value="Content Caching Services">Content Caching Services</option>
+          <option value="Vehicle to Vehicle Services">Vehicle to Vehicle Services</option>
+        </select>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-25">
+        <label for="serviceprovider">Provider</label>
+      </div>
+      <div class="col-75">
+        <select id="serviceprovider" name="serviceprovider">
+          <option value="Select">Select</option>
+          <option value="INTRACOM S.A. Telecom Solutions">INTRACOM S.A. Telecom Solutions</option>
+        </select>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-25">
+        <label for="servicestatus">Status</label>
+      </div>
+      <div class="col-75">
+        <select id="servicestatus" name="servicestatus">
+          <option value="Select">Select</option>
+          <option value="In Study">In Study</option>
+          <option value="In Design">In Design</option>
+          <option value="In Organization Approve">In Organization Approve</option>
+          <option value="In TANDEM Test">In TANDEM Test</option>
+          <option value="Deleted">Approved (Active)</option>
+          <option value="Launched">Launched</option>
+          <option value="Instantiated">Instantiated</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Service Retired">Service Retired</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="row" >
+      <input id="submit-btn" type="button" value="Submit" onclick="submitServicesFiltersForm();">
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+
+<!-- LOGIN FORM -->
+
+
+<!-- POPUP WINDOW -->
+<!--<div class="w3-container">
+  <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>
+
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <header class="w3-container w3-teal"> 
+        <span onclick="document.getElementById('id01').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2>Modal Header</h2>
+      </header>
+      <div class="w3-container">
+        <p>Some text..</p>
+        <p>Some text..</p>
+      </div>
+      <footer class="w3-container w3-teal">
+        <p>Modal Footer</p>
+      </footer>
+    </div>
+  </div>
+</div>-->
+
+
+<!-- MAIN ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/loginForm.js"></script>
+
+    </body>
+</html>

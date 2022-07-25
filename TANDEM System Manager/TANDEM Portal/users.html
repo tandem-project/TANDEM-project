@@ -1,0 +1,213 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type="text/javascript" src="js/table.js"></script>
+        <script type="text/javascript" src="js/min.js"></script>
+        <script type="text/javascript" src="js/form.js"></script>
+        <script type="text/javascript" src="js/fontstool.js"></script>
+    </head>
+    <body>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+
+
+
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="applications.html">Applications</a>
+  <div class="dropdown">
+    <button class="dropbtn">Services
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="serviceRegistration.html">Registration/Editing</a>
+      <a href="management.html">Management</a>
+    </div>
+  </div>
+  <a href="servicechainorchestrator.html">SCO</a>
+  <a href="#">Products</a>
+  <!--<a href="users.html">Users</a>-->
+  <div class="dropdown">
+    <button class="dropbtn">Users
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="userRegistration.html">Registration</a>
+      <a href="#">Management</a>
+    </div>
+  </div>
+  <a href="devices.html">Devices</a>
+  <div class="dropdown">
+    <button class="dropbtn">Devices
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="">Registration</a>
+      <a href="devices.html">Discovery</a>
+    </div>
+  </div>
+  <a href="infrastructure.html">Infrastructure</a>
+  <a href="#">Pricing & Billing</a>
+  <a href="#">Configuration</a>
+   <!--<a id="login" href="#" onclick="showLoginForm()">Login</a>-->
+ <!-- <button type="button" id="login">Login</button>-->
+
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e;" onkeyup="myFunction('usersTable', 2)" placeholder="Search for users last names.." title="Type in a name">
+
+    <!-- TABLE ------------------------------------------------------------------------>
+    <div id="servicestable">
+
+        <table id="usersTable"></table>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/users.js"></script>
+
+<script>
+    //displayUsers();
+    //addOnClickUserEvents();
+     getjsoninfo("0");
+</script>
+
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+<div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+<div style="font-size: 20px;"><b><u>Users Filters</u></b></div>
+<br>
+<div class="container">
+ <!-- <form action="/action_page.php">-->
+  <form>
+    <div class="row">
+      <div class="col-25">
+        <label for="userfirstname">First Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="userfirstname" name="userfirstname" placeholder="First name..">
+      </div>
+    </div>
+      
+      <div class="row">
+      <div class="col-25">
+        <label for="userlastname">Last Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="userlastname" name="userlastname" placeholder="Last name..">
+      </div>
+      </div>
+      
+      <div class="row">
+      <div class="col-45">
+        <label for="userusername">Username</label>
+      </div>
+      <div class="col-55">
+        <input type="text" id="userusername" name="userusername" placeholder="Username..">
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-45">
+        <label for="useraccounttype">Account Type</label>
+      </div>
+      <div class="col-55">
+        <select id="useraccounttype" name="useraccounttype">
+          <option value="Select">Select</option>
+          <option value="Professional">Professional</option>
+          <option value="Personal">Personal</option>
+        </select>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-45">
+        <label for="usercompanyname">Company Name</label>
+      </div>
+      <div class="col-55">
+        <select id="usercompanyname" name="usercompanyname">
+          <option value="Select">Select</option>
+          <option value="INTRACOM S.A. Telecom Solutions">INTRACOM S.A. Telecom Solutions</option>
+        </select>
+      </div>
+    </div>
+
+      
+    <div class="row">
+      <div class="col-45">
+        <label for="userrole">Role</label>
+      </div>
+      <div class="col-55">
+        <select id="userrole" name="userrole">
+          <option value="Select">Select</option>
+          <option value="Standard User">Standard User</option>
+          <option value="Administrator">Administrator</option>
+          <option value="Organizational Units (OU) Administrator">Organizational Units (OU) Administrator</option>
+          <option value="Subscription Manager">Subscription Manager</option>
+          <option value="Service Manager">Service Manager</option>
+          <option value="Product Manager">Product Manager</option>
+          <option value="Reseller">Reseller</option>
+          <option value="Broker">Broker</option>
+          <option value="Marketplace Manager">Marketplace Manager</option>
+          <option value="Operator">Operator</option>
+        </select>
+      </div>
+    </div>
+ 
+    <div class="row" >
+      <input id="submit-btn" type="button" value="Submit" onclick="submitUsersFiltersForm()">
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+
+<!-- LOGIN FORM -->
+<!-- <div class="loginForm-popup" id="loginForm">
+  <form action="/action_page.php" class="loginForm-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="loginBtn">Login</button>
+    <button type="button" class="loginBtn cancel" onclick="closeLoginForm()">Close</button>
+  </form>
+</div>-->
+
+
+
+<!-- MAIN ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/loginForm.js"></script>
+
+    </body>
+</html>

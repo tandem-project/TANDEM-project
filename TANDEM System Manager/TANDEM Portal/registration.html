@@ -1,0 +1,527 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/registration.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+<script type="text/javascript" src="js/registration.js"></script>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform GUI</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+
+
+
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="applications.html">Applications</a>
+  <div class="dropdown">
+    <button class="dropbtn">Services
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Registration</a>
+      <a href="management.html">Management</a>
+    </div>
+  </div>
+  <a href="servicechainorchestrator.html">SCO</a>
+  <a href="#">Products</a>
+  <a href="users.html">Users</a>
+  <a href="devices.html">Devices</a>
+    <a href="infrastructure.html">Infrastructure</a>
+  <a href="#">Pricing & Billing</a>
+  <a href="#">Configuration</a>
+  <!-- <a id="login" href="#" onclick="showLoginForm()">Login</a>-->
+ <!-- <button type="button" id="login">Login</button>-->
+
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+
+
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol" style="width: 100%; background-color: white;">
+      <div style="font-size: 20px;"><b><u>Service Registration</u></b></div>
+<br>
+<div class="container" style="background-color: whitesmoke; display:block; margin: auto; width: 100%;">
+ <!-- <form action="/action_page.php">-->
+  <form style="margin: 0 auto; text-align:center; width:100%;">
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="servicenamereg">Service Name</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="servicenamereg" name="servicenamereg" placeholder="Service name..">
+      </div>
+      <div class="col-srvregistration">
+        <label for="servicetypereg">Service Type</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="servicetypereg" name="servicetypereg">
+          <option value="Select">Select</option>
+          <option value="Device Services">Device Services</option>
+          <option value="Robotics Services">Robotics Services</option>
+        </select>
+      </div>
+    </div>
+      
+
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="servicecategoryreg">Service Category</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="servicecategoryreg" name="servicecategoryreg">
+          <option value="Select">Select</option>
+          <option value="IoT">IoT</option>
+          <option value="Robotics">Robotics</option>
+        </select>
+      </div>
+      <div class="col-srvregistration">
+        <label for="serviceproviderreg">Service Provider</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="serviceproviderreg" name="serviceproviderreg">
+          <option value="Select">Select</option>
+          <option value="IoT">IoT</option>
+          <option value="Robotics">Robotics</option>
+        </select>
+      </div>
+    </div>
+      
+      
+      
+    <div class="row regformrow">
+      <div class="col-srvregistration" style="margin-top:3%;">
+        <label for="servicedescriptionreg">Service Description</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" style="height:20%;" id="servicedescriptionreg" name="servicedescriptionreg" placeholder="Description..">
+      </div>
+        <div class="col-srvregistration">
+        <label for="servicestatereg">Service State</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="servicestatereg" name="servicestatereg">
+          <option value="Select">Select</option>
+          <option value="Uploaded">Uploaded</option>
+          <option value="Approved">Approved</option>
+          <option value="Published">Published</option>
+          <option value="Active">Active</option>
+          <option value="Deleted">Deleted</option>
+        </select>
+     </div>
+    </div>
+      
+ 
+
+      
+    <div class="row regformrow" style="margin-left: 30%">
+    <!--    <h4 style="margin-right:30%;"><b>PARAMETERS</b></h4>-->
+    <div class="col-srvregistration-tables" style="width:70%">
+        <table class="srvregtable" id="urlstable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Service Description & APIs URLs</b></td>
+            </tr>
+            <tr>
+		<th>URL</th>
+		<th>Action</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+                <td contenteditable>tandem-project.gr/Services/MonService</td>
+                <td><a href='javascript:void(0)'><i class='far fa-trash-alt' title='Delete' onclick="deleteRow(this, 'urlstable')" style='padding-bottom:5px;color:red;font-size:24px'></i></a></td>
+            </tr>
+            <tr>
+                <td contenteditable>edgeservices.org/TandemMonService</td>
+                <td><a href='javascript:void(0)'><i class='far fa-trash-alt' title='Delete' onclick="deleteRow(this, 'urlstable')" style='padding-bottom:5px;color:red;font-size:24px'></i></a></td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    </div>
+      
+     
+      
+      
+    <div class="row" style="margin-left:45%">
+        <div class="col-srvregistration">
+            <input id="add-urls-btn" type="button" value="+ Add URL" onclick="addNewRow('urlstable', ['1'])">
+        </div>
+    </div>
+      
+    <div class="row regformrow">
+    <!--    <h4 style="margin-right:30%;"><b>PARAMETERS</b></h4>-->
+        <div class="col-srvregistration-tables">
+        <table class="srvregtable" id="configparamstable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Configuration Parameters</b></td>
+            </tr>
+            <tr>
+		<th>Parameter Name</th>
+		<th>Parameter Type</th>
+		<th>Parameter Value</th>
+		<th>Parameter Description</th>
+		<th>Action</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+                <td contenteditable>Smtp_server</td>
+		<td>
+                    <select class="regselect">
+                        <option>string</option>
+                        <option>number</option>
+                        <option>boolean</option>
+                        <option>null</option>
+                        <option>object</option>
+                        <option>array</option>
+                    </select>
+                </td>
+		<td contenteditable>smtp.tandem.com:587</td>
+		<td contenteditable>E-mail server address</td>
+                <td><a href='javascript:void(0)'><i class='far fa-trash-alt' title='Delete' onclick="deleteRow(this, 'configparamstable')" style='padding-bottom:5px;color:red;font-size:24px'></i></a></td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    </div>
+      
+    <div class="row" style="margin-left:42%">
+        <div class="col-srvregistration">
+            <input id="add-params-btn" type="button" value="+ Add Config Parameters" onclick="addNewRow('configparamstable', ['1', '4'])">
+        </div>
+    </div>
+      
+      
+    <div class="row regformrow">
+    <!--    <h4 style="margin-right:30%;"><b>OPERATIONS</b></h4>-->
+        <div class="col-srvregistration-tables">
+        <table class="srvregtable" id="operationstable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Operations</b></td>
+            </tr>
+            <tr>
+		<th>Operation Name</th>
+		<th>Operation Description</th>
+		<th>Operation Type</th>
+		<th>Endpoint</th>
+                <th>Actions</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+		<td contenteditable>SendNotification</td>
+		<td contenteditable>Send Notifications</td>
+                <td>
+                    <select class="regselect">
+                        <option>Synchronous</option>
+                        <option>Asynchronous</option>
+                    </select>
+                </td>
+                <td contenteditable>/ICOM/NotificationSer<a href='javascript:void(0);'><i class='fas fa-ellipsis-h' title='/ICOM/NotificationService/SendNotification'></i></a></td>
+		<td><a href='javascript:void(0)'><i class='fas fa-info' title='Details' style='padding-bottom:5px;color:blue;font-size:24px'></i></a><a href='javascript:void(0)'><i class='far fa-trash-alt' title='Delete' onclick="deleteRow(this, 'operationstable')" style='padding-bottom:5px;color:red;font-size:24px;margin-left: 20%'></i></a></td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    </div>
+
+      
+    <div class="row" style="margin-left:45%">
+        <div class="col-srvregistration">
+            <input id="add-oper-btn" type="button" value="+ Add Operation" onclick="location.href='addOperation.html';">
+        </div>
+    </div>
+
+      
+      
+      <div class="row regformrow">
+    <!--    <h4 style="margin-right:30%;"><b>OPERATIONS</b></h4>-->
+        <div class="col-srvregistration-tables" style="width:45%">
+        <table class="srvregtable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Computational & Storage Requirements</b></td>
+            </tr>
+            <tr>
+		<th>Requirement</th>
+		<th>Value</th>
+		<th>Measurement Unit</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+		<td>Memory Size</td>
+		<td contenteditable>5</td>
+		<td>Gb</td>
+            </tr>
+            <tr>
+		<td>Number of Virtual CPUs</td>
+		<td contenteditable>50</td>
+		<td>millicores</td>
+            </tr>
+            <tr>
+		<td>Number of Virtual GPUs</td>
+		<td contenteditable>0</td>
+		<td>millicores</td>
+            </tr>
+            <tr>
+		<td>Storage Requirements</td>
+		<td contenteditable>0</td>
+		<td>Gb</td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    
+    
+    <div class="col-srvregistration-tables" style="width:44%;  margin-top:4%;">
+        <table class="srvregtable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Communication Requirements</b></td>
+            </tr>
+            <tr>
+		<th>Requirement</th>
+		<th>Value</th>
+		<th>Measurement Unit</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+		<td>Latency</td>
+		<td contenteditable>1000</td>
+		<td>ms</td>
+            </tr>
+            <tr>
+		<td>Throughput</td>
+		<td contenteditable>0.01</td>
+		<td>Mbps</td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    </div>    
+      
+      
+      
+    <div class="row regformrow">
+        <div class="col-srvregistration-tables" style="width:45%;">
+        <table class="srvregtable" id="reqservicestable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Required Services</b></td>
+            </tr>
+            <tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Action</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+		<td contenteditable>E-mail server</td>
+		<td contenteditable>E-mail Server</td>
+		<td><a href='javascript:void(0)'><i class='far fa-trash-alt' title='Delete' onclick="deleteRow(this, 'reqservicestable')" style='padding-bottom:5px;color:red;font-size:24px;margin-left: 20%'></i></a></td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    
+        <div class="col-srvregistration-tables" style="width:44%;">
+        <table class="srvregtable" id="optservicestable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Optional Services</b></td>
+            </tr>
+            <tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Action</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+		<td contenteditable>E-mail server</td>
+		<td contenteditable>E-mail Server</td>
+		<td><a href='javascript:void(0)'><i class='far fa-trash-alt' title='Delete' onclick="deleteRow(this, 'optservicestable')" style='padding-bottom:5px;color:red;font-size:24px;margin-left: 20%'></i></a></td>
+            </tr>
+	</tbody>
+        </table> 
+        </div>
+    </div>    
+   
+    <div class="row" style="margin-left:25%">
+        <div class="col-srvregistration">
+            <input id="add-reqserv-btn" type="button" value="+ Add Service" onclick="addNewRow('reqservicestable', ['2'])">
+        </div>
+        <div class="col-srvregistration" style="margin-left:30%">
+            <input id="add-optserv-btn" type="button" value="+ Add Service" onclick="addNewRow('optservicestable', ['2'])">
+        </div>
+    </div>
+         
+         
+  <!--  <div class="row">
+        <input id="add-reqserv-btn" type="button" value="+ Add Service">
+        <input id="add-optserv-btn" type="button" value="+ Add Service">
+    </div>-->
+          
+      
+    <div class="row regformrow">
+    <!--    <h4 style="margin-right:30%;"><b>OPERATIONS</b></h4>-->
+        <div class="col-srvregistration-tables" style="width:45%">
+        <table class="srvregtable">
+	<thead>
+            <tr >
+                <td style="background-color: #9e9e9e;" colspan="100%"><b>Software Image Parameters</b></td>
+            </tr>
+            <tr>
+		<th>Parameter Name</th>
+		<th>Parameter Value</th>
+            </tr>
+	</thead>
+        <tbody>
+            <tr>
+		<td contenteditable>SW Image Name</td>
+		<td contenteditable>SWImage00015</td>
+            </tr>
+            <tr>
+		<td contenteditable>SW Image Container Format</td>
+		<td contenteditable>Docker</td>
+            </tr>
+            <tr>
+		<td contenteditable>SW Image Size in Mb</td>
+		<td contenteditable>0.5</td>
+            </tr>
+            <tr>
+		<td contenteditable>SW Image OS</td>
+		<td contenteditable>Ubuntu 22.04 LTS</td>
+            </tr>
+            <tr>
+		<td contenteditable>SW Image Architecture​</td>
+		<td contenteditable>x86-64​</td>
+            </tr>
+            <tr>
+		<td contenteditable>SW Image URL</td>
+		<td contenteditable>/ICOM/SWimages</td>
+            </tr>            
+	</tbody>
+        </table> 
+        </div>
+        <div class="col-srvregistration-tables" style="width:47%;">
+            <div style="overflow: hidden">
+                <div class="col-srvregistration" style="width:40%">
+                    <label for="consumedlocal">Consumed Local</label>
+                </div>
+                <div class="col-srvregistration" style="width:35%">
+                    <select id="consumedlocal" name="consumedlocal">
+                        <option value="Select">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
+            <div style="overflow: hidden">
+                <div class="col-srvregistration" style="width:40%">
+                    <label for="islocal">Is Local</label>
+                </div>
+                <div class="col-srvregistration" style="width:35%">
+                    <select id="islocal" name="islocal">
+                        <option value="Select">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        </select>
+                </div>
+            </div>
+            <div style="overflow: hidden">
+                <div class="col-srvregistration" style="width: 40%;">
+                    <label for="scopeoflocality">Scope of Locality</label>
+                </div>
+                <div class="col-srvregistration" style="width:35%;">
+                    <input type="text" style="height:10%;" id="scopeoflocality" name="scopeoflocality" placeholder="Locality scope..">
+                </div>
+            </div>
+        </div>
+    </div>    
+      
+    </form>
+     <div class="row">
+      <input id="submit-srvc-btn" type="button" value="Submit" onclick="">
+    </div>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+
+<!-- LOGIN FORM -->
+<!-- <div class="loginForm-popup" id="loginForm">
+  <form action="/action_page.php" class="loginForm-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="loginBtn">Login</button>
+    <button type="button" class="loginBtn cancel" onclick="closeLoginForm()">Close</button>
+  </form>
+</div>-->
+
+
+<!-- POPUP WINDOW -->
+<!--<div class="w3-container">
+  <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>
+
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <header class="w3-container w3-teal"> 
+        <span onclick="document.getElementById('id01').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2>Modal Header</h2>
+      </header>
+      <div class="w3-container">
+        <p>Some text..</p>
+        <p>Some text..</p>
+      </div>
+      <footer class="w3-container w3-teal">
+        <p>Modal Footer</p>
+      </footer>
+    </div>
+  </div>
+</div>-->
+
+
+<!-- MAIN ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/loginForm.js"></script>
+
+    </body>
+</html>

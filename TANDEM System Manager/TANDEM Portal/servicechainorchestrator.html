@@ -1,0 +1,377 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/sco.css">
+ <!--       <link href="jquery.flowchart.css" rel="stylesheet">-->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<!--<script type="text/javascript" src="js/workflows.js"></script>-->
+<script src="js/destool.js" ></script>
+<script src="js/min.js" ></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+
+
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform GUI</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+
+
+
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="#">Applications</a>
+  <div class="dropdown">
+    <button class="dropbtn">Services
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Registration</a>
+      <a href="management.html">Management</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">SCO
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#" onclick='savediagramform();'>Save</a>
+      <a href="#" onclick='opendiagramform();'>Open</a>
+      <!--<a href="#" onclick='deletediagramform();'>Delete</a>--->
+      <a href="#" onclick='deletediagramform();'>Delete</a>
+    </div>
+  </div>
+  <a href="#">Products</a>
+  <a href="users.html">Users</a>
+  <a href="devices.html">Devices</a>
+  <div class="dropdown">
+    <button class="dropbtn">Devices
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="">Registration</a>
+      <a href="devices.html">Discovery</a>
+    </div>
+  </div>    
+  <a href="infrastructure.html">Infrastructure</a>
+  <a href="#">Pricing & Billing</a>
+  <a href="#">Configuration</a>
+
+  <!--<a id="login" href="#" onclick="showLoginForm()">Login</a>-->
+ <!-- <button type="button" id="login">Login</button>-->
+
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+
+<!-- LOGIN FORM -->
+
+<section class="workflowsContainer">
+    <div class="workflowsMenu">
+        <ul class="workflowsOptions">
+            <br>
+            <h2 id="workflowsMenuTitle">SERVICE CHAIN CREATION</h2>
+            <li><a href='javascript:void(0);' onclick="drawNode('start',null);"><span style="color:green; font-size: 18px">&#11044;</span> Start</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('condition',null);"><span style="color:#152172; font-size: 22px">&#9670;</span> Condition</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('FAAS_NODE',null);"><span style="color:#F5B726; font-size: 22px">&#11052;</span> FaaS Service</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('PAAS_NODE',null);"><span style="color:olive; font-size: 20px">&#9632;</span> PaaS Service</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('TANDEMAPP_SERVICE',null);"><span style="color:#7FB2FF; font-size: 24px; fill: red">&#9632;</span> TANDEM App Service</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('USERAPP_SERVICE',null);"><span style="color:purple; font-size: 24px;">&#9632;</span> User App Service</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('DEVICE_SERVICE',null);"><span style="color:#734F26; font-size: 24px;">&#9632;</span> Device Service</a></li>
+            <li><a href='javascript:void(0);' onclick="drawNode('end',null);"><span style="font-size: 14px; ">&#128308;</span> End</a></li>
+        </ul>
+                
+
+
+
+    
+    
+    
+<!--<ul class="list-unstyled">
+      <li data-value="value 1"><span style="color:#EFAE00">&#xf0c8;</span> Maple Gold</li>
+  <li data-value="value 2"><span style="color:#000316">&#xf0c8;</span> Midnight Black</li>
+  <li data-value="value 3"><span style="color:#B7A8BA">&#xf0c8;</span> Orchid Gray</li>
+</ul>-->
+        
+        
+ 
+        
+        
+        
+    </div>
+
+
+    <div id="CANVASDIV">
+	<canvas id="canvasid"></canvas>
+    </div>
+</section>
+  
+        <div class="form-popup" id="tskStrtForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Start Node Info</h1>
+<a href='#' onclick="addLink('0')"><i class='far fa-arrow-alt-circle-right' title='Add Link' style='padding-bottom:5px;color:#1B6896;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Description</b></label>
+		<input id ="startdescription" type="text" value="" name="description">
+		<!--<label ><b>Input parameters</b></label>
+		<input id ="prmtrs" type="text" value="inparameters" name="inparameters">
+		<label ><b>Internal parameters</b></label>
+		<input id ="prmtrsin" type="text" value="parameters" name="parameters">
+		<label ><b>Output parameter</b></label>
+		<input id ="prmtrsout" type="text" value="prmtrsout" name="parameterout">-->
+                <button type="button" class="btn" onclick="updateop('start')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+	<div class="form-popup" id="tskReqForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Request Node Info</h1>
+
+		<label ><b>Current Process ID</b></label>
+		<input id ="prcid3" type="text" value="taskname" name="description" readonly>
+		<button id="reqb0110" type="button" class="btn" onclick="openPrcForm();">Get Process Info</button>
+                <button onclick="deleteLinks()"><i class="fa fa-sitemap" style='color:red' title="Delete Links"></i></button>
+                <button onclick="deleteNode()"><i class="fa fa-window-close" style='color:red' title="Delete Node"></i></button></BR></BR>
+                <button onclick="addLink('0')"><i class="fa fa-sitemap" style='color:green' title="Add Link"></i></button></BR></BR>
+		<label ><b>Description</b></label>
+		<input id ="reqdescription" type="text" value="taskname" name="description" readonly>
+		<label ><b>Average time</b></label>
+		<input id ="reqavtim" type="text" value="taskname" name="description" readonly>
+		<label ><b>Service</b></label>
+		<input id ="sid" type="text" value="taskname" name="description" readonly>
+
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+	<div class="form-popup" id="tskConForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Condition Node Info</h1>
+
+	<!--	<label ><b>Current Process ID</b></label>
+		<input id ="prcid1" type="text" value="taskname"  name="description" readonly>
+		<button id="conb0110" type="button" class="btn" onclick="openPrcForm();">Get Process Info</button>-->
+<a href='#' onclick="addLink('1')"><i class='far fa-arrow-alt-circle-right' title='Add true Link' style='padding-bottom:5px;color:green;font-size:24px'></i></a>
+<a href='#' onclick="addLink('2')"><i class='far fa-arrow-alt-circle-right' title='Add false Link' style='padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteNode()"><i class='far fa-trash-alt' title='Remove Node' style='padding-left:15px;padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Description</b></label>
+		<input id ="condescription" type="text" value="" name="description">
+		<!--<label ><b>Average time</b></label>
+		<input id ="conavtim" type="text" value="taskname" name="description" readonly>
+		<label ><b>Script</b></label><BR>
+		<textarea id="conscr" rows="4" cols="35" readonly="true" value=""></textarea>-->
+                <button type="button" class="btn" onclick="updateop('con')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+<!--	<div class="form-popup" id="tskOpForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Operation Node Info</h1>
+
+		<label ><b>Current Process ID</b></label>
+		<input id ="prcid2" type="text" value="taskname" name="description" readonly>
+		<button id="opb0110" type="button" class="btn" onclick="openPrcForm();">Get Process Info</button>
+                <button onclick="deleteLinks()"><i class="fas fas fa-sitemap" style='color:red' title="Delete Links"></i></button>
+                <button onclick="deleteNode()"><i class="fas fa-window-close" style='color:red' title="Delete Node"></i></button></BR></BR>
+                <button onclick="addLink('0')"><i class="fas fa-sitemap" style='color:green' title="Add Link"></i></button></BR></BR>
+		<label ><b>Description</b></label>
+		<input id ="opdescription" type="text" value="taskname" name="description" readonly>
+		<label ><b>Average time</b></label>
+		<input id ="opavtim" type="text" value="taskname" name="description" readonly>
+		<label ><b>Script</b></label><BR>
+		<textarea id="opscr" rows="4" cols="35" readonly="true" value=""></textarea>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>-->
+
+
+	<div class="form-popup" id="tskFaasForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>FaaS Service Info</h1>
+
+<a href='#' onclick="addLink('0')"><i class='far fa-arrow-alt-circle-right' title='Add Link' style='padding-bottom:5px;color:green;font-size:24px'></i></a>
+<a href='#' onclick="deleteNode()"><i class='far fa-trash-alt' title='Remove Node' style='padding-left:15px;padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Parameters</b></label>
+		<input id ="faasconparams" type="text" value="">
+		<label ><b>Service</b></label>
+<select id="faasconservice">
+  <option value="TANDEM_ser1">Temperature Monitoring Service</option>
+  <option value="TANDEM_ser2">e-mail Notification Service</option>
+</select>                
+		<label ><b>Description</b></label>
+		<input id ="faasdescription" type="text" value="" name="description">
+                <button type="button" class="btn" onclick="updateop('faas')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+	<div class="form-popup" id="tskPaasForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>PaaS Service Info</h1>
+
+<a href='#' onclick="addLink('0')"><i class='far fa-arrow-alt-circle-right' title='Add Link' style='padding-bottom:5px;color:green;font-size:24px'></i></a>
+<a href='#' onclick="deleteNode()"><i class='far fa-trash-alt' title='Remove Node' style='padding-left:15px;padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Parameters</b></label>
+		<input id ="paasconparams" type="text" value="">
+		<label ><b>Service</b></label>
+<select id="paasconservice">
+  <option value="TANDEM_ser1">Temperature Monitoring Service</option>
+  <option value="TANDEM_ser2">e-mail Notification Service</option>
+</select>                
+		<label ><b>Description</b></label>
+		<input id ="paasdescription" type="text" value="" name="description">
+                <button type="button" class="btn" onclick="updateop('paas')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+	<div class="form-popup" id="tskTandemappForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Tandem App Service Info</h1>
+
+<a href='#' onclick="addLink('0')"><i class='far fa-arrow-alt-circle-right' title='Add Link' style='padding-bottom:5px;color:green;font-size:24px'></i></a>
+<a href='#' onclick="deleteNode()"><i class='far fa-trash-alt' title='Remove Node' style='padding-left:15px;padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Parameters</b></label>
+		<input id ="appconparams" type="text" value="">
+		<label ><b>Service</b></label>
+<select id="appconservice">
+  <option value="TANDEM_ser1">Temperature Monitoring Service</option>
+  <option value="TANDEM_ser2">e-mail Notification Service</option>
+</select>                
+		<label ><b>Description</b></label>
+		<input id ="appdescription" type="text" value="" name="description">
+                <button type="button" class="btn" onclick="updateop('app')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+        </div>
+        <div class="form-popup" id="tskUserappForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>User App Service Info</h1>
+
+<a href='#' onclick="addLink('0')"><i class='far fa-arrow-alt-circle-right' title='Add Link' style='padding-bottom:5px;color:green;font-size:24px'></i></a>
+<a href='#' onclick="deleteNode()"><i class='far fa-trash-alt' title='Remove Node' style='padding-left:15px;padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Parameters</b></label>
+		<input id ="userconparams" type="text" value="">
+		<label ><b>Service</b></label>
+<select id="userconservice">
+  <option value="TANDEM_ser1">Temperature Monitoring Service</option>
+  <option value="TANDEM_ser2">e-mail Notification Service</option>
+</select>                
+		<label ><b>Description</b></label>
+		<input id ="userdescription" type="text" value="" name="description">
+                <button type="button" class="btn" onclick="updateop('user')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+        <div class="form-popup" id="tskDevForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Device Service Info</h1>
+
+<a href='#' onclick="addLink('0')"><i class='far fa-arrow-alt-circle-right' title='Add Link' style='padding-bottom:5px;color:green;font-size:24px'></i></a>
+<a href='#' onclick="deleteNode()"><i class='far fa-trash-alt' title='Remove Node' style='padding-left:15px;padding-bottom:5px;color:red;font-size:24px'></i></a>
+<a href='#' onclick="deleteLinks()"><i class='fas fa-arrow-alt-circle-right' title='Remove Links' style='padding-bottom:5px;color:red;font-size:24px'></i></a></BR>
+		<label ><b>Parameters</b></label>
+		<input id ="devconparams" type="text" value="">
+		<label ><b>Service</b></label>
+<select id="devconservice">
+  <option value="TANDEM_ser1">Temperature Monitoring Service</option>
+  <option value="TANDEM_ser2">e-mail Notification Service</option>
+</select>                
+		<label ><b>Description</b></label>
+		<input id ="devdescription" type="text" value="" name="description">
+                <button type="button" class="btn" onclick="updateop('dev')">Update</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+        <div class="form-popup" id="opendiagForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Open Workflow</h1>
+		<label ><b>Name</b></label>
+<select name="names" id="op_name">
+  <option value="test">test</option>
+</select>                
+                <button type="button" class="btn" onclick="opendiagram()">Open</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+        <div class="form-popup" id="deletediagForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Delete Workflow</h1>
+		<label ><b>Name</b></label>
+<select name="names" id="del_name">
+  <option value="test">test</option>
+</select>                
+                <button type="button" class="btn" onclick="deletediagram()">Delete</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+        <div class="form-popup" id="savediagForm">
+	    <form onsubmit="return false;" class="form-container">
+		<h1>Save Workflow</h1>
+		<label ><b>Name</b></label>
+		<input id ="sv_name" type="text" value="">
+		<label ><b>Description</b></label>
+		<input id ="sv_descr" type="text" value="">
+		<label ><b>Application</b></label>
+                <input type="checkbox" id="op_appl">
+                <button type="button" class="btn" onclick="savediagram()">Save</button>
+		<button type="button" class="btn cancel" onclick="closeForms()">Close</button>
+	    </form>
+	</div>
+
+
+<div class="w3-container">
+<!--  <button onclick="document.getElementById('edgeCloudNodesPopup').style.display='block'" class="w3-button w3-black">Open Modal</button>-->
+
+  <div id="fieldsUpdatePopup" class="w3-modal">
+    <div class="w3-modal-content" style="width:30%">
+      <header class="w3-container" style="background-color: #9e9e9e;"> 
+        <span onclick="document.getElementById('fieldsUpdatePopup').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h6 id="fieldsUpdateTitle" style="text-align: center; color: #9e9e9e;">Updates</h6>
+      </header>
+        <div class="w3-container" id='_message' style="height:10%; text-align: center; font-size: 20px;">
+        <p>Updates completed!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+	<div class="form-popup" id="uploadForm">
+	</div>
+    <div id="waitimg">
+        <img src="hand2.gif">
+    </div>
+
+<!-- MAIN ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/loginForm.js"></script>
+
+
+<script src="js/appl.js" ></script>
+    </body>
+    
+    <script>
+        initcanvas();
+    </script>
+    
+    
+</html>
