@@ -1,0 +1,33 @@
+.srvregtable {
+    border:1px solid #b3adad;
+    border-collapse:collapse;
+    padding:5px;
+    width: 80%;
+}
+
+.srvregtable th {
+    border:1px solid #b3adad;
+    padding:5px;
+    background: #f0f0f0;
+    color: #313030;
+}
+
+.srvregtable td {
+    border:1px solid #b3adad;
+    text-align:center;
+    padding:5px;
+    background: #ffffff;
+    color: #313030;
+}
+
+.regselect {
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.regformrow{
+    margin-left: 15%;
+}
