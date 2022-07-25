@@ -1,0 +1,23 @@
+[
+  {
+    "edgeCloudId": "EC1",
+    "edgeCloudName": "Edge Cloud 1",
+    "edgeCloudAvailabilityZone": "Zone 21",
+    "edgeCloudNumberofNodes": "20",
+    "edgeCloudNumberofIoTDevices": "10",
+    "edgeCloudProvider": "INTRACOM S.A. Telecom Solutions",
+    "monitorNodesURL":"http://146.124.106.209:3000/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now"
+   },
+   {
+    "edgeCloudId": "EC2",
+    "edgeCloudName": "Edge Cloud 2",
+    "edgeCloudAvailabilityZone": "Zone 3",
+    "edgeCloudNumberofNodes": "24",
+    "edgeCloudNumberofIoTDevices": "6",
+    "edgeCloudProvider": "INTRACOM S.A. Telecom Solutions",
+    "monitorNodesURL":"http://146.124.106.209:3000/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now"
+   }
+]
+
+
+					
