@@ -1,2 +1,1 @@
-
-
+For the configuration of the existing PaaS Services for the IoT workflow the user have to run the curl commands as described in the 'IoT Workflow Configuration of Edgex PaaS Services.docx'. Especially, for the step 2. the 'createSensorCluster.yaml' file have to been upoloaded as file to the correct EdgeX Service
