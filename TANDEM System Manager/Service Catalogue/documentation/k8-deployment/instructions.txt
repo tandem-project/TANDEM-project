@@ -1,1 +1,0 @@
-kubectl apply -f k8-deployment -n service-catalogue
