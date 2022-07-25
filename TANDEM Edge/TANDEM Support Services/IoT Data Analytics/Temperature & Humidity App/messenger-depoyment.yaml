@@ -24,7 +24,7 @@ spec:
         effect: NoSchedule
       containers:
       -  name: messenger
-         image: alexvalas/k8s-messenger:v0.11
+         image: alexvalas/tandem-messenger-iot-final-notif-alarm:v0.3
          #imagePullPolicy: Never
          env:
          - name: INFLUXDB_NAME
