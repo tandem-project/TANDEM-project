@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 27,
+  "id": 25,
   "links": [],
   "panels": [
     {
@@ -25,209 +25,16 @@
       "dashes": false,
       "datasource": "prometheus",
       "fieldConfig": {
-        "defaults": {
-          "unit": "decmbytes"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 14,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
-      "hiddenSeries": false,
-      "id": 10,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 3,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.4",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"edgex-core-data\"}/1000000",
-          "format": "time_series",
-          "interval": "1m",
-          "legendFormat": "Edgex-Core-Data Memory Consumption ",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Edgex-Core-Data",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "decmbytes",
-          "label": "Memory Usage",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fieldConfig": {
         "defaults": {},
         "overrides": []
       },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 14,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "hiddenSeries": false,
-      "id": 4,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 3,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.4",
-      "pointradius": 2,
-      "points": true,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"edgex-core-data\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"edgex-core-data\"})*100",
-          "interval": "1m",
-          "legendFormat": "Edgex-Core-Data CPU Consumption - Max  Limit CPU vCores: 0.5",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Edgex-Core-Data",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1172",
-          "format": "percent",
-          "label": "CPU Utilization",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1173",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 14,
+        "h": 12,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 0
       },
       "hiddenSeries": false,
       "id": 12,
@@ -258,9 +65,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"edgex-core-command\"}/1000000",
+          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"iotmonitoring-mqtt\"}/1000000",
           "interval": "1m",
-          "legendFormat": "Edgex-Core-Command Memory Consumption",
+          "legendFormat": "Mqtt Memory Consumption",
           "refId": "A"
         }
       ],
@@ -268,7 +75,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Edgex-Core-Command",
+      "title": "Mqtt",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -284,16 +91,18 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:204",
           "format": "decmbytes",
           "label": "Memory Usage",
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
+          "$$hashKey": "object:205",
           "format": "short",
-          "label": "",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": null,
@@ -318,10 +127,10 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 14,
+        "h": 12,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 0
       },
       "hiddenSeries": false,
       "id": 6,
@@ -352,9 +161,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"edgex-core-command\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"edgex-core-command\"})*100",
-          "interval": "1m",
-          "legendFormat": "Edgex-Core-Command CPU Consumption - Max Limit CPU vCores: 0.5",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"iotmonitoring-mqtt\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"iotmonitoring-mqtt\"})*100",
+          "interval": "",
+          "legendFormat": "Mqtt CPU Consumption - Max Limit CPU vCores : 0.5",
           "refId": "A"
         }
       ],
@@ -362,7 +171,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Edgex-Core-Command",
+      "title": "Mqtt",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -378,7 +187,7 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1294",
+          "$$hashKey": "object:281",
           "format": "percent",
           "label": "CPU Utilization",
           "logBase": 1,
@@ -387,7 +196,7 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1295",
+          "$$hashKey": "object:282",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -417,200 +226,10 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 28
+        "y": 12
       },
       "hiddenSeries": false,
-      "id": 14,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 3,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.4",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"edgex-kuiper\"}/1000000",
-          "interval": "1m",
-          "legendFormat": "Edgex-Kuiper Memory Consumption",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Edgex-Kuiper",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "decmbytes",
-          "label": "Memory Usage",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 12,
-        "w": 12,
-        "x": 12,
-        "y": 28
-      },
-      "hiddenSeries": false,
-      "id": 2,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 3,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.4",
-      "pointradius": 2,
-      "points": true,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"edgex-kuiper\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"edgex-kuiper\"})*100",
-          "interval": "1m",
-          "legendFormat": "Edgex-Kuiper CPU Consumption - Max Limit CPU vCores: 0.5",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Edgex-Kuiper",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1371",
-          "format": "percent",
-          "label": "CPU Utilization",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1372",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 12,
-        "w": 12,
-        "x": 0,
-        "y": 40
-      },
-      "hiddenSeries": false,
-      "id": 16,
+      "id": 10,
       "legend": {
         "avg": false,
         "current": false,
@@ -638,9 +257,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"edgex-redis\"}/1000000",
+          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"iotmonitoring-influxdb\"}/1000000",
           "interval": "1m",
-          "legendFormat": "Edgex-Redis Memory Consumption",
+          "legendFormat": "InfuxDB Memory Consumption",
           "refId": "A"
         }
       ],
@@ -648,7 +267,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Edgex-Redis",
+      "title": "InfluxDB",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -664,14 +283,17 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:354",
+          "decimals": null,
           "format": "decmbytes",
-          "label": "Memory Usage",
+          "label": "Memory Usage ",
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
+          "$$hashKey": "object:355",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -701,7 +323,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 12
       },
       "hiddenSeries": false,
       "id": 8,
@@ -732,9 +354,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"edgex-redis\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"edgex-redis\"})*100",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"iotmonitoring-influxdb\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"iotmonitoring-influxdb\"})*100",
           "interval": "1m",
-          "legendFormat": "Edgex-Redis CPU Consumption - Max Limit CPU vCores: 0.5",
+          "legendFormat": "InfluxDB CPU Consumption - Max Limit CPU vCores : 0.5",
           "refId": "A"
         }
       ],
@@ -742,7 +364,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Edgex-Redis",
+      "title": "InfluxDB",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -758,7 +380,199 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1448",
+          "$$hashKey": "object:431",
+          "format": "short",
+          "label": "CPU Utilization",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:432",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"iotmonitoring-messenger\"}/1000000",
+          "interval": "1m",
+          "legendFormat": "Temp. & Humidity App Memory Consumption",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Temp. & Humidity App",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:5312",
+          "format": "decmbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:5313",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 3,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.4",
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"iotmonitoring-messenger\"}[5m]))/sum(20000/container_spec_cpu_period{namespace=\"pi-edge\",container=\"iotmonitoring-messenger\"})*100",
+          "interval": "1m",
+          "legendFormat": "Temp. & Humidity App CPU Consumption - Max Limit CPU vCores : 0.5",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Temp. & Humidity App",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:5406",
           "format": "percent",
           "label": "CPU Utilization",
           "logBase": 1,
@@ -767,7 +581,196 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1449",
+          "$$hashKey": "object:5407",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "hiddenSeries": false,
+      "id": 16,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"iotmonitoring-grafana\"}/1000000",
+          "interval": "1m",
+          "legendFormat": "Grafana Memory Consumption",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Grafana",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decmbytes",
+          "label": "Memory Usage ",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 3,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.4",
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"pi-edge\",container=\"iotmonitoring-grafana\"}[5m]))/sum(container_spec_cpu_quota{namespace=\"pi-edge\",container=\"iotmonitoring-grafana\"}/container_spec_cpu_period{namespace=\"pi-edge\",container=\"iotmonitoring-grafana\"})*100",
+          "interval": "1m",
+          "legendFormat": "Grafana CPU Consumption - Max Limit CPU vCores : 0.5",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Grafana ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "CPU Utilization",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -790,12 +793,12 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "PaaS Edgex Services",
-  "uid": "Q5Tyu93nk",
-  "version": 13
+  "title": "PaaS  IoT Monitoring & Analytics  Services",
+  "uid": "ZsfRw_37z",
+  "version": 15
 }
