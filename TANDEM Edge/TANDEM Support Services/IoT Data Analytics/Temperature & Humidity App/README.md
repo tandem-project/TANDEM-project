@@ -7,4 +7,4 @@ docker build -t image_name -f Dockerfile
 
 docker push to a public/private repo (in our case docker push -t alexvalas/k8s-messenger-iot-final:v0.3)
 
-The messenger-deployment.yaml is the deployment description file of the temperature and humidity app for a kubenrnetes deployment.
+The messenger-deployment.yaml is the deployment description file of the temperature and humidity app for a kubernetes deployment.
