@@ -125,3 +125,70 @@ with open( LOCAL_COORDS_FILE, 'r' ) as stream:
       line_count += 1
 
   cv2_imshow( image )
+  ------------------------------------------------
+  
+  def get_parking_slot_coords(line, slot):
+  for parksl in all_parking_slots:
+    l = int( parksl[0] )
+    s = int( parksl[1] )
+
+    if line == l and slot == s:
+      # Slot is Found
+      pp = parksl[2].split("-")
+      corner01 = [int(pp[0]), int(pp[1])] 
+      
+      pp = parksl[3].split("-")
+      corner02 = [int(pp[0]), int(pp[1])]
+      
+      pp = parksl[4].split("-")
+      corner03 = [int(pp[0]), int(pp[1])]
+      
+      pp = parksl[5].split("-")
+      corner04 = [int(pp[0]), int(pp[1])]
+      
+      return [corner01, corner02, corner03, corner04]
+    
+corners = get_parking_slot_coords(1, 2)
+print( corners[0][0] )
+
+------------------------------------------------
+  corners_anti_01_0A = {}
+corners_anti_01_0A[0] = (107, 206)
+corners_anti_01_0A[1] = (211, 227)
+corners_anti_01_0A[2] = (239, 197)
+corners_anti_01_0A[3] = (145, 177)
+
+corners_anti_05_0A = {}
+corners_anti_05_0A[0] = (219, 118)
+corners_anti_05_0A[1] = (305, 132)
+corners_anti_05_0A[2] = (320, 115)
+
+corners_anti_01_0B = {}
+corners_anti_01_0B[0] = (373, 222)
+corners_anti_01_0B[1] = (354, 255)
+corners_anti_01_0B[2] = (498, 281)
+
+img = cv2.imread(videofile)
+
+image = cv2.circle(img, (114, 162), radius=6, color=(255,255, 10), thickness=-1)
+image = cv2.circle(img, (212, 227), radius=6, color=(255,255, 10), thickness=-1)
+
+image = cv2.circle(img, (223, 90), radius=6, color=(255,255, 10), thickness=-1)
+image = cv2.circle(img, (300, 131), radius=6, color=(255,255, 10), thickness=-1)
+
+image = cv2.circle(img, (384, 201), radius=6, color=(255,255, 10), thickness=-1)
+image = cv2.circle(img, (513, 272), radius=6, color=(255,255, 10), thickness=-1)
+
+image = cv2.circle(img, corners_anti_01_0A[0], radius=4, color=(0,255,255), thickness=-1)
+image = cv2.circle(img, corners_anti_01_0A[1], radius=4, color=(0,255,255), thickness=-1)
+image = cv2.circle(img, corners_anti_01_0A[2], radius=4, color=(0,255,255), thickness=-1)
+
+image = cv2.circle(img, corners_anti_05_0A[0], radius=4, color=(0,255,255), thickness=-1)
+image = cv2.circle(img, corners_anti_05_0A[1], radius=4, color=(0,255,255), thickness=-1)
+image = cv2.circle(img, corners_anti_05_0A[2], radius=4, color=(0,255,255), thickness=-1)
+
+image = cv2.circle(img, corners_anti_01_0B[0], radius=4, color=(0,255,255), thickness=-1)
+image = cv2.circle(img, corners_anti_01_0B[1], radius=4, color=(0,255,255), thickness=-1)
+image = cv2.circle(img, corners_anti_01_0B[2], radius=4, color=(0,255,255), thickness=-1)
+
+cv2_imshow(image)
