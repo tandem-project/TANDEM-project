@@ -150,7 +150,7 @@
 			"steppedLine": false,
 			"targets": [{
 				"exemplar": true,
-				"expr": "100-avg(rate(node_cpu_seconds_total{instance=\"compute1\",mode=\"idle\"}[5m]))*100",
+				"expr": "100-avg(rate(node_cpu_seconds_total{instance=\"NODE_NAME\",mode=\"idle\"}[5m]))*100",
 				"interval": "1m",
 				"legendFormat": " Node NODE_NUMBER CPU Consumption - Total CPU vCores :  12",
 				"refId": "A"
