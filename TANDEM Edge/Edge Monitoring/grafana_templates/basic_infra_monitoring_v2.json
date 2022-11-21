@@ -64,7 +64,7 @@
 				"exemplar": true,
 				"expr": "node_memory_Active_bytes{instance=\"NODE_NAME\"}/node_memory_MemTotal_bytes{instance=\"NODE_NAME\"}*100",
 				"interval": "1m",
-				"legendFormat": "Node NODE_NUMBER Memory Consumption  - Total Memory : 32 GB",
+				"legendFormat": "Node NODE_NUMBER Memory Consumption",
 				"refId": "A"
 			}],
 			"thresholds": [],
@@ -152,7 +152,7 @@
 				"exemplar": true,
 				"expr": "100-avg(rate(node_cpu_seconds_total{instance=\"NODE_NAME\",mode=\"idle\"}[5m]))*100",
 				"interval": "1m",
-				"legendFormat": " Node NODE_NUMBER CPU Consumption - Total CPU vCores :  12",
+				"legendFormat": " Node NODE_NUMBER CPU Consumption",
 				"refId": "A"
 			}],
 			"thresholds": [],
