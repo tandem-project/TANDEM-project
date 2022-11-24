@@ -64,7 +64,7 @@
         "targets": [
             {
             "exemplar": true,
-            "expr": "container_memory_usage_bytes{namespace=\"pi-edge\",container=\"SERVICE_FUNCTION_INSTANCE_NAME\"}/1000000",
+            "expr": "sum(ontainer_memory_usage_bytes{namespace=\"pi-edge\",container=\"SERVICE_FUNCTION_INSTANCE_NAME\"}/1000000)/count(container_memory_usage_bytes{namespace=\"pi-edge\",container=\"SERVICE_FUNCTION_INSTANCE_NAME\"})",
             "interval": "1m",
             "legendFormat": "Memory Consumption",
             "refId": "A"
