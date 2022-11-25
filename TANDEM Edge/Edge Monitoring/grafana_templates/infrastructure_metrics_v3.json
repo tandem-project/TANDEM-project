@@ -99,14 +99,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(node_network_receive_bytes_total{instance=\"compute1\"}[1m]))/1000000*8",
+          "expr": "sum(rate(node_network_receive_bytes_total{instance=\"NODE_NAME\"}[1m]))/1000000*8",
           "format": "time_series",
           "interval": "1m",
-          "legendFormat": "1 Received Throughput",
+          "legendFormat": "Node NODE_NUMBER Received Throughput",
           "refId": "A"
         }
       ],
-      "title": "1 Received Throughput",
+      "title": "Node NODE_NUMBER Received Throughput",
       "type": "timeseries"
     },
     {
@@ -184,14 +184,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(node_network_transmit_bytes_total{instance=\"compute1\"}[1m]))/1000000*8",
+          "expr": "sum(rate(node_network_transmit_bytes_total{instance=\"NODE_NAME\"}[1m]))/1000000*8",
           "format": "time_series",
           "interval": "1m",
-          "legendFormat": "1 Transmitted Throughput",
+          "legendFormat": "Node NODE_NUMBER Transmitted Throughput",
           "refId": "A"
         }
       ],
-      "title": "1 Transmitted Throughput",
+      "title": "Node NODE_NUMBER Transmitted Throughput",
       "type": "timeseries"
     },
     {
@@ -237,9 +237,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "100-avg(rate(node_cpu_seconds_total{instance=\"compute1\",mode=\"idle\"}[5m]))*100",
+          "expr": "100-avg(rate(node_cpu_seconds_total{instance=\"NODE_NAME\",mode=\"idle\"}[5m]))*100",
           "interval": "1m",
-          "legendFormat": " Node 1 CPU Consumption",
+          "legendFormat": "Node NODE_NUMBER CPU Consumption",
           "refId": "A"
         }
       ],
@@ -247,7 +247,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": " Node 1 CPU Consumption",
+      "title": "Node NODE_NUMBER CPU Consumption",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -327,9 +327,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "node_memory_Active_bytes{instance=\"compute1\"}/node_memory_MemTotal_bytes{instance=\"compute1\"}*100",
+          "expr": "node_memory_Active_bytes{instance=\"NODE_NAME\"}/node_memory_MemTotal_bytes{instance=\"NODE_NAME\"}*100",
           "interval": "1m",
-          "legendFormat": "Node 1 Memory Consumption",
+          "legendFormat": "Node NODE_NUMBER Memory Consumption",
           "refId": "A"
         }
       ],
@@ -337,7 +337,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Node 1 Memory Consumption",
+      "title": "Node NODE_NUMBER Memory Consumption",
       "tooltip": {
         "shared": true,
         "sort": 0,
