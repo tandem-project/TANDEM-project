@@ -91,8 +91,8 @@
         "yaxes": [
             {
             "$$hashKey": "object:204",
-            "format": "decmbytes",
-            "label": "Memory Usage",
+            "format": "percent",
+            "label": "Utilization",
             "logBase": 1,
             "max": null,
             "min": null,
