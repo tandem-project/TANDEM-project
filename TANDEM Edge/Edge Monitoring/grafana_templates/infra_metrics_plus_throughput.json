@@ -19,7 +19,7 @@
 		"panels": [
         {
         "aliasColors": {},
-        "bars": false,
+        "bars": true,
         "dashLength": 10,
         "dashes": false,
         "datasource": "prometheus",
