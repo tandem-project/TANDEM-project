@@ -1,4 +1,7 @@
 {
+"dashboard": 
+{
+{
   "annotations": {
     "list": [
       {
@@ -224,4 +227,8 @@
   "title": "Infrastructure Metrics",
   "uid": "pi-edge-basic-infra",
   "version": 2
+},
+	"overwrite": true,
+	"inputs": [],
+	"folderId": 0
 }
