@@ -1,0 +1,458 @@
+---
+- hosts: all
+  become: false
+  tasks:
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+    vars:
+      packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+      - sshpass
+      - openssh-server
+    become: true
+
+  - name: Verify SSH service is running
+    command: systemctl ssh status
+    failed_when: false
+    become: true
+
+  - name: Enable Password Authentication to access SSH server
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/sshd_config
+      search_string: 'PasswordAuthentication no'
+      line: 'PasswordAuthentication yes'
+      owner: root
+      group: root
+    become: true
+ 
+  - name: Restart SSH service
+    ansible.builtin.systemd:
+      state: restarted
+      daemon_reload: yes
+      name: sshd
+    become: true
+       
+  - name: Add an apt signing key for Docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+    become: true
+
+  - name: Add apt repository for stable version
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
+    become: true
+
+  - name: Install docker and its dependencies
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+    vars:
+      packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - python3-pexpect
+    become: true
+    notify:
+      - docker status
+
+  - name: Add vagrant user to docker group
+    user:
+      name: vagrant
+      group: docker
+    become: true
+
+  - name: Define HTTP_PROXY, HTTPS_PROXY, and NO_PROXY for Docker Daemon
+    become: true
+    ansible.builtin.script: /home/vibm/kubernetes/kubernetes-setup/docker-httpsProxy.sh
+    register: docker_proxy_setup
+
+  - ansible.builtin.debug:
+      var: docker_proxy_setup
+    
+  - name: Google Cloud SDK Installation
+    become: true
+    ansible.builtin.script: /home/vibm/kubernetes/kubernetes-setup/google-cloud-installation.sh
+    
+  - name: Google Cloud Account Authentication
+    become: true
+    ansible.builtin.command: "{{ item }}"
+    with_items:
+    - gcloud config set proxy/type http
+    - gcloud config set proxy/address icache.intracomtel.com
+    - gcloud config set proxy/port 80
+    - gcloud auth activate-service-account learning-cloud@appspot.gserviceaccount.com --key-file=learning-cloud-226142d8e000.json
+
+  - name: Configure Docker with google-cloud authenbtication
+    ansible.builtin.expect:
+      command: gcloud auth configure-docker
+      responses:
+        (.*)Do you want to continue(.*): "Y"
+
+  - name: "failed to run Kubelet: misconfiguration: kubelet cgroup driver: \"systemd\" is different from docker cgroup driver: \"cgroupfs\""
+    ansible.builtin.command: "{{ item }}"
+    with_items:
+      - mv daemon.json /etc/docker/
+      - systemctl daemon-reload
+      - systemctl restart docker
+    become: yes
+
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
+    become: true
+
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0
+    become: true
+
+  # - name: Add an apt signing key for Kubernetes
+  #   apt_key:
+  #     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  #     state: present
+  #   become: true
+
+  # - name: Add apt repository for kubernetes
+  #   apt_repository:
+  #     repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+  #     state: present
+  #     filename: kubernetes.list
+  #   become: yes
+
+  # - name: Install kubernetes binaries
+  #   apt:
+  #     name: "{{ packages  }}"
+  #     state: present
+  #     update_cache: yes
+  #   vars:
+  #     packages:
+  #     - kubelet
+  #     - kubeadm
+  #     - kubectl
+  #   become: true
+
+  # - name: Kubelet is restarting every few minutes, as it waits in a crashloop for kubeadm to tell it what to do
+  #   command: apt-mark hold kubelet kubeadm kubectl
+  #   become: true
+
+  # - name: Configure node ip
+  #   lineinfile:
+  #     path: /etc/default/kubelet
+  #     line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+  #     create: yes
+  #   become: true
+
+  # - name: Restart kubelet
+  #   service:
+  #     name: kubelet
+  #     daemon_reload: yes
+  #     state: restarted
+  #   become: true
+
+#  - name: Set up proxy for single user
+#    shell: "export HTTP_PROXY=http://icache.intracomtel.com:80"
+
+# export https_proxy=http://icache.intracomtel.com:80
+# wget  https://dl.k8s.io/release/stable-1.txt
+# cat stable-1.txt >> v1.23.1
+# sudo kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10" --node-name k8s-master --pod-network-cidr=192.168.0.0/16 --kubernetes-versionO# v1.23.1
+# Copy "join-command"
+# Goto node-i
+# Paste & Run ... Join-Command
+# Next Step = STEP-02 !!!
+
+  # - name: Initialize Kubernetes cluster using KUBEADM
+  #   command: echo HELLO #kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10" --node-name k8s-master --pod-network-cidr=192.168.0.0/16
+  #   become: yes
+  #   ignore_errors: yes
+  #   environment:
+  #     http_proxy: http://icache.intracomtel.com:80
+  #     HTTP_PROXY: http://icache.intracomtel.com:80
+  #     https_proxy: http://icache.intracomtel.com:80
+  #     HTTPS_PROXY: http://icache.intracomtel.com:80
+  #     NO_PROXY: '192.168.0.0./16,10.96.0.0/12'
+  #     no_proxy: '192.168.0.0/16,10.96.0.0/12'
+  #   register:
+  #     kubeadmInitOut
+
+  # - name: Print KUBEADM output
+  #   ansible.builtin.debug:
+  #     var: kubeadmInitOut
+  #     verbosity: 2
+      
+#  - name: Is KUBELET service running ?
+#    command: service kubelet status
+#    register: kubeletStatus 
+#  - debug:
+#      var: kubeletStatus
+#      verbosity: 1
+
+# STEP-02:
+#   !!! Before STEP-02: Perform "kubectl get nodes" >>> ERROR: The connection to the server localhost:8080 was refused - did you specify the right host or port? 
+# PERFORM Step:
+#   sudo mkdir -p /home/vagrant/.kube
+#   sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+#   sudo chown vagrant:vagrant /home/vagrant/.kube/config
+#   !!!After Step: "kubectl get nodes" >> Master & Nodes are Dipslayed ... But Not Ready (Need Networking)
+#   NEED TO PERFORM STEP-03
+
+#  - name: Setup KUBECONFIG for vagrant user
+#    command: "{{ item }}"
+#    with_items:
+#      - mkdir -p /home/vagrant/.kube
+#      - cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+#      - chown vagrant:vagrant /home/vagrant/.kube/config
+
+# STEP-03:
+# sudo curl --proxy http://icache.intracomtel.com:80 https://docs.projectcalico.org/manifests/calico.yaml -O
+# sudo kubectl create -f /home/vagrant/calico.yaml
+# sudo kubeadm token create --print-join-command
+#
+# Ready to go @ Node-i , i=1,2, ...
+
+#  - name: Download CALICO networking manifest file
+#    ansible.builtin.command: curl https://docs.projectcalico.org/manifests/calico.yaml -O
+#    environment:
+#      https_proxy: http://icache.intracomtel.com:80
+    
+#  - name: Install CALICO pod network
+#    become: false
+#    ansible.builtin.command: kubectl create -f /home/vagrant/calico.yaml
+
+#  - name: Generate join command
+#    ansible.builtin.command: kubeadm token create --print-join-command
+#    register: join_command
+
+#  - name: Copy join command to local file
+#    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="/home/vibm/kubernetes/join-command"
+#    vars:
+#      ansible_become: no
+
+#  - name: Set up Proxy Settings for All Users
+#    ansible.builtin.shell:
+#      cmd: |
+#        cat > /etc/environment << EOF
+#        http_proxy=http://icache.intracomtel.com:80
+#        https_proxy=http://icache.intracomtel.com:80
+#        no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.96.0.0/16,10.244.0.0/16
+#        EOF
+
+  - name: Configure CURL to always use PROXY
+    ansible.builtin.shell:
+      cmd: echo 'proxy=http://icache.intracomtel.com:80' >> .curlrc
+
+  - name: Create tandem/IoT folder
+    ansible.builtin.file:
+      path: /home/vagrant/tandem/IoT/
+      state: directory
+      mode: '0755'
+    register: command_result
+ 
+  # - name: EdgeX Foundry on Kubernetes
+  #   ansible.builtin.command: "{{ item }}"
+  #   args:
+  #     chdir: /home/vagrant/tandem/IoT/
+  #   with_items:
+  #   - git clone https://github.com/lenny-intel/edgex-helm
+  #   # - cd edgex-helm
+  #   # - git checkout jakarta
+  #   # - kubectl create namespace edgex
+  #   # - helm install edgex-jakarta -n edgex .
+  #   register: command_result
+  #   become: false
+
+  - ansible.builtin.debug:
+      var: command_result
+      verbosity: 4
+ 
+  - name: Fetch the Get-Helm script
+    ansible.builtin.command: "{{ item }}"
+    with_items:
+    - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    - chmod a+x ./get_helm.sh
+    register: command_result
+
+  - name: copy script that installs necessary helm-charts for K8S-Tandem
+    ansible.builtin.copy:
+      src: helm-install-k8s-apps-for-tandem.sh
+      dest: helm-install-k8s-apps-for-tandem.sh
+      mode: u+x
+
+  #- name: Create a file for EdgeX installation in kubernetes
+  #  ansible.builtin.file:
+  #    path: /home/vagrant/tandem/IoT/nice-charts.sh
+  #    state: touch
+  #    mode: '777'
+ 
+  #- name: Add lines to "nice-charts"
+  #  ansible.builtin.blockinfile:
+  #    marker: "### Install EdgeX helm chart ###"
+  #    path: /home/vagrant/tandem/IoT/nice-charts.sh
+  #    block: |
+  #      cd edgex-helm
+  #      git checkout jakarta
+  #      kubectl create namespace edgex
+  #      helm install edgex-jakarta -n edgex .
+ 
+  - name: Copy shell-script to ... install-argo-workflows helmChart
+    ansible.builtin.copy:
+      src: /home/vibm/kubernetes/kubernetes-setup/install-argo-workflows.sh
+      dest: /home/vagrant/install-argo-workflows.sh
+      mode: u+x
+
+  - name: Setup NFS server on master node and export /opt/certs & /opt/registry as nfs share
+    ansible.builtin.include_tasks:
+      file: "setup-nfs-server-on-master-node.yaml"
+
+  - name: prepare Camera4Me in master-node
+    ansible.builtin.include_tasks:
+      file: "prepare-camera4Me-k8s.yaml"
+
+  - name: Setting host facts with complex arguments
+    ansible.builtin.set_fact:
+      files: "{{ lookup('fileglob', '/home/vibm/kubernetes/kubernetes-setup/Tandem/parking-space-service/messaging-*', wantlist=true ) | reject( 'search', '~'  ) | list }}"
+
+  - name: Display interesting files with messaging-operator
+    ansible.builtin.debug:
+      var: files
+      
+  - name: Copy Messaging-Operator Manifestation File
+    ansible.builtin.copy:
+      src: "{{ item }}"
+      dest: "/home/vagrant/tandem/deployments/"
+      mode: u+x
+      #with_fileglob:
+      #with_items:
+        #- /home/vibm/kubernetes/kubernetes-setup/Tandem/parking-space-service/messaging-*
+    loop: "{{ files }}"
+
+  - name: setup private docker registry in Kubernetes
+    ansible.builtin.include_tasks:
+      file: "setup-private-docker-registry-k8s.yaml"
+
+  - name: Copy all shell-scripts for deployments automation
+    ansible.builtin.copy:
+      src: "{{ item }}"
+      dest: "/home/vagrant/tandem/"
+      mode: "u+x"
+      #rsync_options:
+      #  - "--exclude=.sh~"
+    with_items:
+      - /home/vibm/kubernetes/kubernetes-setup/create-ns-tandem.sh
+      - /home/vibm/kubernetes/kubernetes-setup/deploy-private-repository.sh
+      - /home/vibm/kubernetes/kubernetes-setup/create-registry-svc.sh
+      #- /home/vibm/kubernetes/kubernetes-setup/run-tandem-pods.sh
+      - /home/vibm/kubernetes/kubernetes-setup/delete-tandem-pods.sh
+      #- /home/vibm/kubernetes/kubernetes-setup/run-watchdog-pod.sh
+      #- /home/vibm/kubernetes/kubernetes-setup/run-system-monitoring.sh
+      #- /home/vibm/kubernetes/kubernetes-setup/run-grabber-pod.sh
+      - /home/vibm/kubernetes/kubernetes-setup/create-registry-push-tandem-images.sh
+      - /home/vibm/kubernetes/kubernetes-setup/download-new-images-run-again-pods.sh
+      - /home/vibm/kubernetes/kubernetes-setup/download-new-watchdog-image.sh
+      #- /home/vibm/kubernetes/kubernetes-setup/download-new-grabber-image.sh
+      - /home/vibm/kubernetes/kubernetes-setup/deploy-grafana-k8s.sh
+      - /home/vibm/kubernetes/kubernetes-setup/grafana-manifest.yaml
+      - /home/vibm/kubernetes/kubernetes-setup/deploy-redis-k8s.sh
+      - /home/vibm/kubernetes/kubernetes-setup/redis-official-full.yaml
+      - /home/vibm/kubernetes/kubernetes-setup/rabbitmq-http-stats-node-port.yaml
+      - /home/vibm/kubernetes/kubernetes-setup/deploy-rabbitmq-k8s.sh
+      - /home/vibm/kubernetes/kubernetes-setup/deploy-prometheus-stack-svc.sh
+      - /home/vibm/kubernetes/kubernetes-setup/prometheus-stack-manifest.yaml
+      - /home/vibm/kubernetes/kubernetes-setup/send-HTTP-requests-stack.sh
+      - /home/vibm/kubernetes/kubernetes-setup/persistent-volume-local-manifest.yaml
+      - /home/vibm/kubernetes/kubernetes-setup/apply-persistent-volume-local.sh
+      - /home/vibm/kubernetes/kubernetes-setup/deploy-etcd-k8s.sh
+      - /home/vibm/kubernetes/kubernetes-setup/etcd-bitnami-keyValue.yaml
+
+  - name: Copy multiple files with wildcard ... run-*.sh
+    ansible.builtin.copy:
+      src: "{{ item }}"
+      dest: "/home/vagrant/tandem/"
+      mode: u+x
+    with_fileglob:
+      - "/home/vibm/kubernetes/kubernetes-setup/Tandem/run-*.sh"
+      
+  - name: Copy Folder with Helm Charts Scripts
+    ansible.builtin.copy:
+      src: /home/vibm/kubernetes/kubernetes-setup/helm-charts/logging-fluentd.sh
+      dest: /home/vagrant/Tools/Logging/
+      mode: u+x
+      
+  - name: Copy RECOMMENDATIONS application
+    ansible.builtin.copy:
+      src: /home/vibm/kubernetes/kubernetes-setup/Tandem/robotics-demo/
+      dest: /home/vagrant/grpc/recommendations-demo/
+      mode: u+x
+
+  - name: Copy TOOLS folder
+    ansible.builtin.copy:
+      src: /home/vibm/kubernetes/kubernetes-setup/Tools/
+      dest: /home/vagrant/Tools/
+      mode: u+x
+
+  - name: Copy registry-certificate file to master node
+    ansible.builtin.command:
+      cmd: "{{ item }}"
+    with_items:
+      - cp /opt/certs/registry.crt /usr/local/share/ca-certificates/
+      #- update-ca-certificates
+      #- systemctl restart docker
+    become: true
+    ignore_errors: false
+
+  - name: Hold new certificates
+    ansible.builtin.command:
+      cmd: update-ca-certificates
+    become: true
+    register: response_certs
+  - ansible.builtin.debug:
+      var: response_certs
+
+  - name: Restart docker after SSL cert renewal 
+    ansible.builtin.command:
+      cmd: systemctl restart docker
+    become: true
+
+  # - name: Download Node-Exporter-Full Dashboard
+  #   ansible.builtin.get_url:
+  #     url: https://raw.githubusercontent.com/rfrail3/grafana-dashboards/master/prometheus/node-exporter-full.json
+  #     dest: /home/vagrant/node-exporter-full.json
+
+  # *** Clean up workspace ***
+  - name: Recursively delete all files of specific extension ".sh~" in TOOLS directory
+    ansible.builtin.command: find /home/vagrant/Tools/ /home/vagrant/tandem/ -name "*~" -type f -delete
+    register: delFilesTilde
+
+  - name: How many Tilde files deleted
+    ansible.builtin.debug:
+      var: delFilesTilde
+      verbosity: 2
+      
+  handlers:
+    - name: docker status
+      service: name=docker state=started
+
+
+

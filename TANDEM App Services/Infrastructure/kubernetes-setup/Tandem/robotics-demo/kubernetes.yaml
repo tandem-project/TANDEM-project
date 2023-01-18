@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketplace
+  labels:
+    app: marketplace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: marketplace
+  template:
+    metadata:
+      labels:
+        app: marketplace
+    spec:
+      containers:
+        - name: marketplace
+          image: hidan/python-microservices-article-marketplace:0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+              #hostPort: 5000
+              name: marketplace-svc 
+          env:
+            - name: RECOMMENDATIONS_HOST
+              value: recommendations
+      #nodeSelector:
+      #  kubernetes.io/hostname: node-1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendations
+  labels:
+    app: recommendations
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: recommendations
+  template:
+    metadata:
+      labels:
+        app: recommendations
+    spec:
+      containers:
+        - name: recommendations
+          image: hidan/python-microservices-article-recommendations:0.1
+          ports:
+            - containerPort: 50051
+              #hostPort: 50051
+              name: recommends-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendations
+spec:
+  selector:
+    app: recommendations
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: recommends-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: marketplace
+spec:
+  #type: LoadBalancer
+  type: NodePort
+  selector:
+    app: marketplace
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: marketplace-svc
+      nodePort: 30501
+---

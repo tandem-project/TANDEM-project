@@ -1,0 +1,103 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/home/vagrant/redis-store"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: bitnami/redis:7.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: REDIS_PORT_NUMBER
+          value: '7000'
+        - name: ALLOW_EMPTY_PASSWORD
+          value: 'yes'
+        ports:
+        - containerPort: 7000
+          name: "tcp-redis"
+          protocol: TCP
+          hostPort: 7000
+        # readinessProbe:
+        #   failureThreshold: 3
+        #   httpGet:
+        #     path: /robots.txt
+        #     port: 3000
+        #     scheme: HTTP
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
+        #   successThreshold: 1
+        #   timeoutSeconds: 2
+        # livenessProbe:
+        #   failureThreshold: 3
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   tcpSocket:
+        #      port: 3000
+        #   timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 250m
+            memory: 750Mi
+        volumeMounts:
+        - mountPath: /var/lib/redis
+          name: redis-pv
+      securityContext:
+        fsGroup: 472
+        supplementalGroups:
+        - 0
+      volumes:
+      - name: redis-pv
+        persistentVolumeClaim:
+          claimName: redis-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-svc
+spec:
+  ports:
+  - port: 7000
+    protocol: TCP
+    targetPort: 7000
+    nodePort: 30000
+  selector:
+    app: redis
+  sessionAffinity: None
+  type: NodePort

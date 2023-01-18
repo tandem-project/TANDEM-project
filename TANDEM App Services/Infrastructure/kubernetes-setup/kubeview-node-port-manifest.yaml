@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeview-node-port
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8000
+    nodePort: 31978
+  selector:
+    app.kubernetes.io/name: kubeview
+  sessionAffinity: None
+  type: NodePort
+---

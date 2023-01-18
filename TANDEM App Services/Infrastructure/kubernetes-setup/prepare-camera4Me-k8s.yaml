@@ -1,0 +1,4 @@
+  - name: Copy deployment files for Camera4Me on ... Master-node
+    ansible.builtin.copy:
+      src: "/home/vibm/kubernetes/kubernetes-setup/Tandem/parking-space-service/"
+      dest: "/home/vagrant/tandem/deployments/"

@@ -1,0 +1,33 @@
+  - name: Install NFS functionality on client server
+    ansible.builtin.apt:
+      name: nfs-common
+      state: latest
+      update_cache: yes
+    become: true
+
+  - name: Create Mount Directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - /opt/certs
+      - /opt/registry
+    become: true
+
+  - name: Mount NFS Volume /opt/certs to worker-1
+    ansible.posix.mount:
+      src: 192.168.56.10:/opt/certs
+      path: /opt/certs
+      opts: rw,sync
+      state: mounted
+      fstype: nfs
+    become: true
+
+  - name: Mount NFS Volume /opt/registry to worker-1
+    ansible.posix.mount:
+      src: 192.168.56.10:/opt/registry
+      path: /opt/registry
+      opts: rw,sync
+      state: mounted
+      fstype: nfs
+    become: true

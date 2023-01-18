@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  become: false
+
+  vars:
+    from_dir: /home/vibm/kubernetes/
+    to_dir: /home/pipis
+    
+  tasks:
+  - name: Select files from folder using wildcards
+    find:
+      patterns: "*.sh"
+      paths:
+       - "{{ from_dir }}"
+    register: files_to_copy
+  - name: Print a debug message
+    debug:
+      msg: "{{ item }}"
+    loop: "{{ files_to_copy | dict2items | list }}"
+  - name: Copy the join command to server location
+    copy:
+      src="{{ from_dir }}"
+      dest="{{ to_dir }}"
+      mode=0777
