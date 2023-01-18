@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    cuda_container: nvidia/cuda:11.0-base
+    nvidia_smi_command: nvidia-smi
+    nvidia_pytorch_container: nvcr.io/nvidia/pytorch:22.02-py3
+    
+  tasks:
+  - name: Run a base CUDA container
+    ansible.builtin.command:
+      cmd: docker run --rm --gpus all {{ cuda_container }} {{ nvidia_smi_command }}
+    register: dockercommandresponse
+
+  - ansible.builtin.debug:
+      var: dockercommandresponse.stdout_lines
+
+  - name: Optimized PyTorch tensor library for Deep-Learning using GPUs and CPUs
+    ansible.builtin.command:
+      cmd: docker run --rm --gpus all -it {{ nvidia_pytorch_container }}
+
+
+docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864
+docker pull nvidia/cuda:11.3.0-devel-ubuntu20.04

@@ -5,6 +5,9 @@
   vars:
     from_dir: /home/vibm/kubernetes/
     to_dir: "{{ playbook_dir }}/Infrastructure/"
+
+    NVIDIA_code_from_dir: /home/vibm/NVIDIA/examples/nvidia-gpu/
+    NVIDIA_code_to_dir: "{{ playbook_dir }}/NVIDIA/GPU/yolo-detectron/"
     
   tasks:
   - name: Select files from folder using wildcards
@@ -43,4 +46,31 @@
       path: "{{ item.path }}"
       state: absent
     with_items: "{{ files_with_tilde.files }}"
- 
+  - name: Copy files that use NVIDIA GPU for Machine Learning tasks
+    ansible.builtin.copy:
+      src: "{{ NVIDIA_code_from_dir }}"
+      dest: "{{ NVIDIA_code_to_dir }}"
+  - name: Delete backup files with tilde at the end of filename
+    ansible.builtin.find:
+      patterns: "#*#,*~,*.run"
+      paths: "{{ NVIDIA_code_to_dir }}"
+      recurse: yes
+    register: nvidia_code_with_tilde
+  - name: Files with tilde at the end in NVIDIA-CODE
+    ansible.builtin.debug:
+      var: nvidia_code_with_tilde.files | json_query('[].path')
+  - name: Remove Backup Files from NVIDIA-GPU Code
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: absent
+    with_items: "{{ nvidia_code_with_tilde.files }}"
+  - name: Create .GITIGNORE for large RUN files - Otherwise Upload is Rejected
+    ansible.builtin.copy:
+      dest: "{{  NVIDIA_code_to_dir }}/.gitignore"
+      content: | 
+        *.run
+        
+        
+
+   
+       

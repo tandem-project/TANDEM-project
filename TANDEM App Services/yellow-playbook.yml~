@@ -4,21 +4,43 @@
 
   vars:
     from_dir: /home/vibm/kubernetes/
-    to_dir: /home/pipis
+    to_dir: "{{ playbook_dir }}/Infrastructure/"
     
   tasks:
   - name: Select files from folder using wildcards
     find:
-      patterns: "*.sh"
+      patterns: "*.sh,*.yaml,*.json,Vagrantfile"
       paths:
        - "{{ from_dir }}"
     register: files_to_copy
+  - name: Check the structure and content of the variable
+    debug:
+      var: files_to_copy
   - name: Print a debug message
     debug:
-      msg: "{{ item }}"
+      msg: "{{ item.value|json_query('[].path') }}" # | selectattr('examined' ) }}"
     loop: "{{ files_to_copy | dict2items | list }}"
-  - name: Copy the join command to server location
+  - name: Copy files from source-folder --> "kubernetes" to dest-folder --> "icom-hub" 
     copy:
-      src="{{ from_dir }}"
+      src="{{ item.path }}"
       dest="{{ to_dir }}"
       mode=0777
+    with_items: "{{ files_to_copy.files }}"
+  - name: Copy Folders FROM kubernetes INTO icom-hub
+    ansible.builtin.copy:
+      src: "{{ from_dir }}/kubernetes-setup"
+      dest: "{{ to_dir }}"
+  - name: Find backup files with tilde(~) at the end of filename
+    ansible.builtin.find:
+      patterns: "*.*~"
+      paths: "{{ to_dir }}/kubernetes-setup/"
+      recurse: yes
+    register: files_with_tilde
+  - debug:
+      var: files_with_tilde
+  - name: Remove(delete) files with tilde at the end of filename
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: absent
+    with_items: "{{ files_with_tilde.files }}"
+ 
