@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-operator-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security-operator-app
+  template:
+    metadata:
+      labels:
+        app: security-operator-app
+    spec:
+      #hostNetwork: true
+      containers:
+        - name: bag-detection
+          image: "security-operator:latest"
+          imagePullPolicy: IfNotPresent
+          command:
+            - security-operator
+          args: ['--object', 'bag', '--time-start', '18:00', '--time-end', '20:00', 'parking-area', 'A5-BACK']
+        - name: intruder-detection
+          image: "security-operator:latest"
+          imagePullPolicy: IfNotPresent
+          command:
+            - security-operator
+          args: ['--object', 'human', '--time-start', '18:00', '--time-end', '20:00', '--parking-area', 'A5-BACK']
+        - name: violence-detection
+          image: "security-operator:latest"
+          imagePullPolicy: IfNotPresent
+          command:
+            - violence-detector
+          args: ["--time-start", "18:00", "--end-time", "20:00"]
+          env:
+          - name: MESSAGE_QUEUE_TYPE
+            value: RabbitMQ
+          - name: LISTENING_SERVICE
+            value: 10.244.84.166:5672
+          - name: USERNAME_PASSWORD
+            value: tandem/tandem123
+      volumes:
+        - hostPath:
+            path: /data
+          name: volumes-hostdir-volume
+        
