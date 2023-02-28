@@ -1,0 +1,29 @@
+curl --location --request POST 'http://localhost:8080/aam/add/documents' \
+--header 'AAM-Authorization: v4.local.1A1oD7vbdDqrKwMXXqgvhf1TpgGic7g9btpwLXN7JIoiB5jeFgkorRORTiaGVCHPV-49B8Bf5IEgmNrz_NV3kB6sTrj-GehIg_UAC9-Kv7RFq1YvJV-ncGUZErLE5RLmKIXqGmhR2dpmuPWTaATBfQdInCjUIFnMkcKwoVU6fvJ6izgdAQjGvTcE8bGcuF6HtoeTSisQMoi9vXyCmHd9mXjWug' \
+--header 'Content-Type: application/json' \
+--data-raw '{"doc":"actions","info":[
+    {"order":0,"type":0,"name":"g.home","description":"","value":"_ithome"}
+    ,{"order":1,"type":0,"name":"g.applications","description":"","value":"_itapplications"}
+    ,{"order":2,"type":0,"name":"g.services","description":"","value":"_itservices"}
+    ,{"order":3,"type":0,"name":"g.servregistration","description":"","value":"_itservregistration"}
+    ,{"order":4,"type":0,"name":"g.servmanagement","description":"","value":"_itservmanagement"}
+    ,{"order":5,"type":0,"name":"g.sco","description":"","value":"_itsco"}
+    ,{"order":6,"type":0,"name":"g.save","description":"","value":"_itsave"}
+    ,{"order":7,"type":0,"name":"g.open","description":"","value":"_itopen"}
+    ,{"order":8,"type":0,"name":"g.delete","description":"","value":"_itdelete"}
+    ,{"order":9,"type":0,"name":"g.products","description":"","value":"_itproducts"}
+    ,{"order":10,"type":0,"name":"g.users","description":"","value":"_itusers"}
+    ,{"order":11,"type":0,"name":"g.userregistration","description":"","value":"_ituserregistration"}
+    ,{"order":12,"type":0,"name":"g.usermanagement","description":"","value":"_itusermanagement"}
+    ,{"order":13,"type":0,"name":"g.devices","description":"","value":"_itdevices"}
+    ,{"order":14,"type":0,"name":"g.infra","description":"","value":"_itinfra"}
+    ,{"order":15,"type":0,"name":"g.billing","description":"","value":"_itbilling"}
+    ,{"order":16,"type":0,"name":"g.config","description":"","value":"_itconfig"}
+    ,{"order":17,"type":0,"name":"g.login","description":"","value":"login"}
+    ,{"order":18,"type":0,"name":"g.userinfo","description":"","value":"_ituserinfo"}
+    ,{"order":0,"type":1,"name":"f.get.service","description":"","value":"/get/service"}
+    ,{"order":1,"type":1,"name":"f.get.service.list","description":"","value":"/get/service/list"}
+    ,{"order":2,"type":1,"name":"f.register.service","description":"","value":"/register/service"}
+    ,{"order":3,"type":1,"name":"f.aam.add.documents","description":"","value":"/aam/add/documents"}
+    ,{"order":4,"type":1,"name":"f.aam.getactions","description":"","value":"/aam/getactions"}
+    ]}'

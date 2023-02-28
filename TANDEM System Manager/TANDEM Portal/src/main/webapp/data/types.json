@@ -1,0 +1,26 @@
+[
+    {
+        "name": "PaaS",
+        "id": "PaaS"
+    },
+
+    {
+        "name": "FaaS",
+        "id": "FaaS"
+    },
+    
+    {
+        "name": "TANDEM_App",
+        "id": "TANDEM_App"
+    },
+
+    {
+        "name": "User_App",
+        "id": "User_App"
+    },
+
+    { 
+        "name": "Device",
+        "id": "Device"
+    }
+]

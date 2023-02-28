@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "b522954f-ed5c-409d-a5e4-8edc49cd9e5f",
+		"name": "service catalogue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1477552"
+	},
+	"item": [
+		{
+			"name": "create service",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"serId\": \"TANDEM_ser2\",\r\n  \"serName\": \"Notification Service\",\r\n  \"serType\": \"Device\",\r\n  \"serProvider\": \"INTRACOM TELECOM S.A.\",\r\n  \"serDescription\": \"The user defines the sender, the recipients and the text of the e-mail message and the service responds whether the sending was successful or not\",\r\n  \"serCategory\": {\r\n    \"href\": \"Notification\",\r\n    \"id\": \"serCat2\",\r\n    \"name\": \"Notification Services\",\r\n    \"version\": \"001\"\r\n  },\r\n  \"serVersion\": \"001\",\r\n  \"state\": \"In TANDEM Test\",\r\n  \"serAPIDescriptionURL\": [\r\n    \"tandem-project.gr/Services/MonService/\",\r\n    \"edgeservices.org/TandemMonService/\"\r\n  ],\r\n  \"serConfigParams\": [\r\n    {\r\n      \"serParamName\": \"smtp_server_port\",\r\n      \"serParamType\": \"string\",\r\n      \"serParamValue\": \"smtp.tandem.com:587\",\r\n      \"serParamDescr\": \"e-mail server address and port\",\r\n      \"serParamTypicalValue\": \"string\"\r\n    },\r\n    {\r\n      \"serParamName\": \"password\",\r\n      \"serParamType\": \"string\",\r\n      \"serParamValue\": \"string\",\r\n      \"serParamDescr\": \"sender password\",\r\n      \"serParamTypicalValue\": \"string\"\r\n    }\r\n  ],\r\n  \"serOperations\": [\r\n    {\r\n      \"serOperationName\": \"SendNotification\",\r\n      \"serOperationEndPoint\": \"/ICOM/NotificationService/SendNotification\",\r\n      \"serOperationDescription\": \"send email Notification\",\r\n      \"serOperationType\": \"Synchonous\",\r\n      \"serOperationInputParams\": [\r\n        {\r\n          \"serParamName\": \"sender_email\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"TANDEM-notifications@intracom-telecom.com\",\r\n          \"serParamDescr\": \"e-mail address of the Sender\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"receiver_email1\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"tandem-administrator@intracom-telecom.com\",\r\n          \"serParamDescr\": \"e-mail address of the Recipient1\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"receiver_email2\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"string\",\r\n          \"serParamDescr\": \"e-mail address of the Recipient2\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"message_title\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"string\",\r\n          \"serParamDescr\": \"The title of the message\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"message_body\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"string\",\r\n          \"serParamDescr\": \"e-mail text message\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        }\r\n      ],\r\n      \"serOperationOutputParams\": [{\r\n        \"serParamName\": \"sending result\",\r\n        \"serParamType\": \"number\",\r\n        \"serParamValue\": \"201\",\r\n        \"serParamDescr\": \"e-mail sending result, success or failure codes\",\r\n        \"serParamTypicalValue\": \"string\"\r\n      }\r\n      ]\r\n    }\r\n  ],\r\n  \"serComputeReq\": {\r\n    \"serMemorySize\": \"5\",\r\n    \"serMemorySizeMU\": \"Mb\",\r\n    \"serCPUArchitecture\": \"X86\",\r\n    \"serNumVirtualCPUs\": \"100\",\r\n    \"serVirtualCPUClock\": \"string\",\r\n    \"serNumVirtualCPUsMU\": \"millicores\",\r\n    \"serNumVirtualGPUs\": \"0\"\r\n  },\r\n  \"serStorageReq\": {\r\n    \"serTypeOfStorage\": \"string\",\r\n    \"serSizeOfStorage\": \"0\",\r\n    \"serSizeOfStorageMU\": \"Gb\"\r\n  },\r\n  \"serLatencyReq\": {\r\n    \"serLatencyTimeUnit\": \"ms\",\r\n    \"serLatencyValue\": \"1000\"\r\n  },\r\n  \"serThroughputReq\": {\r\n    \"serThroughputMU\": \"mbps\",\r\n    \"serThroughputValue\": \"0.01\"\r\n  },\r\n  \"serServiceReq\": [\r\n    {\r\n      \"serServiceId\": \"e-mail server\"\r\n    }\r\n  ],\r\n  \"serServiceOptional\": [\r\n    {\r\n      \"serServiceId\": \"string\"\r\n    }\r\n  ],\r\n  \"serSwImage\": {\r\n    \"serSWImageId\": \"SWImage00015\",\r\n    \"serSWImageName\": \"SWImage00015\",\r\n    \"serSWImageContainerFormat\": \"Docker\",\r\n    \"serSWImageSizeinMBs\": \"0,5\",\r\n    \"serSWImageOS\": \"SWImage00015\",\r\n    \"serSWImageURL\": \"/ICOM/SWimages\"\r\n  },\r\n  \"serializer\": \"JSON\",\r\n  \"transportType\": \"REST_HTTP\",\r\n  \"transportProtocol\": \"TCP\",\r\n  \"scopeOfLocality\": \"TANDEM_SYSTEM\",\r\n  \"consumedLocalOnly\": true,\r\n  \"isLocal\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/create/services",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"create",
+						"services"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get services",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/get/services",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"get",
+						"services"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update services",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"serId\":\"TANDEM_ser2\",\r\n\t\"state\": \"Launched\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/update/services/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"update",
+						"services",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update service state",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"serId\":\"TANDEM_ser2\",\r\n\t\"state\": \"Launched\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/update/services/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"update",
+						"services",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete service",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/delete/services/TANDEM_ser2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"delete",
+						"services",
+						"TANDEM_ser2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

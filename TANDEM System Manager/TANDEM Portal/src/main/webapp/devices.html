@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+    </head>
+    <body>
+        <script type="text/javascript" src="js/table.js"></script>
+        <script type="text/javascript" src="js/min.js"></script>
+        <script type="text/javascript" src="js/form.js"></script>
+        <script type="text/javascript" src="js/fontstool.js"></script>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e" onkeyup="myFunction('devicesTable', 0)" placeholder="Search for Device names.." title="Type in a name">
+
+<!-- TABLE ------------------------------------------------------------------------>
+<div id="servicestable">
+
+<table id="devicesTable">
+ <!-- <tr class="header">
+    <th class="services-mgmttable-headers">Name<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 0)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Type<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 1)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Description<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 2)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Manufacturer<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 3)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Model<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 4)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Labels<a href="#"></a></th>
+    <th class="services-mgmttable-headers">Operating State<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 6)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Admin State<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 7)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">Protocol<a href="#"><i class="actions-link fa fa-sort-alpha-asc" onclick="sortTableRows('devicesTable', 8)" aria-hidden="true"></i></a></th>
+    <th class="services-mgmttable-headers">IP:Port<a href="#"></a></th>
+    <th class="services-mgmttable-headers">Interfaces<a href="#"></a></th>
+    <th class="services-mgmttable-headers">Measurement Value/Unit<a href="#"></a></th>
+  </tr>
+  <tr>
+    <td>Device 1</td>
+    <td>Camera</td>
+    <td>This is a camera device to be used for surveillance use cases.</td>
+    <td>Huawei</td>
+    <td>HW-CAM</td>
+    <td>[camera, surveillance, 360]</td>
+    <td>DISABLED</td>
+    <td>DISABLED</td>
+    <td>IP</td>
+    <td>127.0.0.1:8080</td>
+    <td>-</td>
+    <td>time/ms</td>
+  </tr>-->
+</table>
+</div>
+  </div>
+
+<script type="text/javascript" src="js/devices.js"></script>
+
+<script>
+    //displayServices();
+    getjsoninfo("0");
+   // displayApplications("0");
+</script>
+
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+<div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+<div style="font-size: 20px;"><b><u>Device Filters</u></b></div>
+<br>
+<div class="container">
+ <!-- <form action="/action_page.php">-->
+  <form>
+    <div class="row">
+      <div class="col-25">
+        <label for="devname">Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="devname" name="devname" placeholder="Device name..">
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-45">
+        <label for="devlabels">Labels</label>
+      </div>
+      <div class="col-55">
+        <input type="text" id="devlabels" name="devlabels" placeholder="Device labels..">
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-45">
+        <label for="devopstate">Operating State</label>
+      </div>
+      <div class="col-55">
+        <select id="devopstate" name="devopstate">
+          <option value="Select">Select</option>
+          <option value="ENABLED">ENABLED</option>
+          <option value="DISABLED">DISABLED</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-45">
+        <label for="devadstate">Admin State</label>
+      </div>
+      <div class="col-55">
+        <select id="devadstate" name="devadstate">
+          <option value="Select">Select</option>
+          <option value="ENABLED">ENABLED</option>
+          <option value="DISABLED">DISABLED</option>
+        </select>
+      </div>
+    </div>
+        
+    <div class="row" >
+      <input id="submit-btn" type="button" value="Submit" onclick="submitDevicesFiltersForm()">
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+
+<!-- LOGIN FORM -->
+<!--<div class="loginForm-popup" id="loginForm">
+  <form action="/action_page.php" class="loginForm-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="loginBtn">Login</button>
+    <button type="button" class="loginBtn cancel" onclick="closeLoginForm()">Close</button>
+  </form>
+</div>-->
+  <div id="messagemodal" class="mw3-modal">
+  </div>
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/globaltools.js"></script>
+    <script>
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    </body>
+</html>

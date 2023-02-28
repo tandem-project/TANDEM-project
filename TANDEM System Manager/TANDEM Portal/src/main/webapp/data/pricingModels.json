@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Free",
+        "id": "free"
+    },
+    {
+        "name": "Pay per function invocations",
+        "id": "perfunctioninvoce"
+    },
+    {
+        
+        "name": "Pay for function execution time",
+        "id": "perfunctionexec"
+    },
+    {  
+        "name": "Pay for resource usage",
+        "id": "perresourceuse"
+    },
+    {
+        "name": "Subscription",
+        "id": "subscription"
+    }
+]

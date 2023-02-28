@@ -15,7 +15,7 @@
 	<description>Tandem Service Catalogue implementation</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<keycloak.version>4.0.0.Final</keycloak.version>
+	<!--	<keycloak.version>4.0.0.Final</keycloak.version>-->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -88,7 +88,7 @@
 		</dependency>
 <!--	End swagger-->
 
-<!--	Security-->
+<!--	Security
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-spring-boot-2-starter</artifactId>
@@ -102,10 +102,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-<!--	End Security-->
+	End Security-->
 	</dependencies>
 
-	<dependencyManagement>
+<!--	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.keycloak.bom</groupId>
@@ -115,7 +115,7 @@
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>
+	</dependencyManagement>-->
 
 	<build>
 		<plugins>

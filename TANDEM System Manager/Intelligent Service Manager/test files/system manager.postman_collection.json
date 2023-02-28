@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "7bb0875e-0422-4a0a-909e-58f397b679e1",
+		"name": "system manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1477552"
+	},
+	"item": [
+		{
+			"name": "instantiate service",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"piEdgeIP\":\"10.152.183.191\",\r\n    \"piEdgePort\":\"8080\",\r\n    \"paas_service_name\": \"iotmonitoring\",\r\n    \"paas_instance_name\": \"iotmonitoringpaas\",\r\n    \"autoscaling_type\": \"minimize_cost\",\r\n    \"count_min\": 1,\r\n    \"count_max\": 2,\r\n    \"location\": \"Peania_Athens_19002_2\",\r\n    \"all_node_ports\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://146.124.106.209/systemmanager/instantiate/service",
+					"protocol": "http",
+					"host": [
+						"146",
+						"124",
+						"106",
+						"209"
+					],
+					"path": [
+						"systemmanager",
+						"instantiate",
+						"service"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

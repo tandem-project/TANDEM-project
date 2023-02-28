@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/tandemart.css?v=1">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+<script type="text/javascript" src="js/globaltools.js"></script>
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform GUI</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e" onkeyup="myFunction('productsTable', 0)" placeholder="Search for Product names.." title="Type in a name">
+
+    
+    
+    <!-- TABLE ------------------------------------------------------------------------>
+    <div id="productsstable">
+
+        <table id="productsTable"></table>
+    </div>
+<!-- TABLE ------------------------------------------------------------------------>
+  </div>
+<script type="text/javascript" src="js/products.js?v=11"></script>
+
+<script>
+    getjsoninfo("1");
+</script>
+
+<script type="text/javascript" src="js/selectionList.js"></script>
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+      <div style="font-size: 20px;"><b><u>Products Filters</u></b></div>
+<br>
+<div class="container">
+  <form>
+    <div class="row">
+      <div class="col-30">
+        <label for="productname">Name</label>
+      </div>
+      <div class="col-70">
+        <input type="text" id="productname" name="productname" placeholder="Product name..">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-30">
+        <label for="producttype">Type</label>
+      </div>
+      <div class="col-70">
+        <select id="producttype" name="producttype">
+            
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('producttype','./data/types.json');
+    </script>
+    <div class="row">
+      <div class="col-30">
+        <label for="productcategory">Category</label>
+      </div>
+      <div class="col-70">
+        <select id="productcategory" name="productcategory">
+     
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('productcategory', './data/categories.json');
+    </script>
+    <div class="row">
+      <div class="col-30">
+        <label for="productprovider">Provider</label>
+      </div>
+      <div class="col-70">
+        <select id="productprovider" name="productprovider">
+          
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('productprovider', './data/providers.json');
+    </script>
+    <div class="row">
+      <div class="col-30">
+        <label for="productstatus">Status</label>
+      </div>
+      <div class="col-70">
+        <select id="productstatus" name="productstatus">
+          
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('productstatus', './data/productStatus.json');
+    </script>
+    <div class="row" >
+        <BR><input class="tandembutton" id="submit-btn" type="button" value="Submit" onclick="submitProductsFiltersForm();">
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+
+</div>-->
+
+  <div id="messagemodal" class="mw3-modal">
+  </div>
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    <script>
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    </body>
+</html>

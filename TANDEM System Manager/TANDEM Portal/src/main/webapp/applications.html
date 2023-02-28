@@ -1,0 +1,191 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e" onkeyup="myFunction('myTable', 0)" placeholder="Search for Application names.." title="Type in a name">
+
+    
+    
+    <!-- TABLE ------------------------------------------------------------------------>
+    <div id="servicestable">
+
+        <table id="applicationsTable"></table>
+    </div>
+<!-- TABLE ------------------------------------------------------------------------>
+  </div>
+<script type="text/javascript" src="js/applications.js"></script>
+
+<script>
+    //displayServices();
+    getjsoninfo("0");
+   // displayApplications("0");
+</script>
+
+
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+      <div style="font-size: 20px;"><b><u>Applications Filters</u></b></div>
+<br>
+<div class="container">
+ <!-- <form action="/action_page.php">-->
+  <form>
+    <div class="row">
+      <div class="col-25">
+        <label for="applicationname">Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="applicationname" name="applicationname" placeholder="Application name..">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="applicationcategory">Categ.</label>
+      </div>
+      <div class="col-75">
+        <select id="applicationcategory" name="applicationcategory">
+          <option value="Select">Select</option>
+          <option value="Location Based">Location Based</option>
+          <option value="Internet of Things (IoT)">Internet of Things (IoT)</option>
+          <option value="Industrial Internet of Things (IIoT)">Industrial Internet of Things (IIoT)</option>
+          <option value="Video Analytics">Video Analytics</option>
+          <option value="Augmented Reality">Augmented Reality</option>
+          <option value="Optimized Local Content Distribution">Optimized Local Content Distribution</option>
+          <option value="Content Caching">Content Caching</option>
+          <option value="Cooperative Intelligent Transport Systems (ITS)">Cooperative Intelligent Transport Systems (ITS)</option>
+          <option value="Gaming">Gaming</option>
+          <option value="e-Health">e-Health</option>
+          <option value="Smart City">Smart City</option>
+          <option value="Surveillance">Surveillance</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="applicationprovider">Provider</label>
+      </div>
+      <div class="col-75">
+        <select id="applicationprovider" name="applicationprovider">
+          <option value="Select">Select</option>
+          <option value="INTRACOM S.A. Telecom Solutions">INTRACOM S.A. Telecom Solutions</option>
+        </select>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-25">
+        <label for="applicationstate">State</label>
+      </div>
+      <div class="col-75">
+        <select id="applicationstate" name="applicationstate">
+          <option value="Select">Select</option>
+          <option value="In Study">In Study</option>
+          <option value="In Design">In Design</option>
+          <option value="In Organization Approve">In Organization Approve</option>
+          <option value="In TANDEM Test">In TANDEM Test</option>
+          <option value="Approved (Active)">Approved (Active)</option>
+          <option value="Launched">Launched</option>
+          <option value="Instantiated">Instantiated</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Service Retired">Service Retired</option>      
+        </select>
+      </div>
+    </div>
+    
+    <div class="row" >
+      <input id="submit-btn" type="button" value="Submit" onclick="submitApplicationsFiltersForm()">
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+
+<!-- LOGIN FORM -->
+<!--<div class="loginForm-popup" id="loginForm">
+  <form action="/action_page.php" class="loginForm-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="loginBtn">Login</button>
+    <button type="button" class="loginBtn cancel" onclick="closeLoginForm()">Close</button>
+  </form>
+</div>-->
+
+
+<!-- POPUP WINDOW -->
+<!--<div class="w3-container">
+  <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>
+
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <header class="w3-container w3-teal"> 
+        <span onclick="document.getElementById('id01').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2>Modal Header</h2>
+      </header>
+      <div class="w3-container">
+        <p>Some text..</p>
+        <p>Some text..</p>
+      </div>
+      <footer class="w3-container w3-teal">
+        <p>Modal Footer</p>
+      </footer>
+    </div>
+  </div>
+</div>-->
+  <div id="messagemodal" class="mw3-modal">
+  </div>
+
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/globaltools.js"></script>
+    <script>
+        initdiv(5);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    </body>
+</html>

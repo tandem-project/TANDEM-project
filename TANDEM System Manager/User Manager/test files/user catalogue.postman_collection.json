@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "d194e097-7210-42a7-9287-56a42150c934",
+		"name": "user catalogue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1477552"
+	},
+	"item": [
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AAM-Authorization-Token",
+						"value": "token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"ICOM\",\r\n    \"userFirstName\": \"Dimitris\",\r\n    \"userLastName\": \"Christou\",\r\n    \"userEmail\": \"info@intracom-telecom.com\",\r\n    \"userName\": \"ICOMProfessional\",\r\n    \"userPassword\": \"******\",\r\n    \"userAccountType\": \"Professional\",\r\n    \"userCompanyName\": \"INTRACOM S.A. Telecom Solutions\",\r\n    \"userPhoneNumber\": \"+30-210-6671449\",\r\n    \"userPaymentInfo\": {\r\n      \"userCardNumber\": \"**** **** **** 4344\",\r\n      \"userExpirationDate\": \"08/27\",\r\n      \"userCardname\": \"INTRACOM\",\r\n      \"userCVV\": \"***\",\r\n      \"userPAN\": \"***\"\r\n    },\r\n   \"userPhysicalAddress\": {\r\n      \"userCountry\": \"Greece\",\r\n      \"userAddress\": \"19,7 Km Markopoulou Ave.\",\r\n      \"userCity\": \"Peania, Athens\",\r\n      \"userState\": \"Attika\",\r\n      \"userPostalCode\": \"19002\"\r\n    },\r\n   \"userBillingAddress\": {\r\n      \"userCountry\": \"Greece\",\r\n      \"userAddress\": \"19,7 Km Markopoulou Ave.\",\r\n      \"userCity\": \"Peania, Athens\",\r\n      \"userState\": \"Attika\",\r\n      \"userPostalCode\": \"19002\"\r\n    },\r\n    \"userRole\": \"Administrator\",\r\n    \"userInterests\": [{\"interestId\":\"TANDEM_SerCat2\", \"interestName\":\"Internet of Things (IoT)\"}, {\"interestId\":\"TANDEM_SerCat5\", \"interestName\":\"Augmented Reality\"}],\r\n    \"userOfferedServices\": [{\"offservID\":\"TANDEM_ser3\", \"offservName\":\"Object Detection Service\"}, {\"offservID\":\"TANDEM_ser1\", \"offservName\":\"Temperature and Humidity Monitoring Service\"}],\r\n    \"userObtainedServices\": [{\"obtserID\":\"TANDEM_ser5\", \"obtserName\":\"EdgeX Foundry services\"}, {\"obtserID\":\"TANDEM_ser6\", \"obtserName\":\"Grafana Service\"}],\r\n    \"userInstantiatedServices\": [{\"instserID\":\"TANDEM_ser3\", \"instserName\":\"Object Detection Service\"}, {\"instserID\":\"TANDEM_ser1\", \"instserName\":\"Temperature and Humidity Monitoring Service\"}],\r\n    \"userBillingInfo\": [{\r\n      \"billingURL\": \"/ICOM/Billing\"\r\n     }]\r\n  }\r\n  ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/usercatalogue/create/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usercatalogue",
+						"create",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n    \"userId\": \"EdgeServices\",\r\n    \"userFirstName\": \"John\",\r\n    \"userLastName\": \"Maretis\",\r\n    \"userEmail\": \"info@edge-services.com\",\r\n    \"userName\": \"EdgeServicesProfessional\",\r\n    \"userPassword\": \"******\",\r\n    \"userAccountType\": \"Professional\",\r\n    \"userCompanyName\": \"IEdge Service S.A.\",\r\n    \"userPhoneNumber\": \"+30-211-6471452\",\r\n    \"userPaymentInfo\": {\r\n      \"userCardNumber\": \"**** **** **** 4344\",\r\n      \"userExpirationDate\": \"06/26\",\r\n      \"userCardname\": \"EdgeServices\",\r\n      \"userCVV\": \"***\",\r\n      \"userPAN\": \"***\"\r\n    },\r\n    \"userPhysicalAddress\": {\r\n      \"userCountry\": \"Greece\",\r\n      \"userAddress\": \"Grevenwn 32\",\r\n      \"userCity\": \"Patisia, Athens\",\r\n      \"userState\": \"Attika\",\r\n      \"userPostalCode\": \"14322\"\r\n    },\r\n    \"userBillingAddress\": {\r\n      \"userCountry\": \"Greece\",\r\n      \"userAddress\": \"Grevenwn 32\",\r\n      \"userCity\": \"Patisia, Athens\",\r\n      \"userState\": \"Attika\",\r\n      \"userPostalCode\": \"14322\"\r\n    },\r\n    \"userRole\": \"Service Manager\",\r\n    \"userInterests\": [{\"interestId\":\"TANDEM_SerCat9\", \"interestName\":\"Gaming\"}, {\"interestId\":\"TANDEM_SerCat5\", \"interestName\":\"Augmented Reality\"}],\r\n    \"userOfferedServices\": [{\"offservID\":\"TANDEM_SE_ser1\", \"offservName\":\"Video Content Cashing\"}, {\"offservID\":\"TANDEM_SE_ser2\", \"offservName\":\"IoT Data Analytics Services\"}],\r\n    \"userObtainedServices\": [{\"obtserID\":\"TANDEM_ser5\", \"obtserName\":\"EdgeX Foundry services\"}, {\"obtserID\":\"TANDEM_ser6\", \"obtserName\":\"Grafana Service\"}],\r\n    \"userInstantiatedServices\": [{\"instserID\":\"TANDEM_SE_ser1\", \"instserName\":\"Video Content Cashing\"}],\r\n    \"userBillingInfo\": [{\r\n      \"billingURL\": \"/EdgeServices/Billing\"\r\n     }]\r\n  }  ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/usercatalogue/update/users/ICOM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usercatalogue",
+						"update",
+						"users",
+						"ICOM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/usercatalogue/delete/users/ICOM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usercatalogue",
+						"delete",
+						"users",
+						"ICOM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/usercatalogue/get/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usercatalogue",
+						"get",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

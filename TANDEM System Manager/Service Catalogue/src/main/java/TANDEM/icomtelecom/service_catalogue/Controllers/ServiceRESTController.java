@@ -28,10 +28,9 @@ public class ServiceRESTController {
     public List<Service> getAllServices(){
         return serviceRepository.findAll();
     }
-
+    
     //find specific service by id
     @GetMapping("/get/services/{id}")
-    @RolesAllowed({"platinum","gold","silver"})
     Service getServiceById(@PathVariable String id) throws ServiceNotFoundException {
         return serviceRepository.findById(id)
                 .orElseThrow(() -> new ServiceNotFoundException(id));
@@ -64,7 +63,7 @@ public class ServiceRESTController {
     @PutMapping(path = "/update/services/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @RolesAllowed({"platinum","gold"})
+ //   @RolesAllowed({"platinum","gold"})
     public Service updateService(@PathVariable String id, @RequestBody Service newService) throws Exception{
         return serviceRepository.findById(id)
                 .map(service -> {
@@ -73,10 +72,10 @@ public class ServiceRESTController {
                     service.setSerProvider(newService.getSerProvider());
                     service.setSerDescription(newService.getSerDescription());
                     service.setSerCategory(newService.getSerCategory());
-//                    service.setVersion(newService.getVersion());
+                    service.setSerVersion(newService.getSerVersion());
                     service.setState(newService.getState());
-//                    service.setTransportInfo(newService.getTransportInfo());
-                    service.setSerConfigParameters(newService.getSerConfigParameters());
+                    service.setSerAPIDescriptionURL(newService.getSerAPIDescriptionURL());
+                    service.setSerConfigParams(newService.getSerConfigParams());
                     service.setSerOperations(newService.getSerOperations());
                     service.setSerComputeReq(newService.getSerComputeReq());
                     service.setSerStorageReq(newService.getSerStorageReq());
@@ -86,21 +85,38 @@ public class ServiceRESTController {
                     service.setSerServiceOptional(newService.getSerServiceOptional());
                     service.setSerSwImage(newService.getSerSwImage());
                     service.setSerializer(newService.getSerializer());
-                    service.setSerializer(newService.getSerializer());
                     service.setTransportType(newService.getTransportType());
                     service.setTransportProtocol(newService.getTransportProtocol());
                     service.setScopeOfLocality(newService.getScopeOfLocality());
                     service.setConsumedLocalOnly(newService.getConsumedLocalOnly());
-                    service.setLocal(newService.getLocal());
-                    service.setPiEdgeInfo(newService.getPiEdgeInfo());
+                    service.setIsLocal(newService.getIsLocal());
+               //     service.setPiEdgeInfo(newService.getPiEdgeInfo());
                     return serviceRepository.save(service);
                 }).orElseThrow(() -> new javax.management.ServiceNotFoundException(id));
     }
 
+    
+    
+      //update a service state
+    @PutMapping(path = "/update/services/state",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+ //   @RolesAllowed({"platinum","gold"})
+    public Service updateServiceState(@RequestBody Service newServiceState) throws Exception{
+        return serviceRepository.findById(newServiceState.getSerId())
+                .map(service -> {                
+                    service.setState(newServiceState.getState());
+                    return serviceRepository.save(service);
+                }).orElseThrow(() -> new javax.management.ServiceNotFoundException(newServiceState.getSerId()));
+    }
+    
+    
+    
+    
     //Delete a service
     @DeleteMapping("/delete/services/{id}")
 //    @RolesAllowed("platinum")
-    @RolesAllowed("platinum")
+ //   @RolesAllowed("platinum")
     ResponseEntity<?> deleteServiceById(@PathVariable String id){
         serviceRepository.deleteById(id);
         return ResponseEntity.ok().build();

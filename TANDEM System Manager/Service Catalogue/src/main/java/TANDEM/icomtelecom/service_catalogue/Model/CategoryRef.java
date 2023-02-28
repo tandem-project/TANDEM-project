@@ -19,6 +19,7 @@ import java.util.Objects;
 public class CategoryRef {
   @JsonProperty("href")
   private ServiceCategory href = null;
+ // private String href = null;
 
   @JsonProperty("id")
   private String id = null;
@@ -36,13 +37,22 @@ public class CategoryRef {
 //  @Schema(required = true, description = "Reference of the catalogue")
 //      @NotNull
 
-    public String getHref() {
-    return href.toString();
-  }
-
-  public void setHref(ServiceCategory href) {
+    public CategoryRef href(ServiceCategory href) {
     this.href = href;
+    return this;
   }
+  
+    public ServiceCategory getHref() {
+        return href;
+    }
+
+    public void setHref(ServiceCategory href) {
+        this.href = href;
+    }
+
+ /* public void setHref(ServiceCategory href) {
+    this.href = href;
+  }*/
 
   public CategoryRef id(String id) {
     this.id = id;

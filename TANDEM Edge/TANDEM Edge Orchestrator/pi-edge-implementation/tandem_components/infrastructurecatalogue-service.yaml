@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: infrastructurecatalogue
+  name: infrastructurecatalogue
+spec:
+  type: NodePort
+  ports:
+    - name: "8081"
+      port: 8081
+      targetPort: 8081
+      # nodePort: 30007
+
+  selector:
+    io.kompose.service: infrastructurecatalogue
+status:
+  loadBalancer: {}

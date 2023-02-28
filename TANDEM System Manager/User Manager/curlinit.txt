@@ -1,0 +1,38 @@
+initialization of actions
+
+curl --location --request POST 'http://localhost:8080/aam/add/documents' \
+--header 'AAM-Authorization: v4.local.1A1oD7vbdDqrKwMXXqgvhf1TpgGic7g9btpwLXN7JIoiB5jeFgkorRORTiaGVCHPV-49B8Bf5IEgmNrz_NV3kB6sTrj-GehIg_UAC9-Kv7RFq1YvJV-ncGUZErLE5RLmKIXqGmhR2dpmuPWTaATBfQdInCjUIFnMkcKwoVU6fvJ6izgdAQjGvTcE8bGcuF6HtoeTSisQMoi9vXyCmHd9mXjWug' \
+--header 'Content-Type: application/json' \
+--data-raw '{"doc":"actions","info":[
+    {"order":0,"type":0,"name":"g.home","description":"home page","value":"_ithome"}
+    ,{"order":10,"type":0,"name":"g.applications","description":"applications","value":"_itapplications"}
+    ,{"order":20,"type":0,"name":"g.services","description":"services","value":"_itservices"}
+    ,{"order":30,"type":0,"name":"g.servregistration","description":"register service","value":"_itservregistration"}
+    ,{"order":40,"type":0,"name":"g.servmanagement","description":"service management","value":"_itservmanagement"}
+    ,{"order":50,"type":0,"name":"g.sco","description":"SCO","value":"_itsco"}
+    ,{"order":60,"type":0,"name":"g.save","description":"SCO save","value":"_itsave"}
+    ,{"order":70,"type":0,"name":"g.open","description":"SCO open","value":"_itopen"}
+    ,{"order":80,"type":0,"name":"g.delete","description":"SCO delete","value":"_itdelete"}
+    ,{"order":90,"type":0,"name":"g.products","description":"products","value":"_itproducts"}
+    ,{"order":100,"type":0,"name":"g.users","description":"users","value":"_itusers"}
+    ,{"order":110,"type":0,"name":"g.userregistration","description":"register user","value":"_ituserregistration"}
+    ,{"order":120,"type":0,"name":"g.usermanagement","description":"user management","value":"_itusermanagement"}
+    ,{"order":130,"type":0,"name":"g.devices","description":"devices","value":"_itdevices"}
+    ,{"order":140,"type":0,"name":"g.infra","description":"infrastructure","value":"_itinfra"}
+    ,{"order":150,"type":0,"name":"g.billing","description":"billing","value":"_itbilling"}
+    ,{"order":160,"type":0,"name":"g.config","description":"configuration","value":"_itconfig"}
+    ,{"order":170,"type":0,"name":"g.login","description":"login","value":"login"}
+    ,{"order":180,"type":0,"name":"g.userinfo","description":"user logged in info","value":"_ituserinfo"}
+    ,{"order":0,"type":1,"name":"f.aam.add.documents","description":"add documents","value":"/aam/add/documents"}
+    ,{"order":1,"type":1,"name":"f.aam.getactions","description":"get actions","value":"/aam/getactions"}
+    ,{"order":2,"type":1,"name":"f.aam.getroles","description":"get roles","value":"/aam/getroles"}
+    ]}'
+
+
+initialization of roles
+
+curl --location --request POST 'http://localhost:8080/aam/add/documents' \
+--header 'AAM-Authorization: icomaamkey' \
+--header 'Content-Type: application/json' \
+--data-raw '{"doc":"rolesactions","info":[{"role":"Standard User","actions":"111110011111111111","services":"111111111"},{"role":"Administrator","actions":"111111111111111111","services":"111111111"},{"role":"Organizational Units (OU) Administrator","actions":"111111111111111111","services":"111111111"},{"role":"Subscription Manager","actions":"111111111111111111","services":"111111111"},{"role":"Service Manager","actions":"111111111111111111","services":"111111111"},{"role":"Product Manager","actions":"111111111111111111","services":"111111111"},{"role":"Reseller","actions":"111111111111111111","services":"111111111"},{"role":"Broker","actions":"111111111111111111","services":"111111111"},{"role":"Marketplace Manager","actions":"111111111111111111","services":"111111111"},{"role":"Operator","actions":"111111111111111111","services":"111111111"},{"role":"Unregister User","actions":"111111111111111111","services":"111111111"}]
+}'

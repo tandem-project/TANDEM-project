@@ -1,5 +1,6 @@
 package TANDEM.icomtelecom.service_catalogue.Model.Service;
 
+import TANDEM.icomtelecom.service_catalogue.Model.CategoryRef;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -18,6 +19,29 @@ public class ServiceOperation {
     @JsonProperty("serOperationOutputParams")
     private List<ServiceOperationParameter> serOperationOutputParams;
 
+    public ServiceOperation(String serOperationName, String serOperationEndPoint, String serOperationDescription, String serOperationType, List<ServiceOperationParameter> serOperationInputParams, List<ServiceOperationParameter> serOperationOutputParams) {
+        this.serOperationName = serOperationName;
+        this.serOperationEndPoint = serOperationEndPoint;
+        this.serOperationDescription = serOperationDescription;
+        this.serOperationType = serOperationType;
+        this.serOperationInputParams = serOperationInputParams;
+        this.serOperationOutputParams = serOperationOutputParams;
+    }
+
+    
+    
+   /* public ServiceOperation serOperationInputParams(List<ServiceOperationParameter> serOperationInputParams) {
+        this.serOperationInputParams = serOperationInputParams;
+        return this;
+    }
+       
+    public ServiceOperation serOperationOutputParams(List<ServiceOperationParameter> serOperationOutputParams) {
+        this.serOperationOutputParams = serOperationOutputParams;
+        return this;
+    }
+        */
+        
+    
     public String getSerOperationName() {
         return serOperationName;
     }

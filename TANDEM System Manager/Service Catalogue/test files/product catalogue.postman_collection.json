@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "ea3ad275-361d-4141-bded-d5189cf95ca9",
+		"name": "product catalogue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1477552"
+	},
+	"item": [
+		{
+			"name": "create product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"string\",\r\n    \"productName\": \"string\",\r\n    \"productType\": \"FaaS\",\r\n    \"productProvider\": \"string\",\r\n    \"produtDescription\": \"string\",\r\n    \"productCategory\": {\r\n       \"href\": \"Notification\",\r\n       \"id\": \"string\",\r\n       \"name\": \"string\",\r\n       \"version\": \"string\"\r\n    },\r\n    \"productVersion\": \"string\",\r\n    \"productLifeCycleStatus\": \"string\",\r\n    \"productLifeCycleStatusReason\": \"string\",\r\n    \"productIsBuddle\": true,\r\n    \"productIsSellable\": true,\r\n    \"productServiceId\": \"string\",\r\n    \"productServiceName\": \"string\",\r\n    \"productApplicationId\": \"string\",\r\n    \"productApplicationName\": \"string\",\r\n    \"productValidFrom\": \"string\",\r\n    \"productValidTo\": \"string\",       \r\n    \"productLastUpdate\": \"string\",     \r\n    \"productPricingModel\": \"string\",\r\n    \"productPricePerChargeUnit\": [\r\n        {\r\n            \"ChargeUnit\": \"string\",\r\n            \"ProductPrice\": \"number\"\r\n        }\r\n     ],\r\n    \"productPriceCurrency\": \"string\",\r\n    \"productAvailabilityZones\": [\r\n        {\r\n            \"AvailabilityZoneId\": \"string\",\r\n            \"AvailabilityZoneName\": \"string\"\r\n        }\r\n     ],\r\n    \"productServiceLevelAgreementId\": \"string\",\r\n    \"producServiceLevelAggrementName\": \"string\",\r\n    \"producServiceLevelAggrementDescription\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/create/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"create",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/get/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"get",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/servicecatalogue/delete/products/P1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"servicecatalogue",
+						"delete",
+						"products",
+						"P1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

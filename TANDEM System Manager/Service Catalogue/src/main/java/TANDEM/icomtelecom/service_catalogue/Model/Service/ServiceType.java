@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * This enumeration defines the possible types of a service.
  */
 public enum ServiceType {
-    Paas("Paas"),
-	    FaaS("Faas"),
-	    TANDEM_App("TANDEM_App"),
-        User_App("User_App"),
-        Device("Device");
+    Paas("PaaS"),
+    FaaS("FaaS"),
+    TANDEM_App("TANDEM_App"),
+    User_App("User_App"),
+    Device("Device");
 
     private String value;
 
@@ -21,9 +21,9 @@ public enum ServiceType {
     @JsonValue
     public String toString() {
         switch(value) {
-            case "Paas":
+            case "PaaS":
                 return "Support (PaaS) Services";
-            case "Faas":
+            case "FaaS":
                 return "FaaS Services";
             case "TANDEM_App":
                 return "TANDEM App. Services";

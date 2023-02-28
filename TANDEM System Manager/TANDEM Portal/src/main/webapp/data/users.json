@@ -1,0 +1,82 @@
+[
+  {
+    "userId": "ICOM",
+    "userFirstName": "Dimitris",
+    "userLastName": "Christou",
+    "userEmail": "info@intracom-telecom.com",
+    "userName": "ICOMProfessional",
+    "userPassword": "******",
+    "userAccountType": "Professional",
+    "userCompanyName": "INTRACOM S.A. Telecom Solutions",
+    "userPhoneNumber": "+30-210-6671449",
+    "userPaymentInfo": {
+      "userCardNumber": "**** **** **** 4344",
+      "userExpirationDate": "08/27",
+      "userCardname": "INTRACOM",
+      "userCVV": "***",
+      "userPAN": "***"
+    },
+   "userPhysicalAddress": {
+      "userCountry": "Greece",
+      "userAddress": "19,7 Km Markopoulou Ave.",
+      "userCity": "Peania, Athens",
+      "userState": "Attika",
+      "userPostalCode": "19002"
+    },
+   "userBillingAddress": {
+      "userCountry": "Greece",
+      "userAddress": "19,7 Km Markopoulou Ave.",
+      "userCity": "Peania, Athens",
+      "userState": "Attika",
+      "userPostalCode": "19002"
+    },
+    "userRole": "Administrator",
+    "userInterests": [{"interestId":"TANDEM_SerCat2", "interestName":"Internet of Things (IoT)"}, {"interestId":"TANDEM_SerCat5", "interestName":"Augmented Reality"}],
+    "userOfferedServices": [{"offservID":"TANDEM_ser3", "offservName":"Object Detection Service"}, {"offservID":"TANDEM_ser1", "offservName":"Temperature and Humidity Monitoring Service"}],
+    "userObtainedServices": [{"obtserID":"TANDEM_ser5", "obtserName":"EdgeX Foundry services"}, {"obtserID":"TANDEM_ser6", "obtserName":"Grafana Service"}],
+    "userInstantiatedServices": [{"instserID":"TANDEM_ser3", "instserName":"Object Detection Service"}, {"instserID":"TANDEM_ser1", "instserName":"Temperature and Humidity Monitoring Service"}],
+    "userBillingInfo": [{
+      "billingURL": "/ICOM/Billing"
+     }]
+  },
+  {
+    "userId": "EdgeServices",
+    "userFirstName": "John",
+    "userLastName": "Maretis",
+    "userEmail": "info@edge-services.com",
+    "userName": "EdgeServicesProfessional",
+    "userPassword": "******",
+    "userAccountType": "Professional",
+    "userCompanyName": "IEdge Service S.A.",
+    "userPhoneNumber": "+30-211-6471452",
+    "userPaymentInfo": {
+      "userCardNumber": "**** **** **** 4344",
+      "userExpirationDate": "06/26",
+      "userCardname": "EdgeServices",
+      "userCVV": "***",
+      "userPAN": "***"
+    },
+    "userPhysicalAddress": {
+      "userCountry": "Greece",
+      "userAddress": "Grevenwn 32",
+      "userCity": "Patisia, Athens",
+      "userState": "Attika",
+      "userPostalCode": "14322"
+    },
+    "userBillingAddress": {
+      "userCountry": "Greece",
+      "userAddress": "Grevenwn 32",
+      "userCity": "Patisia, Athens",
+      "userState": "Attika",
+      "userPostalCode": "14322"
+    },
+    "userRole": "Service Manager",
+    "userInterests": [{"interestId":"TANDEM_SerCat9", "interestName":"Gaming"}, {"interestId":"TANDEM_SerCat5", "interestName":"Augmented Reality"}],
+    "userOfferedServices": [{"offservID":"TANDEM_SE_ser1", "offservName":"Video Content Cashing"}, {"offservID":"TANDEM_SE_ser2", "offservName":"IoT Data Analytics Services"}],
+    "userObtainedServices": [{"obtserID":"TANDEM_ser5", "obtserName":"EdgeX Foundry services"}, {"obtserID":"TANDEM_ser6", "obtserName":"Grafana Service"}],
+    "userInstantiatedServices": [{"instserID":"TANDEM_SE_ser1", "instserName":"Video Content Cashing"}],
+    "userBillingInfo": [{
+      "billingURL": "/EdgeServices/Billing"
+     }]
+  }  
+]

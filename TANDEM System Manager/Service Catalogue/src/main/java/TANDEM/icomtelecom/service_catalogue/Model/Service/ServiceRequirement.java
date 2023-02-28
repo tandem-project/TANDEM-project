@@ -6,5 +6,5 @@ import java.util.List;
 
 public class ServiceRequirement {
     @JsonProperty("serServiceId")
-    private List<String> serServiceId;
+    private String serServiceId;
 }

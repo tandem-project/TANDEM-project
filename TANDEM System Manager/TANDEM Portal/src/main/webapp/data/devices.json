@@ -1,0 +1,344 @@
+[
+  {
+    "created": 1658407765,
+    "modified": 1658407765,
+    "description": "A 360° camera used for surveillance and safety purposes in a variety of vertical industries.",
+    "id": "f237cb8k-3g64-4869-b04g-17cd88j54bkk",
+    "name": "360°CameraDevice",
+    "adminState": "UNLOCKED",
+    "operatingState": "ENABLED",
+    "protocols": {
+        "example": {
+            "host": "146.124.106.208",
+            "port": "8080",
+            "unitID": "3"
+        }
+    },
+    "labels": [
+        "camera",
+        "surveillance",
+        "360°"
+    ],
+    "location": "athens",
+    "service": {
+        "created": 1657737200656,
+        "modified": 1657737200656,
+        "description": "Gateway for emergency alarm system",
+        "id": "580c5818-9df3-40f9-9be0-86772b45700e",
+        "name": "dummy-rest-device-service",
+        "operatingState": "ENABLED",
+        "labels": [
+            "action",
+            "alarmActivationApp"
+        ],
+        "addressable": {
+            "created": 1657719500732,
+            "modified": 1657719500732,
+            "id": "871bc0ef-8b3d-45be-891d-432cd1f3b135",
+            "name": "AlarmActivationApp",
+            "protocol": "HTTP",
+            "address": "146.124.106.208",
+            "port": 5000,
+            "path": "/api/v1/device/register",
+            "baseURL": "http://146.124.106.208:5000",
+            "url": "http://146.124.106.208:5000/api/v1/device/register"
+        },
+        "adminState": "UNLOCKED"
+    },
+    "profile": {
+        "created": 1657737160073,
+        "modified": 1657737160073,
+        "description": "Test app for EdgeX Foundry REST commands.",
+        "id": "b52f128c-e2c3-482c-8ff7-a642d151ace4",
+        "name": "actionEnabler",
+        "manufacturer": "intracom.com",
+        "model": "ABC2DE12345",
+        "labels": [
+            "alarm enabler",
+            "test alarm application"
+        ],
+        "deviceResources": [
+            {
+                "description": "JSON message",
+                "name": "action",
+                "properties": {
+                    "value": {
+                        "type": "String",
+                        "readWrite": "W",
+                        "mediaType": "application/json"
+                    },
+                    "units": {
+                        "type": "String",
+                        "readWrite": "R"
+                    }
+                }
+            }
+        ],
+        "deviceCommands": [
+            {
+                "name": "action",
+                "get": [
+                    {
+                        "operation": "get",
+                        "object": "action",
+                        "deviceResource": "action"
+                    }
+                ],
+                "set": [
+                    {
+                        "operation": "set",
+                        "object": "action",
+                        "deviceResource": "action",
+                        "parameter": "action"
+                    }
+                ]
+            }
+        ],
+        "coreCommands": [
+            {
+                "name": "action",
+                "get": {
+                    "path": "/api/v1/device/{deviceId}/activateAlarm",
+                    "responses": [
+                        {
+                            "code": "200",
+                            "description": "enable alarm"
+                        },
+                        {
+                            "code": "503",
+                            "description": "service unavailable"
+                        }
+                    ]
+                },
+                "put": {
+                    "path": "/api/v1/device/{deviceId}/activateAlarm",
+                    "responses": [
+                        {
+                            "code": "201",
+                            "description": "alarm activated"
+                        },
+                        {
+                            "code": "503",
+                            "description": "alarm unavailable"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+  },
+  {
+    "created": 1657622180465,
+    "modified": 1657622180465,
+    "description": "Raspberry Pi sensor cluster",
+    "id": "466785ab-8311-47fb-be5d-299b256b5ae4",
+    "name": "Temp_and_Humidity_sensor_cluster_01",
+    "adminState": "UNLOCKED",
+    "operatingState": "ENABLED",
+    "protocols": {
+        "example": {
+            "host": "localhost",
+            "port": "80",
+            "unitID": "1"
+        }
+    },
+    "labels": [
+        "Humidity sensor",
+        "Temperature sensor",
+        "DHT11"
+    ],
+    "location": "Peania",
+    "service": {
+        "created": 1657620861084,
+        "modified": 1657620861084,
+        "origin": 1657620861082,
+        "id": "f93c2cc7-c7be-4b2c-ac83-66bf2fb6121e",
+        "name": "edgex-device-rest",
+        "operatingState": "ENABLED",
+        "addressable": {
+            "created": 1657620861081,
+            "modified": 1657620861081,
+            "origin": 1657620861078,
+            "id": "34581877-01d3-4a54-9208-df715d18bc88",
+            "name": "edgex-device-rest",
+            "protocol": "HTTP",
+            "method": "POST",
+            "address": "edgex-device-rest",
+            "port": 49986,
+            "path": "/api/v1/callback",
+            "baseURL": "http://edgex-device-rest:49986",
+            "url": "http://edgex-device-rest:49986/api/v1/callback"
+        },
+        "adminState": "UNLOCKED"
+    },
+    "profile": {
+        "created": 1657622162021,
+        "modified": 1657622162021,
+        "description": "Sensor cluster providing metrics for temperature and humidity",
+        "id": "783c2703-d316-48f0-b32c-5d67a2b58713",
+        "name": "SensorCluster",
+        "manufacturer": "Raspberry Pi Foundation",
+        "model": "Raspberry Pi 3b+",
+        "labels": [
+            "rpi"
+        ],
+        "deviceResources": [
+            {
+                "description": "Sensor cluster temperature values",
+                "name": "temperature",
+                "properties": {
+                    "value": {
+                        "type": "Int64",
+                        "readWrite": "RW",
+                        "minimum": "-50",
+                        "maximum": "100",
+                        "defaultValue": "9",
+                        "size": "4"
+                    }
+                }
+            },
+            {
+                "description": "Sensor cluster humidity values",
+                "name": "humidity",
+                "properties": {
+                    "value": {
+                        "type": "Int64",
+                        "readWrite": "RW",
+                        "minimum": "0",
+                        "maximum": "100",
+                        "defaultValue": "9",
+                        "size": "4"
+                    }
+                }
+            }
+        ]
+    }
+  },
+  {
+    "created": 1657737252370,
+    "modified": 1657737252370,
+    "description": "alarm application",
+    "id": "fa33cba7-3414-4869-b0ef-18cd82bd4b74",
+    "name": "AlarmActivationApp",
+    "adminState": "UNLOCKED",
+    "operatingState": "ENABLED",
+    "protocols": {
+        "example": {
+            "host": "146.124.106.208",
+            "port": "5000",
+            "unitID": "2"
+        }
+    },
+    "labels": [
+        "action",
+        "alarmActivationApp"
+    ],
+    "location": "athens",
+    "service": {
+        "created": 1657737200656,
+        "modified": 1657737200656,
+        "description": "Gateway for emergency alarm system",
+        "id": "580c5818-9df3-40f9-9be0-86772b45700e",
+        "name": "dummy-rest-device-service",
+        "operatingState": "ENABLED",
+        "labels": [
+            "action",
+            "alarmActivationApp"
+        ],
+        "addressable": {
+            "created": 1657719500732,
+            "modified": 1657719500732,
+            "id": "871bc0ef-8b3d-45be-891d-432cd1f3b135",
+            "name": "AlarmActivationApp",
+            "protocol": "HTTP",
+            "address": "146.124.106.208",
+            "port": 5000,
+            "path": "/api/v1/device/register",
+            "baseURL": "http://146.124.106.208:5000",
+            "url": "http://146.124.106.208:5000/api/v1/device/register"
+        },
+        "adminState": "UNLOCKED"
+    },
+    "profile": {
+        "created": 1657737160073,
+        "modified": 1657737160073,
+        "description": "Test app for EdgeX Foundry REST commands.",
+        "id": "b52f128c-e2c3-482c-8ff7-a642d151ace4",
+        "name": "actionEnabler",
+        "manufacturer": "intracom.com",
+        "model": "ABC2DE12345",
+        "labels": [
+            "alarm enabler",
+            "test alarm application"
+        ],
+        "deviceResources": [
+            {
+                "description": "JSON message",
+                "name": "action",
+                "properties": {
+                    "value": {
+                        "type": "String",
+                        "readWrite": "W",
+                        "mediaType": "application/json"
+                    },
+                    "units": {
+                        "type": "String",
+                        "readWrite": "R"
+                    }
+                }
+            }
+        ],
+        "deviceCommands": [
+            {
+                "name": "action",
+                "get": [
+                    {
+                        "operation": "get",
+                        "object": "action",
+                        "deviceResource": "action"
+                    }
+                ],
+                "set": [
+                    {
+                        "operation": "set",
+                        "object": "action",
+                        "deviceResource": "action",
+                        "parameter": "action"
+                    }
+                ]
+            }
+        ],
+        "coreCommands": [
+            {
+                "name": "action",
+                "get": {
+                    "path": "/api/v1/device/{deviceId}/activateAlarm",
+                    "responses": [
+                        {
+                            "code": "200",
+                            "description": "enable alarm"
+                        },
+                        {
+                            "code": "503",
+                            "description": "service unavailable"
+                        }
+                    ]
+                },
+                "put": {
+                    "path": "/api/v1/device/{deviceId}/activateAlarm",
+                    "responses": [
+                        {
+                            "code": "201",
+                            "description": "alarm activated"
+                        },
+                        {
+                            "code": "503",
+                            "description": "alarm unavailable"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+  }
+]
