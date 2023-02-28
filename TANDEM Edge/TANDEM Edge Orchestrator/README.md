@@ -1,7 +1,4 @@
-# π-edge Implementation
-# contact:
-# email: nikpsarom@intracom-telecom.com
-# Nikos Psaromanolakis
+Edge orchestrator Implementation
 
 ## Getting started
 ##
