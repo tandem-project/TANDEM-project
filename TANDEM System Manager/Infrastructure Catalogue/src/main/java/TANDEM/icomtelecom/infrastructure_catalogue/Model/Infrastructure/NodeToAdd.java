@@ -17,7 +17,7 @@ import java.util.Objects;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-03-15T15:58:59.394Z[GMT]")
 
 
-public class InfrastructureNode {
+public class NodeToAdd {
   @Id
   @JsonProperty("nodeId")
   private String nodeId = null;
@@ -62,11 +62,12 @@ public class InfrastructureNode {
   private String nodeServicesMonitoringURL = null;
   
   @JsonProperty("nodePassword")
-  private String nodePassword = null;
-    
+  private String nodePassword = null;  
+  
   @JsonProperty("nodeServices")
   private List<String> nodeServices = null;
   
+
     public String getNodeId() {
         return nodeId;
     }
@@ -83,14 +84,23 @@ public class InfrastructureNode {
         this.nodeName = nodeName;
     }
 
- /*   public String getNodeType() {
+    public String getNodeType() {
         return nodeType;
     }
 
     public void setNodeType(String nodeType) {
         this.nodeType = nodeType;
-    }*/
+    }
 
+    public String getNodeDescription() {
+        return nodeDescription;
+    }
+
+    public void setNodeDescription(String nodeDescription) {
+        this.nodeDescription = nodeDescription;
+    }
+
+    
  /*   public String getNodeProvider() {
         return nodeProvider;
     }
@@ -188,22 +198,6 @@ public class InfrastructureNode {
         this.nodePassword = nodePassword;
     }
 
-    public String getNodeType() {
-        return nodeType;
-    }
-
-    public void setNodeType(String nodeType) {
-        this.nodeType = nodeType;
-    }
-
-    public String getNodeDescription() {
-        return nodeDescription;
-    }
-
-    public void setNodeDescription(String nodeDescription) {
-        this.nodeDescription = nodeDescription;
-    }
-
     public List<String> getNodeServices() {
         return nodeServices;
     }
@@ -211,7 +205,6 @@ public class InfrastructureNode {
     public void setNodeServices(List<String> nodeServices) {
         this.nodeServices = nodeServices;
     }
- 
     
     
 }

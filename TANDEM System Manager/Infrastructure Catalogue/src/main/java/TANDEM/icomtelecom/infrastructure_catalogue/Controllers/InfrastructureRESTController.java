@@ -10,6 +10,8 @@ import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeAllo
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeCapacity;
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeConditions;
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeGeneralInfo;
+import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeToAdd;
+import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeToRemove;
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.NodeUsage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -38,10 +40,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @RestController
 @RequestMapping("infrastructurecatalogue")
@@ -49,24 +54,68 @@ import org.springframework.web.client.HttpStatusCodeException;
 @CrossOrigin("*")
 public class InfrastructureRESTController {
 
-    private String token = null;
+  //  private String token = null;
+    public static Map<String, String> cloudsTokens = new HashMap<>();
     private Utilities utilities = new Utilities();
-    
+    private static boolean running = false;
     ///////////////////////////////////////////////////////////////////////////////////////
     
     @Autowired
     InfrastructureRepository infrastructureRepository;
     // All services
     @GetMapping("/get/infrastructure")
-    public List<Infrastructure> getAllInfrastructure(){
+    public List<Infrastructure> getAllInfrastructure(HttpServletRequest request){
         //get all edge clouds from database
+        System.out.println();
+        System.out.println("########################################################################");
+        System.out.println("--------------- GOT REQUEST TO RETURN ALL INFRASTRUCTURE ---------------");
+        System.out.println("########################################################################");
+        System.out.println();
+        
+     //   String remoteAddress = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getRemoteAddr();
+     //   int remotePort = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getRemotePort();
+    //    System.out.println("IP AND PORT OF SENDER: " + remoteAddress + ":" + remotePort);
+
+        
+        System.out.println("IP AND PORT OF SENDER: " + request.getRemoteAddr() + ":" + request.getRemotePort());
+
+                
         List<Infrastructure> edgeClouds = infrastructureRepository.findAll();
         //for each node of each edge cloud, ask its updated values from PiEdge
-
+        System.out.println(edgeClouds.size() + " EDGE CLOUDS RETRIEVED FROM DB");
+        long t1, t2, diff;
+        
+    
         for (Infrastructure edgeCloud : edgeClouds){
+            
+            List<InfrastructureNode> currentNodes = edgeCloud.getNodes();
             List<InfrastructureNode> updatedNodes = new ArrayList<>();
-            for (InfrastructureNode node: edgeCloud.getNodes()){
-                InfrastructureNode updatedEdgeCloudNode = utilities.getUpdatedEdgeNode(edgeCloud.getPiEdgeIP(), edgeCloud.getPiEdgePort(), node.getNodeName(), token);
+            
+            
+            
+            if (cloudsTokens.get(edgeCloud.getEdgeCloudId()) == null){
+                System.out.println("First time requesting authentication from PiEdge for Edge Cloud " + edgeCloud.getEdgeCloudId());
+                String token = utilities.getPiEdgeAuthentication(edgeCloud.getPiEdgeIP(), edgeCloud.getPiEdgePort());
+                System.out.println("Token received from PiEdge: " + token);
+                cloudsTokens.put(edgeCloud.getEdgeCloudId(), token);
+            }
+            else{
+                System.out.println("Already have a token stored for Edge Cloud " + edgeCloud.getEdgeCloudId() + " and it is " + cloudsTokens.get(edgeCloud.getEdgeCloudId())); 
+            }
+                    
+                    
+            System.out.println("GETTING UPDATED EDGE NODES FOR CLOUD " + edgeCloud.getEdgeCloudName());
+            for (InfrastructureNode node: currentNodes){
+             //   System.out.println("GETTING EDGE NODE " + node.getNodeName());
+                t1 = System.currentTimeMillis();
+                InfrastructureNode updatedEdgeCloudNode = utilities.getUpdatedEdgeNode(edgeCloud.getPiEdgeIP(), edgeCloud.getPiEdgePort(), node.getNodeName(), cloudsTokens.get(edgeCloud.getEdgeCloudId()), edgeCloud.getEdgeCloudId());
+                updatedEdgeCloudNode.setNodeType(node.getNodeType());
+                updatedEdgeCloudNode.setNodeDescription(node.getNodeDescription());
+                updatedEdgeCloudNode.setNodeServices(node.getNodeServices());
+                t2 = System.currentTimeMillis();
+                diff = t2 - t1;
+                System.out.println("Overall time required to get edge node " + node.getNodeName() + ": " + diff);
+             //   System.out.println("Token now is " + token);
                 updatedNodes.add(updatedEdgeCloudNode);
             }
             
@@ -78,7 +127,7 @@ public class InfrastructureRESTController {
             }
             
         }
-
+        running = false;
         return infrastructureRepository.findAll();
     }
   
@@ -119,31 +168,45 @@ public class InfrastructureRESTController {
             
         //get edge nodes from PiEdge
         List<InfrastructureNode> newEdgeCloudNodes = new ArrayList<>();
-        if (token == null){
-            System.out.println("First time requesting authentication from PiEdge...");
-            token = utilities.getPiEdgeAuthentication(newEdgeCloud.getPiEdgeIP(), newEdgeCloud.getPiEdgePort());
+    //    if (token == null){
+            System.out.println("First time requesting authentication from PiEdge for Edge Cloud " + newEdgeCloud.getEdgeCloudId());
+            String token = utilities.getPiEdgeAuthentication(newEdgeCloud.getPiEdgeIP(), newEdgeCloud.getPiEdgePort());
+            cloudsTokens.put(newEdgeCloud.getEdgeCloudId(), token);
             System.out.println("Token received from PiEdge: " + token);
-        }
+  //      }
+
+        Map<String, String> nodesNamesToTypes = new HashMap<>();
+        Map<String, String> nodesNamesToDescriptions = new HashMap<>();
+        Map<String, List<String>> nodesNamesToServices = new HashMap<>();
         
+        List<InfrastructureNode> newNodes = newEdgeCloud.getNodes();
+        for (InfrastructureNode node : newNodes){
+            nodesNamesToTypes.put(node.getNodeName(), node.getNodeType());
+            nodesNamesToDescriptions.put(node.getNodeName(), node.getNodeDescription());
+            nodesNamesToServices.put(node.getNodeName(), node.getNodeServices());
+        }
         String urlToRequest = "http://" + newEdgeCloud.getPiEdgeIP() + ":" + newEdgeCloud.getPiEdgePort() + "/piedge-connector/2.0.0/nodes";
         String nodes = utilities.sendGETHTTPRequest(urlToRequest, token);
 
-        if (nodes.equals("401")){
+   /*     if (nodes.equals("401")){
            System.out.println("Token expired, need a new token");
             token = utilities.getPiEdgeAuthentication(newEdgeCloud.getPiEdgeIP(), newEdgeCloud.getPiEdgePort());
             nodes = utilities.sendGETHTTPRequest(urlToRequest, token);
 
-        }
+        }*/
         
-      //  String nodes = "{\"monitorNodesURL\":\"http://146.124.106.209:3000/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now\",\"numberofNodes\":2,\"nodes\":[{\"_id\":\"584a1b1e-6638-4be1-98fe-6d243e54d2ab\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8smaster\",\"serial\":\"146.124.106.209\",},{\"_id\":\"a032be27-bbc4-4d17-be4e-2fcd2080d883\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8ssecondary\",\"serial\":\"146.124.106.210\",}]}";
+      //  String nodes = "{\"monitorNodesURL\":\"http://localhost:8080/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now\",\"numberofNodes\":2,\"nodes\":[{\"_id\":\"584a1b1e-6638-4be1-98fe-6d243e54d2ab\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8smaster\",\"serial\":\"localhost\",},{\"_id\":\"a032be27-bbc4-4d17-be4e-2fcd2080d883\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8ssecondary\",\"serial\":\"localhost\",}]}";
         JSONObject nodesInfoJSON = new JSONObject(nodes);
 
-       // String mockStr =  "[{\"_id\":\"584a1b1e-6638-4be1-98fe-6d243e54d2ab\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8smaster\",\"serial\":\"146.124.106.209\",\"stats_url\":\"http://146.124.106.230:3000/d/piedge-k8smaster/k8smaster-node?orgId=1&refresh=1m\"},{\"_id\":\"a032be27-bbc4-4d17-be4e-2fcd2080d883\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8ssecondary\",\"serial\":\"146.124.106.210\",\"stats_url\":\"http://146.124.106.230:3000/d/piedge-k8ssecondary/k8ssecondary-node?orgId=1&refresh=1m\"}]";
+       // String mockStr =  "[{\"_id\":\"584a1b1e-6638-4be1-98fe-6d243e54d2ab\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8smaster\",\"serial\":\"localhost\",\"stats_url\":\"http://localhost:8080/d/piedge-k8smaster/k8smaster-node?orgId=1&refresh=1m\"},{\"_id\":\"a032be27-bbc4-4d17-be4e-2fcd2080d883\",\"location\":\"Peania_Athens_19002\",\"name\":\"k8ssecondary\",\"serial\":\"localhost\",\"stats_url\":\"http://localhost:8080/d/piedge-k8ssecondary/k8ssecondary-node?orgId=1&refresh=1m\"}]";
         final ObjectMapper objectMapper = new ObjectMapper();
         List<InfrastructureNodeInfo> nodesInfo = objectMapper.readValue(nodesInfoJSON.getJSONArray("nodes").toString(), new TypeReference<List<InfrastructureNodeInfo>>(){});
         for (InfrastructureNodeInfo nodeInfo :nodesInfo){
             //for each node of the edge cloud, get its stats, create an Infrastructure Node and add it to the Edge Cloud
-            InfrastructureNode updatedEdgeNode = utilities.getUpdatedEdgeNode(newEdgeCloud.getPiEdgeIP(), newEdgeCloud.getPiEdgePort(), nodeInfo.getName(), token);
+            InfrastructureNode updatedEdgeNode = utilities.getUpdatedEdgeNode(newEdgeCloud.getPiEdgeIP(), newEdgeCloud.getPiEdgePort(), nodeInfo.getName(), token, newEdgeCloud.getEdgeCloudId());
+            updatedEdgeNode.setNodeType(nodesNamesToTypes.get(nodeInfo.getName()));
+            updatedEdgeNode.setNodeDescription(nodesNamesToDescriptions.get(nodeInfo.getName()));
+            updatedEdgeNode.setNodeServices(nodesNamesToServices.get(nodeInfo.getName()));
             newEdgeCloudNodes.add(updatedEdgeNode);
         }
 
@@ -158,6 +221,7 @@ public class InfrastructureRESTController {
         newInfrastructure.setPiEdgeIP(newEdgeCloud.getPiEdgeIP());
         newInfrastructure.setPiEdgePort(newEdgeCloud.getPiEdgePort());
         newInfrastructure.setNodes(newEdgeCloudNodes);
+        newInfrastructure.setServices(newEdgeCloud.getServices());
         //check if all fields are completed!
 
      //   return null;
@@ -189,7 +253,8 @@ public class InfrastructureRESTController {
                     infrastructure.setPiEdgeIP(newInfrastructure.getPiEdgeIP());
                     infrastructure.setPiEdgePort(newInfrastructure.getPiEdgePort());
                //     infrastructure.setMonitorNodesURL(newInfrastructure.getMonitorNodesURL());
-                    infrastructure.setNodes(newInfrastructure.getNodes());
+//                    infrastructure.setNodes(newInfrastructure.getNodes());
+                    infrastructure.setServices(newInfrastructure.getServices());
 //                    service.setVersion(newService.getVersion());
                     return infrastructureRepository.save(infrastructure);
                 }).orElseThrow(() -> new javax.management.ServiceNotFoundException(id));
@@ -197,6 +262,276 @@ public class InfrastructureRESTController {
 
     
    /////////////////////////////////////////////////////////////////////////////////////// 
+   
+        @PostMapping(path = "/addnode/infrastructure/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Infrastructure> addNode(@PathVariable String id, @RequestBody NodeToAdd newNode) throws Exception {
+            
+        System.out.println("Adding node to edge cloud " + id);
+        Infrastructure infrastructure = getInfrastructureById(id);
+        boolean nodeExists = false;
+        
+        if (infrastructure != null){
+            
+            List<InfrastructureNode> existingNodes = infrastructure.getNodes();
+            InfrastructureNode nodeToUpdate = new InfrastructureNode();
+            for (InfrastructureNode node: existingNodes){
+                if (node.getNodeId().equals(newNode.getNodeId())){
+                    nodeExists = true;
+                    nodeToUpdate = node;
+                    System.out.println("Node " + newNode.getNodeId() + " already exists, will update it.");
+                    break;
+                }
+            }
+        
+            if (nodeExists){
+                //update in DB
+                List<InfrastructureNode> nodes = infrastructure.getNodes();
+                nodes.remove(nodeToUpdate);
+                nodeToUpdate.setNodeId(newNode.getNodeId());
+                nodeToUpdate.setNodeName(newNode.getNodeName());
+                nodeToUpdate.setNodeLocation(newNode.getNodeLocation());
+                nodeToUpdate.setNodeAddresses(newNode.getNodeAddresses());
+                nodeToUpdate.setNodeConditions(newNode.getNodeConditions());
+                nodeToUpdate.setNodeCapacity(newNode.getNodeCapacity());
+                nodeToUpdate.setNodeAllocatableResources(newNode.getNodeAllocatableResources());
+                nodeToUpdate.setNodeGeneralInfo(newNode.getNodeGeneralInfo());
+                nodeToUpdate.setNodeUsage(newNode.getNodeUsage());
+                nodeToUpdate.setNodeUsageMonitoringURL(newNode.getNodeUsageMonitoringURL());
+                nodeToUpdate.setNodeServicesMonitoringURL(newNode.getNodeServicesMonitoringURL());
+                nodeToUpdate.setNodePassword(newNode.getNodePassword());
+                nodeToUpdate.setNodeType(newNode.getNodeType());
+                nodeToUpdate.setNodeDescription(newNode.getNodeDescription());
+                nodeToUpdate.setNodeServices(newNode.getNodeServices());
+                nodes.add(nodeToUpdate);
+                infrastructure.setNodes(nodes);
+                updateInfrastructure(id, infrastructure);
+                System.out.println("Returning updated infrastructure.");
+                return new ResponseEntity<>(infrastructure, HttpStatus.CREATED); 
+            }
+            
+            //else, create node in PiEdge and then in DB
+            String nodeAdditionResponse = addNodeToPiEdge(id, infrastructure, newNode);
+        
+            if (nodeAdditionResponse.contains("200") || nodeAdditionResponse.contains("added successfully")){
+                InfrastructureNode newInfrastructureNode = new InfrastructureNode();
+                newInfrastructureNode.setNodeId(newNode.getNodeId());
+                newInfrastructureNode.setNodeName(newNode.getNodeName());
+                newInfrastructureNode.setNodeLocation(newNode.getNodeLocation());
+                newInfrastructureNode.setNodeAddresses(newNode.getNodeAddresses());
+                newInfrastructureNode.setNodeConditions(newNode.getNodeConditions());
+                newInfrastructureNode.setNodeCapacity(newNode.getNodeCapacity());
+                newInfrastructureNode.setNodeAllocatableResources(newNode.getNodeAllocatableResources());
+                newInfrastructureNode.setNodeGeneralInfo(newNode.getNodeGeneralInfo());
+                newInfrastructureNode.setNodeUsage(newNode.getNodeUsage());
+                newInfrastructureNode.setNodeUsageMonitoringURL(newNode.getNodeUsageMonitoringURL());
+                newInfrastructureNode.setNodeServicesMonitoringURL(newNode.getNodeServicesMonitoringURL());
+                newInfrastructureNode.setNodePassword(newNode.getNodePassword());
+                newInfrastructureNode.setNodeType(newNode.getNodeType());
+                newInfrastructureNode.setNodeDescription(newNode.getNodeDescription());
+                newInfrastructureNode.setNodeServices(newNode.getNodeServices());
+                List<InfrastructureNode> nodes = infrastructure.getNodes();
+                nodes.add(newInfrastructureNode);
+                infrastructure.setNodes(nodes);
+                updateInfrastructure(id, infrastructure);
+            }
+            else{
+                //node could not be added to PiEdge so it will not be added to the dataabase either
+                return new ResponseEntity<>(infrastructure, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        else{
+            System.out.println("No such infrastructure found");
+            return new ResponseEntity<>(infrastructure, HttpStatus.NOT_FOUND);
+        }
+        
+
+     /*   if (cloudsTokens.get(id) == null){
+            System.out.println("First time requesting authentication from PiEdge for edge cloud " + id);
+            String token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            cloudsTokens.put(id, token);
+            System.out.println("Token received from PiEdge: " + token);
+        }
+        else{
+            System.out.println("Already have token for Edge Cloud " + id + " and it is " + cloudsTokens.get(id)); 
+        }
+         
+         
+        String urlToRequest = "http://" + infrastructure.getPiEdgeIP() + ":" + infrastructure.getPiEdgePort() + "/piedge-connector/2.0.0/addNode";
+        String body = "{\"name\":\"" + newNode.getNodeName()
+                + "\",\"hostname\":\"" + newNode.getNodeAddresses().getNodeHostName()
+                + "\",\"ip\":\"" + newNode.getNodeAddresses().getNodeExternalIP()
+                + "\",\"password\":\"" + newNode.getNodePassword()
+                + "\",\"location\":\"" + newNode.getNodeLocation()  + "\"}"; 
+            
+        System.out.println("Body sent to PiEdge request: " + body);
+        String nodeAdditionResponse = utilities.sendPOSTHTTPRequest(urlToRequest, cloudsTokens.get(id), body);
+        System.out.println("Node addition response from PiEdge: " + nodeAdditionResponse);
+            
+        if (nodeAdditionResponse.equals("401")){
+            String token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            cloudsTokens.put(id, token);
+            System.out.println("TOKEN WAS EXPIRED FOR EDGE CLOUD " + id + " AND GOT A NEW ONE FROM PI-EDGE: " + token);
+            nodeAdditionResponse = utilities.sendPOSTHTTPRequest(urlToRequest, token, body);
+        }*/
+        
+        return new ResponseEntity<>(infrastructure, HttpStatus.CREATED);
+        
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    
+    
+    public String addNodeToPiEdge(String id, Infrastructure infrastructure, NodeToAdd newNode){
+        //add node to piedge
+        //request token
+        if (cloudsTokens.get(id) == null){
+      //   if (token == null){
+            System.out.println("First time requesting authentication from PiEdge for edge cloud " + id);
+            String token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            cloudsTokens.put(id, token);
+            System.out.println("Token received from PiEdge: " + token);
+        }
+        else{
+            System.out.println("Already have token for Edge Cloud " + id + " and it is " + cloudsTokens.get(id)); 
+        }
+         
+         
+        String urlToRequest = "http://" + infrastructure.getPiEdgeIP() + ":" + infrastructure.getPiEdgePort() + "/piedge-connector/2.0.0/addNode";
+        //body
+        String body = "{\"name\":\"" + newNode.getNodeName()
+                + "\",\"hostname\":\"" + newNode.getNodeAddresses().getNodeHostName()
+                + "\",\"ip\":\"" + newNode.getNodeAddresses().getNodeExternalIP()
+                + "\",\"password\":\"" + newNode.getNodePassword()
+                + "\",\"location\":\"" + newNode.getNodeLocation()  + "\"}"; 
+            
+        System.out.println("Body sent to PiEdge request: " + body);
+        String nodeAdditionResponse = utilities.sendPOSTHTTPRequest(urlToRequest, cloudsTokens.get(id), body);
+        System.out.println("Node addition response from PiEdge: " + nodeAdditionResponse);
+            
+     //   String nodes = utilities.sendGETHTTPRequest(urlToRequest, token);
+
+        if (nodeAdditionResponse.equals("401")){
+            String token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            cloudsTokens.put(id, token);
+            System.out.println("TOKEN WAS EXPIRED FOR EDGE CLOUD " + id + " AND GOT A NEW ONE FROM PI-EDGE: " + token);
+            nodeAdditionResponse = utilities.sendPOSTHTTPRequest(urlToRequest, token, body);
+        }
+        
+        return nodeAdditionResponse;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   @PostMapping(path = "/removenode/infrastructure/{id}",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Infrastructure> removeNode(@PathVariable String id, @RequestBody NodeToRemove nodeToDelete) throws Exception {
+            
+        System.out.println("Removing node from edge cloud " + id);
+        Infrastructure infrastructure = getInfrastructureById(id);
+        if (infrastructure != null)
+        {
+            List<InfrastructureNode> nodes = infrastructure.getNodes();
+            InfrastructureNode infrastructureNodeToDelete = null;
+            for (InfrastructureNode node : nodes){
+                if (node.getNodeName().equals(nodeToDelete.getNodeName())){
+                    infrastructureNodeToDelete = node;
+                }
+            }
+            if (infrastructureNodeToDelete != null)
+            {    
+                //first delete node from PiEdge
+                String nodeRemovalResponse = removeNodeFromPiEdge(infrastructure, nodeToDelete, id);
+                if (nodeRemovalResponse.contains("200") || nodeRemovalResponse.contains("???????????")){
+                    // then remove node from database
+                    nodes.remove(infrastructureNodeToDelete);
+                    infrastructure.setNodes(nodes);
+                    updateInfrastructure(id, infrastructure);
+                }
+                else{
+                    //node could not be removed from PiEdge so it will not be removed from the dataabase either
+                    return new ResponseEntity<>(infrastructure, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+               
+            }
+            else{
+                System.out.println("No such node found");
+                return new ResponseEntity<>(infrastructure, HttpStatus.NOT_FOUND);
+            }
+        }
+        else{
+            System.out.println("No such infrastructure found");
+            return new ResponseEntity<>(infrastructure, HttpStatus.NOT_FOUND);
+        }
+        //remove node from piedge
+        //request token
+   /*      if (token == null){
+            System.out.println("First time requesting authentication from PiEdge...");
+            token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            System.out.println("Token received from PiEdge: " + token);
+        }*/
+         
+        
+  /*      String urlToRequest = "http://" + infrastructure.getPiEdgeIP() + ":" + infrastructure.getPiEdgePort() + "/piedge-connector/2.0.0/removeNode";
+        String body = "{\"name\":\"" + nodeToDelete.getNodeName()
+                + "\",\"hostname\":\"" + nodeToDelete.getNodeHostname()
+                + "\",\"ip\":\"" + nodeToDelete.getNodeIP()
+                + "\",\"password\":\"" + nodeToDelete.getNodePassword() + "\"}"; 
+            
+        System.out.println("Body sent to PiEdge request: " + body);
+        String nodeRemovalResponse = utilities.sendPOSTHTTPRequest(urlToRequest, cloudsTokens.get(id), body);
+        System.out.println("Node removal response from PiEdge: " + nodeRemovalResponse);
+            
+        if (nodeRemovalResponse.equals("401")){
+            System.out.println("Token expired, need a new token");
+            String token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            cloudsTokens.put(id, token);
+            nodeRemovalResponse = utilities.sendPOSTHTTPRequest(urlToRequest, cloudsTokens.get(id), body);
+        }
+        */
+  
+        return new ResponseEntity<>(infrastructure, HttpStatus.OK);
+        
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    public String removeNodeFromPiEdge(Infrastructure infrastructure, NodeToRemove nodeToDelete, String id){
+        String urlToRequest = "http://" + infrastructure.getPiEdgeIP() + ":" + infrastructure.getPiEdgePort() + "/piedge-connector/2.0.0/removeNode";
+        //body
+        String body = "{\"name\":\"" + nodeToDelete.getNodeName()
+                + "\",\"hostname\":\"" + nodeToDelete.getNodeHostname()
+                + "\",\"ip\":\"" + nodeToDelete.getNodeIP()
+                + "\",\"password\":\"" + nodeToDelete.getNodePassword() + "\"}"; 
+            
+        System.out.println("Body sent to PiEdge request: " + body);
+        String nodeRemovalResponse = utilities.sendPOSTHTTPRequest(urlToRequest, cloudsTokens.get(id), body);
+        System.out.println("Node removal response from PiEdge: " + nodeRemovalResponse);
+            
+            
+        
+     //   String nodes = utilities.sendGETHTTPRequest(urlToRequest, token);
+
+        if (nodeRemovalResponse.equals("401")){
+            System.out.println("Token expired, need a new token");
+            String token = utilities.getPiEdgeAuthentication(infrastructure.getPiEdgeIP(), infrastructure.getPiEdgePort());
+            cloudsTokens.put(id, token);
+            nodeRemovalResponse = utilities.sendPOSTHTTPRequest(urlToRequest, cloudsTokens.get(id), body);
+        }
+        
+        return nodeRemovalResponse; 
+    }
     
     //Delete a service
     @DeleteMapping("/delete/infrastructure/{id}")
@@ -206,162 +541,4 @@ public class InfrastructureRESTController {
         infrastructureRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-    
-  /*  public String getPiEdgeAuthentication(String piEdgeIP, String piEdgePort){
-        String urlToRequest = "http://" + piEdgeIP + ":" + piEdgePort + "/piedge-connector/2.0.0/authentication";
-        String body = "{\"username\":\"admin_system_manager\",\"password\":\"admin_system_manager!@!\"}";
-        return utilities.sendPOSTHTTPRequest(urlToRequest, null, body);
-    }*/
-    
-    
-    
-    
-    
-    
-    //    //------------------Security----------------------//
-//    @GetMapping("/getToken")
-//    String GetToken(@RequestParam(required = true) String username,
-//                    @RequestParam(required = true) String password){
-//        String urlParameters  = "client_id=data1&username=data2&password=data3&grant_type=";
-//    }
-    
-    
-    /*  public InfrastructureNode getUpdatedEdgeNode(String ip, String port, String nodeName){
-        InfrastructureNode updatedEdgeCloudNode = new InfrastructureNode();
-        String urlToRequest = "http://" + ip + ":" + port + "/piedge-connector/2.0.0/nodes/" + nodeName;
-        
-        if (token == null)
-            token = getPiEdgeAuthentication(ip, port);
-            
-        String edgeCloudNode = sendGETHTTPRequest(urlToRequest, token);
-
-        if (edgeCloudNode.equals("401")){
-           System.out.println("Need a new token");
-            token = getPiEdgeAuthentication(ip, port);
-            edgeCloudNode = sendGETHTTPRequest(urlToRequest, token);
-        }
-        
-         //   String edgeCloudNode = "{\"nodeId\":\"Node1\",\"nodeName\":\"Peania1\",\"nodeType\":\"MasterKubernetesNode\",\"nodeLocation\":\"Peania_19002_Athens\",\"nodeAddresses\":{\"nodeHostName\":\"-\",\"nodeExternalIP\":\"-\",\"nodeInternalIP\":\"-\"},\"nodeConditions\":{\"nodeReady\":\"False\",\"nodeDiskPressure\":\"False\",\"nodeMemoryPressure\":\"False\",\"nodePIDPressure\":\"False\",\"nodeNetworkUnavailable\":\"False\"},\"nodeCapacity\":{\"nodeCPUCap\":\"0\",\"nodeMemoryCap\":\"0\",\"nodeMemoryCapMU\":\"-\",\"nodeStorageCap\":\"0\",\"nodeStorageCapMU\":\"-\",\"nodeMaxNoofPods\":\"0\"},\"nodeAllocatableResources\":{\"nodeCPUAllocatable\":\"0\",\"nodeMemoryAllocatable\":\"0\",\"nodeMemoryAllocatableMU\":\"-\",\"nodeStorageAllocatable\":\"0\",\"nodeStorageAllocatableMU\":\"-\"},\"nodeGeneralInfo\":{\"nodeArchitecture\":\"-\",\"nodeOS\":\"-\",\"nodeKubernetesVersion\":\"-\",\"nodeKernelVersion\":\"-\",\"nodecontainerRuntimeVersion\":\"-\"},\"nodeUsage\":{\"nodeCPUInUse\":\"0\",\"nodeCPUInUseMU\":\"-\",\"nodeCPUUsage\":\"0\",\"nodeMemoryInUse\":\"0\",\"nodeMemoryInUseMU\":\"-\",\"nodeMemoryUsage\":\"0\"},\"nodeUsageMonitoringURL\":\"http://146.124.106.209:3000/d/qgmX-lqnb/tandem-node-1?orgId=1&refresh=1m&from=now-3h&to=now\",\"nodeServicesMonitoringURL\":\"http://146.124.106.209:3000/d/Q5Tyu93na/tandem-node-1-services?orgId=1&refresh=1m&from=now-3h&to=now\"}";
-            JSONObject jsonObject = new JSONObject(edgeCloudNode.toString());
-                    
-            updatedEdgeCloudNode.setNodeId(jsonObject.getString("nodeName"));
-            updatedEdgeCloudNode.setNodeName(jsonObject.getString("nodeName"));
-          //  updatedEdgeCloudNode.setNodeType(jsonObject.getString("nodeType"));
-            //    updatedEdgeCloudNode.setNodeProvider(jsonObject.getString("nodeProvider"));
-                    
-            NodeAddresses nodeAddresses = new Gson().fromJson(jsonObject.getJSONObject("nodeAddresses").toString(), NodeAddresses.class);
-            updatedEdgeCloudNode.setNodeAddresses(nodeAddresses);
-            
-            NodeAllocatableResources nodeAllocatableResources = new Gson().fromJson(jsonObject.getJSONObject("nodeAllocatableResources").toString(), NodeAllocatableResources.class);
-            updatedEdgeCloudNode.setNodeAllocatableResources(nodeAllocatableResources);
-              
-            NodeCapacity nodeCapacity = new Gson().fromJson(jsonObject.getJSONObject("nodeCapacity").toString(), NodeCapacity.class);
-            updatedEdgeCloudNode.setNodeCapacity(nodeCapacity);
-                    
-            NodeConditions nodeConditions = new Gson().fromJson(jsonObject.getJSONObject("nodeConditions").toString(), NodeConditions.class);
-            updatedEdgeCloudNode.setNodeConditions(nodeConditions);
-                    
-            NodeGeneralInfo nodeGeneralInfo = new Gson().fromJson(jsonObject.getJSONObject("nodeGeneralInfo").toString(), NodeGeneralInfo.class);
-            updatedEdgeCloudNode.setNodeGeneralInfo(nodeGeneralInfo);
-                    
-            NodeUsage nodeUsage = new Gson().fromJson(jsonObject.getJSONObject("nodeUsage").toString(), NodeUsage.class);
-            updatedEdgeCloudNode.setNodeUsage(nodeUsage);
-                
-        return updatedEdgeCloudNode;
-    } */
-     
-    
-        
-   /* public String sendGETHTTPRequest(String urlToRequest, String tokenHeader){
-        HttpURLConnection connection = null;
-        StringBuilder response = new StringBuilder(); 
-        try {
-            URL url = new URL(urlToRequest);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Content-Language", "en-US");  
-            connection.setRequestProperty("Accept", "application/json");
-            
-            if (tokenHeader != null)
-                connection.setRequestProperty("Authorization", "Bearer " + tokenHeader);
-
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-            
-            InputStream is = connection.getInputStream();
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            if (connection != null) {
-                connection.disconnect();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            if (connection != null) {
-                connection.disconnect();
-            }
-            if (e.getMessage().contains("HTTP")){
-                String[] errorCodeParts = e.getMessage().split("HTTP response code: ");
-                System.out.println("HTTP Response code: " + errorCodeParts[1]);
-                return String.valueOf(errorCodeParts[1].substring(0, 3));
-            }
-        } 
-        return response.toString();
-    }*/
-    
-    
-     /*   public String sendPOSTHTTPRequest(String urlToRequest, String tokenHeader){
-        HttpURLConnection connection = null;
-        StringBuilder response = new StringBuilder(); 
-        try {
-            URL url = new URL(urlToRequest);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Content-Language", "en-US");  
-            connection.setRequestProperty("Accept", "application/json");
-            
-            if (tokenHeader != null)
-                connection.setRequestProperty("Authorization", "Bearer " + tokenHeader);
-
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-            
-            InputStream is = connection.getInputStream();
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            if (connection != null) {
-                connection.disconnect();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            if (connection != null) {
-                connection.disconnect();
-            }
-            if (e.getMessage().contains("HTTP")){
-                String[] errorCodeParts = e.getMessage().split("HTTP response code: ");
-                System.out.println("HTTP Response code: " + errorCodeParts[1]);
-                return String.valueOf(errorCodeParts[1].substring(0, 3));
-            }
-        } 
-        return response.toString();
-    }
-*/
-    
-    
 }

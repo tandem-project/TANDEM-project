@@ -1,5 +1,6 @@
 package TANDEM.icomtelecom.infrastructure_catalogue.Utilities;
 
+import TANDEM.icomtelecom.infrastructure_catalogue.Controllers.InfrastructureRESTController;
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Exceptions.InfrastructureNotFoundException;
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.Infrastructure;
 import TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure.InfrastructureCloud;
@@ -111,7 +112,7 @@ public class Utilities {
             
             
             if (tokenHeader != null){
-                System.out.println("Setting authorization token for GET request to: " + tokenHeader);                
+         //       System.out.println("Setting authorization token for GET request to: " + tokenHeader);                
                 connection.setRequestProperty("Authorization", "Bearer " + tokenHeader);
             }
                 
@@ -128,12 +129,12 @@ public class Utilities {
                 response.append(line + "\n");
             }
             rd.close();
-            System.out.println("Response: " + response);
+      //      System.out.println("Response: " + response);
       //       if (connection != null) {
             connection.disconnect();
       //      }
         } catch (Exception e) {
-            e.printStackTrace();
+       //     e.printStackTrace();
             if (connection != null) {
                 connection.disconnect();
             }
@@ -146,22 +147,48 @@ public class Utilities {
         return response.toString();
     }
     
-    public InfrastructureNode getUpdatedEdgeNode(String ip, String port, String nodeName, String token){
+    public InfrastructureNode getUpdatedEdgeNode(String ip, String port, String nodeName, String token, String edgeCloudId){
         InfrastructureNode updatedEdgeCloudNode = new InfrastructureNode();
         String urlToRequest = "http://" + ip + ":" + port + "/piedge-connector/2.0.0/nodes/" + nodeName;
         
-        if (token == null)
+   //     long t1, t2, diff;
+   /*     if (token == null){
+            t1 = System.currentTimeMillis();
             token = getPiEdgeAuthentication(ip, port);
-            
+            t2 = System.currentTimeMillis();
+            diff = t2 - t1;
+            System.out.println("TOKEN WAS NULL AND INITIALIZED IT FROM PI-EDGE IN: " + diff + " ms - Token: " + token);
+        }*/
+        System.out.println("Started procedure to get updated edge node, token is " + token);
+        
+        
+   //     t1 = System.currentTimeMillis();
         String edgeCloudNode = sendGETHTTPRequest(urlToRequest, token);
+   //     t2 = System.currentTimeMillis();
+   //     diff = t2 - t1;
+   //     System.out.println("TIME REQUIRED TO GET THE UPDATED EDGE NODE " + nodeName + " OF EDGE CLOUD " + edgeCloudId + " (FIRST TRY): " + diff);
 
+            
+            
         if (edgeCloudNode.equals("401")){
-           System.out.println("Token expired, need a new token");
+   //         System.out.println("Token expired, need a new token");
+   //         t1 = System.currentTimeMillis();
             token = getPiEdgeAuthentication(ip, port);
+  //          t2 = System.currentTimeMillis();
+  //          diff = t2 - t1;
+            InfrastructureRESTController.cloudsTokens.put(edgeCloudId, token);
+        //    System.out.println("TOKEN WAS EXPIRED FOR EDGE CLOUD " + edgeCloudId + " AND GOT A NEW ONE FROM PI-EDGE IN: " + diff + "ms - Token: " + token);
+            System.out.println("TOKEN WAS EXPIRED FOR EDGE CLOUD " + edgeCloudId + " AND GOT A NEW ONE FROM PI-EDGE: " + token);
+
+           
+  //          t1 = System.currentTimeMillis();
             edgeCloudNode = sendGETHTTPRequest(urlToRequest, token);
+  //          t2 = System.currentTimeMillis();
+  //          diff = t2 - t1;
+ //           System.out.println("TIME REQUIREDTO GET THE UPDATED EDGE NODE " + nodeName + " (SECOND TRY - TOKEN HAD EXPIRED): " + diff);
         }
         
-         //   String edgeCloudNode = "{\"nodeId\":\"Node1\",\"nodeName\":\"Peania1\",\"nodeType\":\"MasterKubernetesNode\",\"nodeLocation\":\"Peania_19002_Athens\",\"nodeAddresses\":{\"nodeHostName\":\"-\",\"nodeExternalIP\":\"-\",\"nodeInternalIP\":\"-\"},\"nodeConditions\":{\"nodeReady\":\"False\",\"nodeDiskPressure\":\"False\",\"nodeMemoryPressure\":\"False\",\"nodePIDPressure\":\"False\",\"nodeNetworkUnavailable\":\"False\"},\"nodeCapacity\":{\"nodeCPUCap\":\"0\",\"nodeMemoryCap\":\"0\",\"nodeMemoryCapMU\":\"-\",\"nodeStorageCap\":\"0\",\"nodeStorageCapMU\":\"-\",\"nodeMaxNoofPods\":\"0\"},\"nodeAllocatableResources\":{\"nodeCPUAllocatable\":\"0\",\"nodeMemoryAllocatable\":\"0\",\"nodeMemoryAllocatableMU\":\"-\",\"nodeStorageAllocatable\":\"0\",\"nodeStorageAllocatableMU\":\"-\"},\"nodeGeneralInfo\":{\"nodeArchitecture\":\"-\",\"nodeOS\":\"-\",\"nodeKubernetesVersion\":\"-\",\"nodeKernelVersion\":\"-\",\"nodecontainerRuntimeVersion\":\"-\"},\"nodeUsage\":{\"nodeCPUInUse\":\"0\",\"nodeCPUInUseMU\":\"-\",\"nodeCPUUsage\":\"0\",\"nodeMemoryInUse\":\"0\",\"nodeMemoryInUseMU\":\"-\",\"nodeMemoryUsage\":\"0\"},\"nodeUsageMonitoringURL\":\"http://146.124.106.209:3000/d/qgmX-lqnb/tandem-node-1?orgId=1&refresh=1m&from=now-3h&to=now\",\"nodeServicesMonitoringURL\":\"http://146.124.106.209:3000/d/Q5Tyu93na/tandem-node-1-services?orgId=1&refresh=1m&from=now-3h&to=now\"}";
+         //   String edgeCloudNode = "{\"nodeId\":\"Node1\",\"nodeName\":\"Peania1\",\"nodeType\":\"MasterKubernetesNode\",\"nodeLocation\":\"Peania_19002_Athens\",\"nodeAddresses\":{\"nodeHostName\":\"-\",\"nodeExternalIP\":\"-\",\"nodeInternalIP\":\"-\"},\"nodeConditions\":{\"nodeReady\":\"False\",\"nodeDiskPressure\":\"False\",\"nodeMemoryPressure\":\"False\",\"nodePIDPressure\":\"False\",\"nodeNetworkUnavailable\":\"False\"},\"nodeCapacity\":{\"nodeCPUCap\":\"0\",\"nodeMemoryCap\":\"0\",\"nodeMemoryCapMU\":\"-\",\"nodeStorageCap\":\"0\",\"nodeStorageCapMU\":\"-\",\"nodeMaxNoofPods\":\"0\"},\"nodeAllocatableResources\":{\"nodeCPUAllocatable\":\"0\",\"nodeMemoryAllocatable\":\"0\",\"nodeMemoryAllocatableMU\":\"-\",\"nodeStorageAllocatable\":\"0\",\"nodeStorageAllocatableMU\":\"-\"},\"nodeGeneralInfo\":{\"nodeArchitecture\":\"-\",\"nodeOS\":\"-\",\"nodeKubernetesVersion\":\"-\",\"nodeKernelVersion\":\"-\",\"nodecontainerRuntimeVersion\":\"-\"},\"nodeUsage\":{\"nodeCPUInUse\":\"0\",\"nodeCPUInUseMU\":\"-\",\"nodeCPUUsage\":\"0\",\"nodeMemoryInUse\":\"0\",\"nodeMemoryInUseMU\":\"-\",\"nodeMemoryUsage\":\"0\"},\"nodeUsageMonitoringURL\":\"http://localhost:8080/d/qgmX-lqnb/tandem-node-1?orgId=1&refresh=1m&from=now-3h&to=now\",\"nodeServicesMonitoringURL\":\"http://localhost:8080/d/Q5Tyu93na/tandem-node-1-services?orgId=1&refresh=1m&from=now-3h&to=now\"}";
             JSONObject jsonObject = new JSONObject(edgeCloudNode);
                     
             updatedEdgeCloudNode.setNodeId(jsonObject.getString("nodeName"));

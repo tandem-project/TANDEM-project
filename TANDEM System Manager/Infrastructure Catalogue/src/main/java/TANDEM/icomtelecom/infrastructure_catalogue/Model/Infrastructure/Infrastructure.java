@@ -49,6 +49,8 @@ public class Infrastructure {
   @JsonProperty("nodes")
   private List<InfrastructureNode> nodes = null;
   
+  @JsonProperty("services")
+  private List<String> services = null;  
   
   
     public String getEdgeCloudId() {
@@ -132,6 +134,16 @@ public class Infrastructure {
         this.nodes = nodes;
     }
 
+    public List<String> getServices() {
+        return services;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
+    }
+
+    
+    
 
 
   @Override
@@ -146,13 +158,13 @@ public class Infrastructure {
     return Objects.equals(this.edgeCloudId, infrastructure.edgeCloudId) &&
         Objects.equals(this.edgeCloudName, infrastructure.edgeCloudName) &&
         Objects.equals(this.edgeCloudNumberofNodes, infrastructure.edgeCloudNumberofNodes) &&
-//        Objects.equals(this.edgeCloudNumberofIoTDevices, infrastructure.edgeCloudNumberofIoTDevices) &&
+        Objects.equals(this.edgeCloudAvailabilityZone, infrastructure.edgeCloudAvailabilityZone) &&
         Objects.equals(this.edgeCloudProvider, infrastructure.edgeCloudProvider) &&
-        Objects.equals(this.monitorNodesURL, infrastructure.monitorNodesURL);
-//        Objects.equals(this.transportInfo, service.transportInfo) &&
-//        Objects.equals(this.serializer, service.serializer) &&
-//        Objects.equals(this.scopeOfLocality, service.scopeOfLocality) &&
-//        Objects.equals(this.consumedLocalOnly, service.consumedLocalOnly) &&
+        Objects.equals(this.monitorNodesURL, infrastructure.monitorNodesURL) &&
+        Objects.equals(this.piEdgeIP, infrastructure.piEdgeIP) &&
+        Objects.equals(this.piEdgePort, infrastructure.piEdgePort) &&
+        Objects.equals(this.nodes, infrastructure.nodes) &&
+        Objects.equals(this.services, infrastructure.services) ;
 //        Objects.equals(this.isLocal, service.isLocal);
   }
 
@@ -169,13 +181,13 @@ public class Infrastructure {
     sb.append("    edgeCloudId: ").append(toIndentedString(edgeCloudId)).append("\n");
     sb.append("    edgeCloudName: ").append(toIndentedString(edgeCloudName)).append("\n");
     sb.append("    edgeCloudNumberofNodes: ").append(toIndentedString(edgeCloudNumberofNodes)).append("\n");
-//    sb.append("    edgeCloudNumberofIoTDevices: ").append(toIndentedString(edgeCloudNumberofIoTDevices)).append("\n");
+    sb.append("    edgeCloudAvailabilityZone: ").append(toIndentedString(edgeCloudAvailabilityZone)).append("\n");
     sb.append("    edgeCloudProvider: ").append(toIndentedString(edgeCloudProvider)).append("\n");
     sb.append("    monitorNodesURL: ").append(toIndentedString(monitorNodesURL)).append("\n");
-//    sb.append("    transportInfo: ").append(toIndentedString(transportInfo)).append("\n");
-//    sb.append("    serializer: ").append(toIndentedString(serializer)).append("\n");
-//    sb.append("    scopeOfLocality: ").append(toIndentedString(scopeOfLocality)).append("\n");
-//    sb.append("    consumedLocalOnly: ").append(toIndentedString(consumedLocalOnly)).append("\n");
+    sb.append("    piEdgeIP: ").append(toIndentedString(piEdgeIP)).append("\n");
+    sb.append("    piEdgePort: ").append(toIndentedString(piEdgePort)).append("\n");
+    sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
+    sb.append("    services: ").append(toIndentedString(services)).append("\n");
 //    sb.append("    isLocal: ").append(toIndentedString(isLocal)).append("\n");
     sb.append("}");
     return sb.toString();
