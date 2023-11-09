@@ -1,0 +1,33 @@
+name: Object Detection Cans Service Function
+description: Select and deploy a custom Service Function.
+
+inputs:
+- {name: service_function_name, type: String, description: 'service_function_name'}
+- {name: service_function_instance_name, type: String, description: 'service_function_instance_name'}
+- {name: count_min, type: String, description: 'count_min'}
+- {name: count_max, type: String, description: 'count_max'}
+- {name: location, type: String, description: 'location'}
+
+outputs:
+- {name: output_path, type: String, description: 'output data.'}
+
+implementation:
+    container:
+        image: gsamaras/object-detection-cans-service-function:objectdetectioncansservicefunctiontag1
+        
+        command: [
+            python3,
+            object_detection_cans_service_function.py,
+            --service_function_name,
+            {inputValue: service_function_name},
+            --service_function_instance_name,
+            {inputValue: service_function_instance_name},
+            --count_min,
+            {inputValue: count_min},
+            --count_max,
+            {inputValue: count_max},
+            --location,
+            {inputValue: location},
+            --output_path, 
+            {outputPath: output_path},
+        ]

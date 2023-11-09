@@ -1,0 +1,21 @@
+name: IoT Device
+description: Add an iot device
+
+inputs:
+- {name: values_file, type: String, description: 'values file'}
+- {name: device_name, type: String, description: 'device name'}
+
+
+implementation:
+    container:
+        image: nikospsar/iot_device@sha256:406737d3a7b64d09382b59944f4aad63d56b75a69f6c3fc74d20e9579e3ed01e
+        
+        command: [
+            python3,
+            iot_device.py,
+            --values_file,
+            {inputPath: values_file},
+            --device_name,
+            {inputValue: device_name},
+
+        ]

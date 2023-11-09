@@ -1,0 +1,16 @@
+[
+    {
+        "name": "temperature",
+        "description": "Ambient temperature in Celsius.",
+        "type": "Int64",
+        "min": 0,
+        "max": 100
+    },
+    {
+        "name": "humidity",
+        "description": "Humidity in %.",
+        "type": "Int64",
+        "min": 0,
+        "max": 100
+    }
+]

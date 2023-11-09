@@ -1,0 +1,16 @@
+name: Core Paas
+description: Check availability and claim core paas (EdgeX).
+
+inputs:
+- {name: core_paas, type: String, description: 'Name of the core paas to be claimed.'}
+
+implementation:
+    container:
+        image: nikospsar/core_paas@sha256:2ffab5aadbb5801a8b77fc3d54b3a30747a65dd18d7cfee6f0b7ad3c05faf7b7
+        
+        command: [
+            python3,
+            core_paas.py,
+            --core_paas,
+            {inputValue: core_paas},
+        ]

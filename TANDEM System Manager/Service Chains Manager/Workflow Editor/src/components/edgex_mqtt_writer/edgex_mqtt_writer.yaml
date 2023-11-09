@@ -1,0 +1,16 @@
+name: Edgex mqtt writer
+description: Interfacing between the core (EdgeX) and custom PaaS, to retrieve metrics for the specific device.
+
+inputs:
+- {name: custom_paas_file, type: String, description: 'custom_paas_file'}
+
+implementation:
+    container:
+        image: nikospsar/edgex_mqtt_writer@sha256:bbcb40d1cc0734ae1e511d3b296e7ddf51b8b2dbb393e0e48b5b7223bfc56ef5
+        
+        command: [
+            python3,
+            edgex_mqtt_writer.py,
+            --custom_paas_file,
+            {inputPath: custom_paas_file},
+        ]

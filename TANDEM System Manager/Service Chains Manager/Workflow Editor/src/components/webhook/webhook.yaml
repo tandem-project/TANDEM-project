@@ -1,0 +1,23 @@
+name: Webhook
+description: Deploy an EventSource and a Sensor.
+
+inputs:
+- {name: custom_paas_file, type: String, description: 'custom_paas_file'}
+- {name: event_name, type: String, description: 'event_name'}
+- {name: image, type: String, description: 'image'}
+
+
+implementation:
+    container:
+        image: nikospsar/webhook@sha256:21ce0cfa0fc9c6e7c380789199a6f632937d0d084c59456ecf15ffd10d9556f5
+        
+        command: [
+            python3,
+            webhook.py,
+            --custom_paas_file,
+            {inputPath: custom_paas_file},
+            --event_name,
+            {inputValue: event_name},
+            --image,
+            {inputValue: image},
+        ]

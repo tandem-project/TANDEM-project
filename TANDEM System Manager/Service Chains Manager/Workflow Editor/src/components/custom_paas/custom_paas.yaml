@@ -1,0 +1,40 @@
+name: Custom Paas
+description: Select and deploy a custom PaaS.
+
+inputs:
+- {name: paas_service_name, type: String, description: 'paas_service_name'}
+- {name: paas_instance_name, type: String, description: 'paas_instance_name'}
+- {name: autoscaling_type, type: String, description: 'autoscaling_type'}
+- {name: count_min, type: String, description: 'count_min'}
+- {name: count_max, type: String, description: 'count_max'}
+- {name: location, type: String, description: 'location'}
+- {name: all_node_ports, type: String, description: 'all_node_ports'}
+
+
+outputs:
+- {name: output_path, type: String, description: 'Custom paas output data.'}
+
+implementation:
+    container:
+        image: nikospsar/custom_paas@sha256:1c2a7d3d9faa310ab9e9297990a26e901ebe7e254870ec515dde50195a4d25c0
+        
+        command: [
+            python3,
+            custom_paas.py,
+            --paas_service_name,
+            {inputValue: paas_service_name},
+            --paas_instance_name,
+            {inputValue: paas_instance_name},
+            --autoscaling_type,
+            {inputValue: autoscaling_type},
+            --count_min,
+            {inputValue: count_min},
+            --count_max,
+            {inputValue: count_max},
+            --location,
+            {inputValue: location},
+            --all_node_ports,
+            {inputValue: all_node_ports},
+            --output_path, 
+            {outputPath: output_path},
+        ]

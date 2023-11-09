@@ -1,0 +1,42 @@
+{
+    "components": [
+        {
+            "name": "iot_device1",
+            "type": "iot_device",
+            "dependencies": [],
+            "parameters": {
+                "input_from_prev":{
+                },
+                "input_from_user":{
+                    "device_name": "tandemdevice"
+                }
+            }
+        },
+        {
+            "name": "iot_device2",
+            "type": "iot_device",
+            "dependencies": [],
+            "parameters": {
+                "input_from_prev":{
+                },
+                "input_from_user":{
+                    "device_name": "tandemdevice"
+                }
+            }
+        },
+        {
+            "name": "notification",
+            "type": "notification",
+            "dependencies": ["iot_device1"],
+            "parameters": {
+                "input_from_prev":{
+                    "custom_paas_file":"iot_device1.output.output_path"
+                },
+                "input_from_user":{
+                    "threshold":90
+                }
+            }
+            
+        }
+    ]
+}
