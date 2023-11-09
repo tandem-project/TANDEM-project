@@ -1,7 +1,0 @@
-{
-"status":0,
-"result":{
-"name":"Kostas",
-"token":"12345567788999000",
-"role":"002"}
-}
