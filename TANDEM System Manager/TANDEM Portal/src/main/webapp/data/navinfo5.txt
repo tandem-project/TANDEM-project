@@ -1,0 +1,83 @@
+ <a id="_ithome" href="#" onclick='gotopage("index.html",0);'>Home</a>
+  <div id="_itapplications" class="dropdown">
+    <button class="dropbtn">Applications
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_itappregistration" href="#" onclick='gotopage("applicationRegistration.html",0);'>Registration</a>
+      <a id="_itappvmanagement" href="#" onclick='gotopage("applications.html",0);'>Management</a>
+    </div>
+  </div>
+  <div id="_itservices" class="dropdown">
+    <button class="dropbtn">Services
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_itservregistration" href="#" onclick='gotopage("serviceRegistration.html",0);'>Registration</a>
+      <a id="_itservmanagement" href="#" onclick='gotopage("management.html",0);'>Management</a>
+    </div>
+  </div>
+  <a id="_itsco" href="#" onclick='gotopage("servicechainorchestrator.html",0);'>SCO</a>
+  <!--<a id="_itproducts" href="#">Products</a>-->
+  <div id="_itproducts" class="dropdown">
+    <button class="dropbtn">Products
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_itproductregistration" href="#" onclick='gotopage("productRegistration.html",0);'>Registration</a>
+      <a id="_itproductmanagement" href="#" onclick='gotopage("products.html",0);'>Management</a>
+    </div>
+  </div>
+  <!--<a id="_itusers" href="#" onclick='gotopage("users.html",0);'>Users</a>-->
+  <div id="_itusers" class="dropdown">
+    <button class="dropbtn">Users
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_ituserregistration" href="#" onclick='gotopage("userRegistration.html",0);'>Registration</a>
+      <a id="_itusermanagement" href="#" onclick='gotopage("users.html",0);'>Management</a>
+    </div>
+  </div>
+  <div id="_itdevices" class="dropdown">
+    <button class="dropbtn">Devices
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_itdeviceregistration" href="#" onclick='gotopage("deviceRegistration.html",0);'>Registration</a>
+      <a id="_itdevicemanagement" href="#" onclick='gotopage("devices.html",0);'>Management</a>
+    </div>
+  </div>
+  <div id="_itinfra" class="dropdown">
+    <button class="dropbtn">Infrastructure
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a id="_itinfra" href="#" onclick='gotopage("edgecloudRegistration.html",0);'>Registration</a>
+        <a id="_itinfra" href="#" onclick='gotopage("infrastructure.html",0);'>Management</a>
+    </div>
+  </div>
+  <a id="_itbilling" href="#" onclick='gotopage("pricingManagement.html",0);'>Pricing & Billing</a>
+  <div id="_itconfig" class="dropdown">
+    <button class="dropbtn">Configuration
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_itrolemanagement" href="#" onclick='gotopage("roleManagement.html",0);'>Roles Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("categoryManagement.html",0);'>Service Category Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("applicationCategoryManagement.html",0);'>Application Category Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("productCategoryManagement.html",0);'>Product Category Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("serviceTypeManagement.html",0);'>Service Type Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("productTypeManagement.html",0);'>Product Type Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("deviceTypeManagement.html",0);'>Device Type Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("nodeTypeManagement.html",0);'>Node Type Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("providerManagement.html",0);'>Provider Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("serviceStateManagement.html",0);'>Service State Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("applicationStateManagement.html",0);'>Application State Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("productStateManagement.html",0);'>Product State Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("locationManagement.html",0);'>Location Management</a>
+      <a id="_itrolemanagement" href="#" onclick='gotopage("zoneManagement.html",0);'>Availability Zone Management</a>
+    </div>
+  </div>
+  <a id="login" href="#" onclick="showLoginForm()">Login</a>
+  <a id="_ituserinfo" href="#" onclick="userinfo()">Hello, Thodoris! <i class="fa fa-fw fa-user"></i></a>
+

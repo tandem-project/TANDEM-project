@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Service Availability (Uptime)",
+        "id": "Avail1",
+        "description": "Guarantee that Services/Apps running in a customer subscription will be available 99.95% of the time"
+    },
+    {
+        "name": "Minimize Cost",
+        "id": "Autoscaling1",
+        "description": "Minimize Cost Auto scaling Policy"
+    },
+    {
+        "name": "Maximize Performance",
+        "id": "Autoscaling2",
+        "description": "Maximize Performance Auto Scaling Policy"
+    }
+]

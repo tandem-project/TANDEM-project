@@ -1,0 +1,242 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/registration.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/tandemart.css?v=1">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+<script type="text/javascript" src="js/globaltools.js"></script>
+
+<script type="text/javascript" src="js/selectionList.js"></script>
+<script type="text/javascript" src="js/productsList.js"></script>
+<script type="text/javascript" src="js/commonfunctions.js"></script>
+<script type="text/javascript" src="js/loadingOrderRegistration.js"></script>
+<script type="text/javascript" src="js/addOrder.js"></script>
+<script type="text/javascript" src="js/addTableRow.js"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+
+
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol" style="width: 100%; background-color: white;">
+      <div style="font-size: 20px;"><b><u>Order Registration / Editing</u></b></div>
+<br>
+<div class="container" style="background-color: whitesmoke; display:block; margin: auto; width: 100%;">
+
+  <form style="margin: 0 auto; text-align:center; width:100%;">
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="ordernamereg" class="required">Order Name</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="ordernamereg" name="ordernamereg">
+      </div>
+      <div class="col-srvregistration">
+        <label for="orderidreg" class="required">Order Id</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="orderidreg" name="orderidreg">
+      </div>
+      
+    </div>
+    
+    
+    
+
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="ordercategoryreg" class="required">Order Category</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="ordercategoryreg" name="ordercategoryreg">
+          <option value="Select">Select</option>
+          
+        </select>
+      </div>
+      <div class="col-srvregistration">
+        <label for="ordertypereg" class="required">Order Type</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="ordertypereg" name="ordertypereg">
+          <option value="Select">Select</option>
+          
+        </select>
+      </div>
+      
+    </div>
+      
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="orderagreementreg" class="required">Order Agreement</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="orderagreementreg" name="orderagreementreg">
+          <option value="Select">Select</option>
+          
+        </select>
+      </div>
+      <div class="col-srvregistration">
+        <label for="orderdescriptionreg">Order Description</label>
+      </div>
+      <div class="col-srvregistration">
+        <textarea style="height:20%;" id="orderdescriptionreg" name="orderdescriptionreg"></textarea>
+      </div>
+      
+    </div>
+      
+    
+  
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="orderrreqstartdatereg">Requested Start Date</label>
+      </div>
+      <div class="col-srvregistration" style="margin-top:1%;">
+        <input id="orderrreqstartdatereg" name="orderrreqstartdatereg" type="date"/>
+      </div>
+      <div class="col-srvregistration">
+        <label for="orderrreqenddatereg">Requested Completion Date</label>
+      </div>
+      <div class="col-srvregistration" style="margin-top:1%;">
+        <input id="orderrreqenddatereg" name="orderrreqenddatereg" type="date"/>
+      </div>
+    </div>
+    <div class="row regformrow" style="margin-left: 25%">
+        <div class="col-srvregistration-tables" style="width:70%">
+            <table class="srvregtable" id="productstable">
+                <thead>
+                    <tr>
+                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Ordered Product</b></td>
+                    </tr>
+                    <!-- To be uncommented-->
+                    <!--<tr>
+                        <th>Products</th>
+                        <th>Action</th>
+                    </tr>-->
+                    <!------------------->
+                </thead>
+                <tbody>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+      
+    <!-- To be uncommented-->
+    <!--<div class="row" style="margin-left:45%">
+        <div class="col-srvregistration">
+            <input id="add-urls-btn" type="button" value="+ Add Product" onclick="addNewProductRow('productstable', 'orderedproduct', '')">
+        </div>
+    </div>-->
+    <!----------------->
+    <div class="row regformrow" style="margin-top:2%;">
+      
+      <div class="col-srvregistration">
+        <label for="orderpricereg" class="required">Total price (Euros)</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="number" id="orderpricereg" name="orderpricereg" style="margin-top:3%;">
+      </div>
+      <div class="col-srvregistration">
+        <label for="orderpriorityreg">Order Priority</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="orderpriorityreg" name="orderpriorityreg">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          
+        </select>
+      </div>
+    </div>
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="orderbillingaccountreg" class="required">Billing Account</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="orderbillingaccountreg" name="orderbillingaccountreg">
+      </div>
+      <div class="col-srvregistration">
+        <label for="ordercontactinforeg" class="required">Contact Info</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="ordercontactinforeg" name="ordercontactinforeg">
+      </div>
+      
+      
+    </div>
+    <div class="row regformrow" style="margin-left: 30%">
+        <div class="col-srvregistration-tables" style="width:70%">
+            <table class="srvregtable" id="notestable">
+                <thead>
+                    <tr>
+                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Notes</b></td>
+                    </tr>
+                    <tr>
+                        <th>Note</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    <div class="row" style="margin-left:45%">
+        <div class="col-srvregistration">
+            <input id="add-urls-btn" type="button" value="+ Add Note" onclick="addTableRow('notestable', '')">
+        </div>
+    </div>
+  
+    
+    </form>
+     <div class="row">
+         <BR><input class="tandembutton" id="submit-srvc-btn" type="button" value="Submit" onclick="submitOrderRegistration()">
+    </div>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+<div id="messagemodal" class="mw3-modal">
+</div>
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/globaltools.js"></script>
+    <script>
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+        <script>
+            loadingProductRegistration();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" type="text/css" href="css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="css/panels.css">
+        <link rel="stylesheet" type="text/css" href="css/lefttable.css">
+        <link rel="stylesheet" type="text/css" href="css/formfilter.css">
+        <link rel="stylesheet" type="text/css" href="css/loginForm.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/tandemart.css?v=1">
+        <script type="text/javascript" src="js/table.js"></script>
+        <script type="text/javascript" src="js/min.js"></script>
+        <script type="text/javascript" src="js/form.js"></script>
+        <script type="text/javascript" src="js/fontstool.js"></script>
+        <script type="text/javascript" src="js/commonfunctions.js"></script>
+        <script type="text/javascript" src="js/globaltools.js"></script>
+        <script type="text/javascript" src="js/infrastructure.js?v=8"></script>
+        <script type="text/javascript" src="js/globaltools.js"></script>
+    </head>
+    <body>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e" onkeyup="myFunction('edgeCloudsTable', 1)" placeholder="Search for Edge Cloud names.." title="Type in a name">
+
+<!-- TABLE ------------------------------------------------------------------------>
+<div id="servicestable">
+
+    <table id="edgeCloudsTable"></table>
+</div>
+</div>
+
+
+
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+<div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+<div style="font-size: 20px;"><b><u>Edge Clouds Filters</u></b></div>
+<br>
+<div class="container">
+ <!-- <form action="/action_page.php">-->
+  <form>
+    <div class="row">
+      <div class="col-25">
+        <label for="edgecloudname">Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="edgecloudname" name="edgecloudname" placeholder="Edge Cloud name..">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="edgecloudzone">Avail. Zone</label>
+      </div>
+      <div class="col-75">
+        <select id="edgecloudzone" name="edgecloudzone">
+          <option value="Select">Select</option>
+          <option value="Zone 1">Zone 1</option>
+          <option value="Zone 21">Zone 21</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-45">
+        <label for="edgecloudprovider">Provider</label>
+      </div>
+      <div class="col-55">
+        <select id="edgecloudprovider" name="edgecloudprovider">
+          <option value="Select">Select</option>
+          <option value="ICOM">ICOM</option>
+          <option value="Nokia">Nokia</option>
+        </select>
+      </div>
+    </div>
+     
+        
+    <div class="row" >
+        <BR><input class="tandembutton" id="submitq" type="button" value="Submit" onclick="getjsoninfo('1')">
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+<div class="mw3-container">
+
+  <div id="edgeCloudNodesPopup" class="mw3-modal">
+    <div class="mw3-modal-content" style="width:90%;background-color: #9e9e9e;">
+      <header class="mw3-container" style="background-color: #9e9e9e;"> 
+        <span onclick="document.getElementById('edgeCloudNodesPopup').style.display='none'" 
+        class="mw3-button mw3-display-topright">&times;</span>
+        <h2 id="edgeCloudNodeTitle" style="text-align: center;"></h2>
+      </header>
+      <div class="mw3-container" style="overflow:auto;">
+          <table id="edgeCloudNodesTable"></table>
+      </div>
+      <footer class="mw3-container" style="background-color: #9e9e9e;">
+        <p> </p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div class="mw3-container">
+
+  <div id="addCloudNodePopup" class="mw3-modal">
+    <div class="mw3-modal-content" style="width:90%;background-color: #9e9e9e;">
+      <header class="mw3-container" style="background-color: #9e9e9e;"> 
+        <span onclick="document.getElementById('addCloudNodePopup').style.display='none'" 
+        class="mw3-button mw3-display-topright">&times;</span>
+        <h2 id="addCloudNodeTitle" style="text-align: center;"></h2>
+      </header>
+      <div class="mw3-container" style="overflow:auto;">
+          <table id="addCloudNodeTable"></table>
+      </div>
+      <footer class="mw3-container" style="background-color: #9e9e9e;">
+        <p> </p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+  <div id="messagemodal" class="mw3-modal">
+  </div>
+<div id="waitimg">
+<img src="img/hand2.gif">
+</div>
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/globaltools.js"></script>
+    <script>
+   document.getElementById("waitimg").style.display = 'none';
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    </body>
+</html>

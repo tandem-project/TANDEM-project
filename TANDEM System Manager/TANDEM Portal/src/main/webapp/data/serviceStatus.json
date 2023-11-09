@@ -1,0 +1,50 @@
+[
+    {
+        "name": "In Study",
+        "id": "study",
+        "next": ["In Design", "In Organization Approve", "In TANDEM test", "Approved (Active)", "Launched", "Instantiated", "Rejected", "Service Retired"]
+    },
+    {
+        "name": "In Design",
+        "id": "design",
+        "next": ["In Organization Approve", "In TANDEM test", "Approved (Active)", "Launched", "Instantiated", "Rejected", "Service Retired"]
+    },
+    {
+        
+        "name": "In Organization Approve",
+        "id": "approve",
+        "next": ["In Design", "In TANDEM test", "Approved (Active)", "Launched", "Instantiated", "Rejected", "Service Retired"]
+    },
+    {
+        
+        "name": "In TANDEM Test",
+        "id": "test",
+        "next": ["Approved (Active)", "Launched", "Instantiated", "Rejected", "Service Retired"]
+    },
+    {  
+        "name": "Approved (Active)",
+        "id": "active",
+        "next": ["Launched", "Instantiated", "Service Retired"]
+    },
+    {
+        "name": "Launched",
+        "id": "launched",
+        "next": ["Instantiated", "Service Retired"]
+    },
+    {
+        "name": "Instantiated",
+        "id": "instantiated",
+        "next": ["Service Retired"]
+    },
+    
+    {
+        "name": "Rejected",
+        "id": "rejected",
+        "next": []
+    },
+    {
+        "name": "Service Retired",
+        "id": "retired",
+        "next": []
+    }
+]

@@ -1,0 +1,258 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/registration.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/tandemart.css?v=1">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+<script type="text/javascript" src="js/globaltools.js"></script>
+<script type="text/javascript" src="js/commonfunctions.js"></script>
+<script type="text/javascript" src="js/loadingNodeRegistration.js?v=1"></script>
+<script type="text/javascript" src="js/cloudsList.js"></script>
+<script type="text/javascript" src="js/addNode.js"></script>
+<script type="text/javascript" src="js/selectionList.js"></script>
+<script type="text/javascript" src="js/showNodeConfiguration.js"></script>
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+
+
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol" style="width: 100%; background-color: white;">
+      <div style="font-size: 20px;"><b><u>Cloud Node Registration / Editing</u></b></div>
+<br>
+<div class="container" style="background-color: whitesmoke; display:block; margin: auto; width: 100%;">
+
+  <form style="margin: 0 auto; text-align:center; width:100%;">
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="nodenamereg" class="required">Name</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="nodenamereg" name="nodenamereg" placeholder="Node name...">
+      </div>
+      <div class="col-srvregistration">
+        <label for="nodepswreg" class="required">Password</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="password" id="nodepswreg" name="nodepswreg">
+      </div>
+    </div>
+      
+    
+      
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="nodeidreg" class="required">Id</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="nodeidreg" name="nodeidreg" placeholder="Node ID...">
+      </div>
+      <div class="col-srvregistration">
+        <label for="nodelocationreg" class="required">Location</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="nodelocationreg" name="nodelocationreg">
+          
+        </select>
+      </div>
+    </div>
+      
+
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="nodecloudreg" class="required">Cloud</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="nodecloudreg" name="nodecloudreg">
+          
+        </select>
+      </div>
+      <div class="col-srvregistration">
+        <label for="nodetypereg">Type</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="nodetypereg" name="nodetypereg">
+<!--            <option value="Select">Select</option>
+            <option value="Server">Server</option>
+            <option value="Robot">Robot</option>
+            <option value="Gateway">Gateway</option>-->
+        </select>
+      </div>
+    </div>
+
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="nodedescrreg">Description</label>
+      </div>
+      <div class="col-srvregistration">
+        <textarea style="height:20%;" id="nodedescrreg" name="nodedescrreg"></textarea>
+      </div>
+     
+    </div>
+      
+    <div class="row regformrow" style="margin-left: 30%">
+        <div class="col-srvregistration-tables" style="width:70%">
+            <table class="srvregtable" id="nodeAddressTable">
+                <thead>
+                    <tr>
+                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Addresses</b></td>
+                    </tr>
+                    <tr>
+                        <th>Address type</th>
+                        <th>Address Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hostname</td>
+                        <td contenteditable></td>
+                    </tr>
+                    <tr>
+                        <td>External IP</td>
+                        <td contenteditable></td>
+        
+                    </tr>
+            
+                    <tr>
+                        <td>Internal IP</td>
+                        <td contenteditable></td>
+                    </tr>
+                    
+                </tbody>
+            </table> 
+        </div>
+   
+    </div>    
+    <div style="font-size: 18px; margin-top: 5%;"><b>Configure services in Cloud Node</b></div>
+    <div>
+        <label for="nodeautoconfigreg">Select from existing configurations</label>    
+        <input type="radio" id="nodeautoconfigreg" name="configurationtype" value="autoconfig">
+        <br>
+        <label for="nodemanualconfigreg">Create your configuration</label> 
+        <input type="radio" id="nodemanualconfigreg" name="configurationtype" value="manualconfig">
+    </div>
+    <div class="row regformrow" style="margin-top: 3%" id="conftables" hidden>
+        <div class="col-srvregistration" style="width:45%">
+            <table class="srvregtable" id="nodeConfigurationTable">
+                <thead>
+                    <tr>
+                        <th style="background-color: #9e9e9e;">Configuration</th>
+                        <th style="background-color: #9e9e9e;"></th>
+                    </tr>
+                   
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic (includes only IoT support services)</td>
+                        <td><input type="radio" id="basic" name="configuration" value="basic"></td>
+                    </tr>
+                    <tr>
+                        <td>Medium</td>
+                        <td><input type="radio" id="medium" name="configuration" value="medium"></td>
+        
+                    </tr>
+            
+                    <tr>
+                        <td>Complete (Includes all the TANDEM Core PaaS Services</td>
+                        <td><input type="radio" id="complete" name="configuration" value="complete"></td>
+                    </tr>
+                    
+                </tbody>
+            </table> 
+        </div>
+        <div class="col-srvregistration" style="width:45%" id="confservicestables" hidden>
+            <table class="srvregtable" id="confservicestable">
+                <tbody>
+                    <tr id="confservicestable">
+                        <td style="background-color: #9e9e9e;"><b>Configuration Services</b></td>
+                    </tr>
+               
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    <div id="manualconftables" hidden>
+        <div style="font-size: 18px; margin-top: 3%;" id="servicestext">Select Specific Services</div>
+        <div class="row regformrow" style="margin-top: 3%" id="servicestables">
+            <div class="col-srvregistration" style="width:45%">
+               <table class="mytable" id="availableservicestable">
+       
+                    <tbody class="connectedSortable">
+                        <tr id="availableservicestable">
+                            <td style="background-color: #9e9e9e;"><b>Available TANDEM Core PaaS Services</b></td>
+                        </tr>
+            
+                    </tbody>
+                </table> 
+            </div>
+      
+            <div class="col-srvregistration" style="width:45%">
+                <table class="mytable" id="installedservicestable">
+       
+                    <tbody class="connectedSortable">
+                        <tr id="installedservicestable">
+                            <td style="background-color: #9e9e9e;"><b>Installed TANDEM Core PaaS Services</b></td>
+               
+                        </tr>
+               
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+    </div>
+    
+    </form>
+    <div class="row">
+      <BR><input class="tandembutton" id="submit-node-btn" type="button" value="Submit" onclick="submitNodeRegistration()">
+    </div>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+  <div id="messagemodal" class="mw3-modal">
+  </div>
+
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/globaltools.js"></script>
+    <script>
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+    <script>
+        loadingNodeRegistration();
+    </script>
+    </body>
+</html>

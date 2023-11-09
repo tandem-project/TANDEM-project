@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Support (PaaS) Services",
+        "id": "PaaS"
+    },
+
+    {
+        "name": "FaaS Services",
+        "id": "FaaS"
+    },
+    
+    {
+        "name": "TANDEM App. Services",
+        "id": "TANDEM_App"
+    },
+
+    {
+        "name": "User App. Services",
+        "id": "User_App"
+    },
+
+    { 
+        "name": "Device Services",
+        "id": "Device"
+    }
+]

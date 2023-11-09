@@ -1,0 +1,234 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+      
+        <link rel="stylesheet" type="text/css" href="css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="css/panels.css">
+        <link rel="stylesheet" type="text/css" href="css/lefttable.css">
+        <link rel="stylesheet" type="text/css" href="css/formfilter.css">
+        <link rel="stylesheet" type="text/css" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/registration.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/tandemart.css?v=1">
+        
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+<script type="text/javascript" src="js/commonfunctions.js"></script>
+<script type="text/javascript" src="js/globaltools.js"></script>
+<script type="text/javascript" src="js/manageinstances.js"></script>
+<script type="text/javascript" src="js/management.js?v=5"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform GUI</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+<!-- LEFT ------------------------------------------------------------------------>
+<div class="column services-mgmt-servicescol">
+    <input type="text" id="myInput" style="border: 1px solid #9e9e9e" onkeyup="myFunction('myTable', 0)" placeholder="Search for Service names.." title="Type in a name">
+
+    
+    
+    <!-- TABLE ------------------------------------------------------------------------>
+    <div id="servicestable">
+
+        <table id="myTable"></table>
+    </div>
+<!-- TABLE ------------------------------------------------------------------------>
+  </div>
+
+<script>
+    //displayServices();
+    getjsoninfo("1");
+</script>
+
+<script type="text/javascript" src="js/selectionList.js"></script>
+
+<!-- TABLE ------------------------------------------------------------------------>
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol">
+<!-- FILTER ------------------------------------------------------------------------>
+      <div style="font-size: 20px;"><b><u>Service Filters</u></b></div>
+<br>
+<div class="container">
+ <!-- <form action="/action_page.php">-->
+  <form>
+    <div class="row">
+      <div class="col-30">
+        <label for="fname">Name</label>
+      </div>
+      <div class="col-70">
+        <input type="text" id="servicename" name="servicename" placeholder="Service name..">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-30">
+        <label for="servicetype">Type</label>
+      </div>
+      <div class="col-70">
+       <!-- <input type="text" id="lname" name="lastname" placeholder="Your last name..">-->
+        <select id="servicetype" name="servicetype">
+        
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('servicetype','./data/types.json');
+    </script>
+    <div class="row">
+      <div class="col-30">
+        <label for="servicecategory">Category</label>
+      </div>
+      <div class="col-70">
+        <select id="servicecategory" name="servicecategory">
+          
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('servicecategory', './data/categories.json');
+    </script>
+    <div class="row">
+      <div class="col-30">
+        <label for="serviceprovider">Provider</label>
+      </div>
+      <div class="col-70">
+        <select id="serviceprovider" name="serviceprovider">
+          
+        </select>
+      </div>
+    </div>
+    <script>
+        selectionList('serviceprovider', './data/providers.json');
+    </script>
+    <div class="row">
+      <div class="col-30">
+        <label for="servicestatus">Status</label>
+      </div>
+      <div class="col-70">
+        <select id="servicestatus" name="servicestatus">
+          <option value="Select">Select</option>
+          <option value="In Study">In Study</option>
+          <option value="In Design">In Design</option>
+          <option value="In Organization Approve">In Organization Approve</option>
+          <option value="In TANDEM Test">In TANDEM Test</option>
+          <option value="Deleted">Approved (Active)</option>
+          <option value="Launched">Launched</option>
+          <option value="Instantiated">Instantiated</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Service Retired">Service Retired</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="row" >
+        <BR><input class="tandembutton" id="submit-btn" type="button" value="Submit" onclick="submitServicesFiltersForm();">
+      
+    </div>
+  </form>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+<div class="mw3-container">
+
+    <div id="serviceInstancesPopup" class="mw3-modal">
+        <div class="mw3-modal-content" style="width:90%;background-color: #9e9e9e;">
+            <header class="mw3-container" style="background-color: #9e9e9e;"> 
+                <span onclick="document.getElementById('serviceInstancesPopup').style.display='none'" 
+                class="mw3-button mw3-display-topright">&times;</span>
+                <h2 id="serviceInstancesTitle" style="text-align: center;"></h2>
+            </header>
+            <div class="mw3-container" style="overflow:auto;">
+                <table id="serviceInstancesTable"></table>
+            </div>
+            <footer class="mw3-container" style="background-color: #9e9e9e;">
+                <p> </p>
+            </footer>
+        </div>
+    </div>
+    
+    <div id="serviceFunctionsPopup" class="mw3-modal">
+        <div class="mw3-modal-content" style="width:90%;background-color: #9e9e9e;">
+            <header class="mw3-container" style="background-color: #9e9e9e;"> 
+                <span onclick="document.getElementById('serviceFunctionsPopup').style.display='none'" 
+                class="mw3-button mw3-display-topright">&times;</span>
+                <h2 id="serviceFunctionsTitle" style="text-align: center;"></h2>
+            </header>
+            <div class="mw3-container" style="overflow:auto;">
+                <table id="serviceFunctionsTable"></table>
+            </div>
+            <footer class="mw3-container" style="background-color: #9e9e9e;">
+                <p> </p>
+            </footer>
+        </div>
+    </div>
+</div>
+<div class="mw3-container">
+    <div id="serviceFunctionsPopup" class="mw3-modal">
+        <div class="mw3-modal-content" style="width:90%;background-color: #9e9e9e;">
+            <header class="mw3-container" style="background-color: #9e9e9e;"> 
+                <span onclick="document.getElementById('serviceFunctionsPopup').style.display='none'" 
+                class="mw3-button mw3-display-topright">&times;</span>
+                <h2 id="serviceFunctionsTitle" style="text-align: center;"></h2>
+            </header>
+            <div class="mw3-container" style="overflow:auto;">
+                <table id="serviceFunctionsTable"></table>
+            </div>
+            <footer class="mw3-container" style="background-color: #9e9e9e;">
+                <p> </p>
+            </footer>
+        </div>
+    </div>
+</div>
+<div class="mw3-container">
+
+    <div id="serviceInstantiatePopup" class="mw3-modal" hidden>
+        <div class="mw3-modal-content" style="width:90%;background-color: #9e9e9e;">
+            <header class="mw3-container" style="background-color: #9e9e9e;"> 
+                <span onclick="document.getElementById('serviceInstantiatePopup').style.display='none'" 
+                class="mw3-button mw3-display-topright">&times;</span>
+                <h2 id="serviceTitle" style="text-align: center;"></h2>
+            </header>
+            <div class="mw3-container" style="overflow:auto;" id="serviceInstantiateTables">
+            </div>
+            <footer class="mw3-container" style="background-color: #9e9e9e;">
+                <p> </p>
+            </footer>
+        </div>
+    </div>
+</div>
+<div id="messagemodal" class="mw3-modal">
+</div>
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    <script>
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+
+    </body>
+</html>

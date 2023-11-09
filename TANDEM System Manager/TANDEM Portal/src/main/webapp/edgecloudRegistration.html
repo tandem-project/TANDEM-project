@@ -1,0 +1,241 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/registration.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/tandemart.css?v=1">
+    </head>
+    <body>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/min.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/fontstool.js"></script>
+<script type="text/javascript" src="js/commonfunctions.js"></script>
+<script type="text/javascript" src="js/globaltools.js"></script>
+<script type="text/javascript" src="js/selectionList.js?v=1"></script>
+<script type="text/javascript" src="js/servicesList.js?v=1"></script>
+<script type="text/javascript" src="js/loadingEdgecloudRegistration.js?v=1"></script>
+<script type="text/javascript" src="js/addNode.js"></script>
+<script type="text/javascript" src="js/addNodeRow.js"></script>
+<script type="text/javascript" src="js/showNodeConfiguration.js"></script>
+<script type="text/javascript" src="js/configuredServices.js"></script>
+<script type="text/javascript" src="js/addEdgeCloud.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+<div class="title">
+    <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+    <h1 id="guititle">TANDEM Platform Portal</h1>
+    <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+</div>
+
+<!-- NAVBAR ------------------------------------------------------------------------>
+<div id="navdivid" class="navbar">
+</div>
+<!-- NAVBAR ------------------------------------------------------------------------>
+        
+<!-- MAIN ------------------------------------------------------------------------>
+<div class="row" style="background-color:white;">
+
+
+<!-- RIGHT ------------------------------------------------------------------------>
+  <div class="column services-mgmt-filterscol" style="width: 100%; background-color: white;">
+      <div style="font-size: 20px;"><b><u>Edge Cloud Registration / Editing</u></b></div>
+<br>
+<div class="container" style="background-color: whitesmoke; display:block; margin: auto; width: 100%;">
+
+  <form style="margin: 0 auto; text-align:center; width:100%;">
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="infranamereg" class="required">Name</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="infranamereg" name="infranamereg">
+      </div>
+      <div class="col-srvregistration">
+        <label for="infraidreg" class="required">ID</label>
+      </div>
+      <div class="col-srvregistration">
+        <input type="text" id="infraidreg" name="infraidreg">
+      </div>
+    </div>
+    
+    <div class="row regformrow">
+      <div class="col-srvregistration">
+        <label for="infrazonereg" class="required">Availability Zone</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="infrazonereg" name="infrazonereg">
+        </select>
+      </div>
+      <div class="col-srvregistration">
+        <label for="infraproviderreg" class="required">Provider</label>
+      </div>
+      <div class="col-srvregistration">
+        <select id="infraproviderreg" name="infraproviderreg">
+          
+        </select>
+      </div>
+    </div>
+  
+    <div class="row regformrow">
+        <div class="col-srvregistration">
+            <label for="infraipreg" class="required">IP</label>
+        </div>
+        <div class="col-srvregistration">
+            <input type="text" id="infraipreg" name="infraipreg">
+        </div>
+        <div class="col-srvregistration">
+            <label for="infraportreg" class="required">Port</label>
+        </div>
+        <div class="col-srvregistration">
+            <input type="text" id="infraportreg" name="infraportreg">
+        </div>
+    </div>
+
+    <div class="row regformrow">
+        <div class="col-srvregistration-tables">
+            <table class="srvregtable" id="nodestable">
+                <thead>
+                    <tr>
+                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Edge Nodes</b></td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Id</th>
+                      
+                        <th>Location</th>
+                        <th>Host Name</th>
+                        <th>External IP</th>
+              
+                        <th>Internal IP</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+      
+    <div class="row" style="margin-left:45%">
+        <div class="col-srvregistration">
+            <input id="add-oper-btn" type="button" value="+ Add Edge Node" onclick="addNodeRow('nodestable', null)">
+        </div>
+    </div>
+    <div style="font-size: 18px; margin-top: 5%;"><b>Configure services in Edge Cloud</b></div>
+    <div>
+        <label for="infraautoconfigreg">Select from existing configurations</label>    
+        <input type="radio" id="infraautoconfigreg" name="configurationtype" value="autoconfig">
+        <br>
+        <label for="inframanualconfigreg">Create your configuration</label> 
+        <input type="radio" id="inframanualconfigreg" name="configurationtype" value="manualconfig">
+    </div>
+  
+    <div class="row regformrow" style="margin-top: 3%" id="conftables" hidden>
+        <div class="col-srvregistration" style="width:45%">
+            <table class="srvregtable" id="cloudConfigurationTable">
+                <thead>
+                    <tr>
+                        <th style="background-color: #9e9e9e;">Configuration</th>
+                        <th style="background-color: #9e9e9e;"></th>
+                    </tr>
+                   
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic (includes only IoT support services)</td>
+                        <td><input type="radio" id="basic" name="configuration" value="basic"></td>
+                    </tr>
+                    <tr>
+                        <td>Medium</td>
+                        <td><input type="radio" id="medium" name="configuration" value="medium"></td>
+        
+                    </tr>
+            
+                    <tr>
+                        <td>Complete (Includes all the TANDEM Core PaaS Services</td>
+                        <td><input type="radio" id="complete" name="configuration" value="complete"></td>
+                    </tr>
+                    
+                </tbody>
+            </table> 
+        </div>
+        
+        <div class="col-srvregistration" style="width:45%" id="confservicestables" hidden>
+            <table class="srvregtable" id="confservicestable">
+                <tbody>
+                    <tr id="confservicestable">
+                        <td style="background-color: #9e9e9e;"><b>Configuration Services</b></td>
+                    </tr>
+               
+                </tbody>
+            </table> 
+        </div>
+      
+    </div>
+    <div id="manualconftables" hidden>
+        <div style="font-size: 18px; margin-top: 3%;" id="servicestext">Select Specific Services</div>
+        <div class="row regformrow" style="margin-top: 3%" id="servicestables">
+        <div class="col-srvregistration" style="width:45%">
+            <table class="mytable" id="availableservicestable">
+                <tbody class="connectedSortable">
+                    <tr id="availableservicestable">
+                        <td style="background-color: #9e9e9e;"><b>Available TANDEM Core PaaS Services</b></td>
+                    </tr>
+               
+                </tbody>
+            </table> 
+        </div>
+      
+        <div class="col-srvregistration" style="width:45%">
+            <table class="mytable" id="installedservicestable">
+         
+                <tbody class="connectedSortable">
+                    <tr id="installedservicestable">
+                        <td style="background-color: #9e9e9e;"><b>Installed TANDEM Core PaaS Services</b></td>
+               
+                    </tr>
+                
+                </tbody>
+            </table> 
+        </div>
+      
+        </div>
+    </div>
+   </form>
+    <div class="row">
+      <BR><input class="tandembutton" id="submit-srvc-btn" type="button" value="Submit" onclick="submitEdgeCloudRegistration()">
+    </div>
+</div>
+
+<!-- FILTER ------------------------------------------------------------------------>
+  </div>
+<!-- RIGHT ------------------------------------------------------------------------>
+</div>
+
+  <div id="messagemodal" class="mw3-modal">
+  </div>
+
+
+<!-- MAIN ------------------------------------------------------------------------>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+<script type="text/javascript" src="js/globaltools.js"></script>
+    <script>
+        initdiv(1);
+    </script>
+<!-- NAVIGATION ------------------------------------------------------------------------>
+    <script>
+        loadingEdgecloudRegistration();
+    </script>
+    </body>
+</html>

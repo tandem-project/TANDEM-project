@@ -1,0 +1,48 @@
+[
+    {
+        "name": "In Study",
+        "id": "study",
+        "next": ["In Design", "In Organization Approve", "Product Approved (Active)", "Product Published", "Product Ordered", "Product Instantiated", "Rejected", "Product Retired"]
+    },
+    {
+        "name": "In Design",
+        "id": "design",
+        "next": ["In Organization Approve", "Product Approved (Active)", "Product Published", "Product Ordered", "Product Instantiated", "Rejected", "Product Retired"]
+    },
+    {
+        
+        "name": "In Organization Approve",
+        "id": "approve",
+        "next": ["Product Approved (Active)", "Product Published", "Product Ordered", "Product Instantiated", "Rejected", "Product Retired"]
+    },
+    {  
+        "name": "Product Approved (Active)",
+        "id": "active",
+        "next": ["Product Published", "Product Ordered", "Product Instantiated", "Product Retired"]
+    },
+    {
+        "name": "Product Published",
+        "id": "published",
+        "next": ["Product Ordered", "Product Instantiated", "Product Retired"]
+    },
+    {
+        "name": "Product Ordered",
+        "id": "ordered",
+        "next": ["Product Instantiated", "Product Retired"]
+    },
+    {
+        "name": "Product Instantiated",
+        "id": "instantiated",
+        "next": ["Product Retired"]
+    },
+    {
+        "name": "Rejected",
+        "id": "rejected",
+        "next": []
+    },
+    {
+        "name": "Product Retired",
+        "id": "retired",
+        "next": []
+    }
+]

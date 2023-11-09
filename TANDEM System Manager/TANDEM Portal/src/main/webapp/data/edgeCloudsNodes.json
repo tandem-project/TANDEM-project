@@ -1,0 +1,84 @@
+[
+  {
+    "nodeId": "Node1",
+    "nodeName": "Peania1",
+    "nodeType": "Master Kubernetes Node",
+    "nodeProvider": "INTRACOM TELECOM S.A",
+    "nodeAddresses": {
+        "nodeHostName": "Peania1_master",
+        "nodeExternalIP": "0.0.0.0", 
+        "nodeInternalIP": "localhost"
+    },
+    "nodeConditions": {
+        "nodeReady": "True",
+        "nodeDiskPressure": "True", 
+        "nodeMemoryPressure": "True", 
+        "nodePIDPressure": "False",
+        "nodeNetworkUnavailabilty": "False"
+    },
+    "nodeCapacity": {
+        "nodeCPUCap": "16",
+        "nodeMemoryCap": "32", 
+        "nodeMemoryCapMU": "Gi", 
+        "nodeStorageCap": "100", 
+        "nodeStorageCapMU": "Gi", 
+        "nodeMaxNoofPods": "5"
+    },
+   "nodeAllocatableResources": {
+        "nodeCPUAllocatable": "14.5",
+        "nodeMemoryAllocatable": "28.5",
+        "nodeMemoryAllocatableMU": "Gi", 
+        "nodeStorageAllocatable": "88.8",
+        "nodeStorageAllocatableMU": "Gi"
+    },
+    "eviction-hard": "memory.available<500Mi,nodefs.available<10%",
+    "nodeGeneralInfo": {
+        "nodeOS": "Ubuntu 20.04 LTS",
+        "nodeKubernetesVersion": "1.24.2",
+        "nodeKernelVersion": "Ubuntu 22.04"
+    },
+    "nodeUsageMonitoringURL": "http://localhost:8080/d/qgmX-lqnb/tandem-node-1?orgId=1&refresh=1m&from=now-3h&to=now",
+    "nodeServicesMonitoringURL":"http://localhost:8080/d/Q5Tyu93na/tandem-node-1-services?orgId=1&refresh=1m&from=now-3h&to=now"
+  },
+  {
+    "nodeId": "Node2",
+    "nodeName": "Peania2",
+    "nodeType": "Worker Kubernetes Node",
+    "nodeProvider": "INTRACOM TELECOM S.A",
+    "nodeAddresses": {
+        "nodeHostName": "Peania1_worker1",
+        "nodeExternalIP": "0.0.0.0", 
+        "nodeInernalIP": "localhost"
+    },
+    "nodeConditions": {
+        "nodeReady": "True",
+        "nodeDiskPressure": "True", 
+        "nodeMemoryPressure": "True", 
+        "nodePIDPressure": "True",
+        "nodeNetworkUnavailabilty": "False"
+    },
+    "nodeCapacity": {
+        "nodeCPUCap": "32",
+        "nodeMemoryCap": "64", 
+        "nodeMemoryCapMU": "Gi", 
+        "nodeStorageCap": "500", 
+        "nodeStorageCapMU": "Gi", 
+        "nodeMaxNoofPods": "15"
+    },
+    "nodeAllocatableResources": {
+        "nodeCPUAllocatable": "39",
+        "nodeMemoryAllocatable": "58.5",
+        "nodeMemoryAllocatableMU": "Gi", 
+        "nodeStorageAllocatable": "488.5",
+        "nodeStorageAllocatableMU": "Gi"
+    },
+    "eviction-hard": "memory.available<1500Mi,nodefs.available<10%",
+    "nodeGeneralInfo": {
+        "nodeOS": "Ubuntu 20.04 LTS",
+        "nodeKubernetesVersion": "1.24.2",
+        "nodeKernelVersion": "Ubuntu 22.04"
+    },
+    "nodeUsageMonitoringURL": "http://localhost:8080/d/qgmX-lqna/tandem-node-2?orgId=1&refresh=1m&from=now-3h&to=now",
+    "nodeServicesMonitoringURL":"http://localhost:8080/d/Q5Tyu66nk/tandem-node-2-services?orgId=1&refresh=1m&from=now-3h&to=now"
+  }
+]

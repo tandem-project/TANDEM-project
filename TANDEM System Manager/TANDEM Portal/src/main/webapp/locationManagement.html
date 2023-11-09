@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <title>tandem</title>
+        <meta charset="UTF-8">        
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/panels.css">
+        <link rel="stylesheet" href="css/lefttable.css">
+        <link rel="stylesheet" href="css/formfilter.css">
+        <link rel="stylesheet" href="css/loginForm.css">
+        <link rel="stylesheet" href="css/registration.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3sp.css">
+        <link rel="stylesheet" href="css/sco.css">
+        <script type="text/javascript" src="js/fontstool.js"></script>
+        
+        <!-- INCLUDING JQUERY-->
+     
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <style>
+        .ktcenter {
+            margin: auto;
+            width: 100%;
+            border: 0px solid #73AD21;
+            padding: 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript" src="js/table.js"></script>
+        <script type="text/javascript" src="js/min.js"></script>
+     
+        <script type="text/javascript" src="js/fontstool.js"></script>
+        
+        <div class="title">
+            <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
+            <h1 id="guititle">TANDEM Platform Portal</h1>
+            <img src="img/banner.jpg" id="banner" alt="tandem-banner"/>
+        </div>
+
+        <!-- NAVBAR ------------------------------------------------------------------------>
+        <div id="navdivid" class="navbar">
+        </div>
+        <!-- NAVBAR ------------------------------------------------------------------------>
+        
+        <!-- MAIN ------------------------------------------------------------------------>
+        <div class="row" style="background-color:white;">
+
+            <!-- RIGHT ------------------------------------------------------------------------>
+            <div class="column services-mgmt-filterscol" style="width: 100%; background-color: white;">
+                <div style="font-size: 20px;"><b><u>Locations Management</u></b></div>
+                <br>
+                <div class="container" style="background-color: whitesmoke; display:block; margin: auto; width: 100%;">
+                    
+                      
+                    <div class="row regformrow" style="margin-left: 30%">
+ 
+                        <div class="col-srvregistration-tables" style="width:70%">
+                            <table class="srvregtable" id="locationstable">
+                                <thead>
+                                    <tr>
+                                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Locations</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="locationsbody">
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left:45%">
+                        <div class="col-srvregistration">
+                            <input id="add-categories-btn" type="button" value="+ Add Location" onclick="addNewLocation()">
+                        </div>
+                    </div>
+
+                </div>
+               
+            </div>
+
+        </div>
+  
+        <div id="messagemodal" class="mw3-modal">
+        </div>
+
+        <!-- MAIN ------------------------------------------------------------------------>
+        <!-- NAVIGATION ------------------------------------------------------------------------>
+        <script type="text/javascript" src="js/globaltools.js"></script>
+        <script type="text/javascript" src="js/locationregistration.js"></script>
+        <script>
+            initdiv(1);
+            initLocationList();
+        </script>
+   
+    </body>
+</html>
