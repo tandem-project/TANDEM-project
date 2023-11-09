@@ -29,13 +29,13 @@ public class Product {
   private String productName = null;
 
   @JsonProperty("productType")
-  private ProductType productType = null;
+  private String productType = null;
 
   @JsonProperty("productProvider")
   private String productProvider = null;
 
-  @JsonProperty("produtDescription")
-  private String produtDescription = null;
+  @JsonProperty("productDescription")
+  private String productDescription = null;
 
   @JsonProperty("productCategory")
   private ProductRef productCategory = null;
@@ -43,6 +43,9 @@ public class Product {
   @JsonProperty("productVersion")
   private String productVersion = null;
 
+  @JsonProperty("productNode")
+  private String productNode = null;
+  
   @JsonProperty("productLifeCycleStatus")
   private String productLifeCycleStatus = null;
 
@@ -91,12 +94,17 @@ public class Product {
   @JsonProperty("productServiceLevelAgreementId")
   private String productServiceLevelAgreementId = null;
 
-  @JsonProperty("producServiceLevelAggrementName")
-  private String producServiceLevelAggrementName = null;
+  @JsonProperty("productServiceLevelAgreementName")
+  private String productServiceLevelAgreementName = null;
 
-  @JsonProperty("producServiceLevelAggrementDescription")
-  private String producServiceLevelAggrementDescription = null;
+  @JsonProperty("productServiceLevelAgreementDescription")
+  private String productServiceLevelAgreementDescription = null;
 
+  @JsonProperty("countMin")
+  private Integer countMin = null;
+  
+  @JsonProperty("countMax")
+  private Integer countMax = null;
   
     public String getProductId() {
         return productId;
@@ -114,11 +122,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public ProductType getProductType() {
+    public String getProductType() {
         return productType;
     }
 
-    public void setProductType(ProductType productType) {
+    public void setProductType(String productType) {
         this.productType = productType;
     }
 
@@ -130,12 +138,12 @@ public class Product {
         this.productProvider = productProvider;
     }
 
-    public String getProdutDescription() {
-        return produtDescription;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setProdutDescription(String produtDescription) {
-        this.produtDescription = produtDescription;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
     public ProductRef getProductCategory() {
@@ -152,6 +160,14 @@ public class Product {
 
     public void setProductVersion(String productVersion) {
         this.productVersion = productVersion;
+    }
+
+    public String getProductNode() {
+        return productNode;
+    }
+
+    public void setProductNode(String productNode) {
+        this.productNode = productNode;
     }
 
     public String getProductLifeCycleStatus() {
@@ -282,22 +298,40 @@ public class Product {
         this.productServiceLevelAgreementId = productServiceLevelAgreementId;
     }
 
-    public String getProducServiceLevelAggrementName() {
-        return producServiceLevelAggrementName;
+    public String getProductServiceLevelAgreementName() {
+        return productServiceLevelAgreementName;
     }
 
-    public void setProducServiceLevelAggrementName(String producServiceLevelAggrementName) {
-        this.producServiceLevelAggrementName = producServiceLevelAggrementName;
+    public void setProductServiceLevelAgreementName(String productServiceLevelAgreementName) {
+        this.productServiceLevelAgreementName = productServiceLevelAgreementName;
     }
 
-    public String getProducServiceLevelAggrementDescription() {
-        return producServiceLevelAggrementDescription;
+    public String getProductServiceLevelAgreementDescription() {
+        return productServiceLevelAgreementDescription;
     }
 
-    public void setProducServiceLevelAggrementDescription(String producServiceLevelAggrementDescription) {
-        this.producServiceLevelAggrementDescription = producServiceLevelAggrementDescription;
+    public void setProductServiceLevelAgreementDescription(String productServiceLevelAgreementDescription) {
+        this.productServiceLevelAgreementDescription = productServiceLevelAgreementDescription;
+    }
+
+    public Integer getCountMin() {
+        return countMin;
+    }
+
+    public void setCountMin(Integer countMin) {
+        this.countMin = countMin;
+    }
+
+    public Integer getCountMax() {
+        return countMax;
+    }
+
+    public void setCountMax(Integer countMax) {
+        this.countMax = countMax;
     }
   
+    
+    
   
   
 

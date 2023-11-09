@@ -29,7 +29,7 @@ public class Service {
   private String serName = null;
 
   @JsonProperty("serType")
-  private ServiceType serType = null;
+  private String serType = null;
 
   @JsonProperty("serProvider")
   private String serProvider = null;
@@ -44,7 +44,7 @@ public class Service {
   private String serVersion = null;
 
   @JsonProperty("state")
-  private ServiceState state = null;
+  private String state = null;
   
   @JsonProperty("serAPIDescriptionURL")
   private List<String> serAPIDescriptionURL = null;
@@ -97,8 +97,8 @@ public class Service {
  // @JsonProperty("piEdgeInfo")
 //  private TANDEM.icomtelecom.service_catalogue.Model.piEdgeInfo piEdgeInfo = null;
 
-    public Service(String serId, String serName, ServiceType serType, String serProvider,
-            String serDescription, CategoryRef serCategory, String serVersion, ServiceState state,
+    public Service(String serId, String serName, String serType, String serProvider,
+            String serDescription, CategoryRef serCategory, String serVersion, String state,
             List<String> serAPIDescriptionURL, List<ServiceConfigParameter> serConfigParams,
             List<ServiceOperation> serOperations, ServiceComputeRequirement serComputeReq,
             ServiceStorgeRequirement serStorageReq, ServiceLatencyRequirement serLatencyReq,
@@ -139,7 +139,7 @@ public class Service {
     
     
   
-    public Service serType(ServiceType serType) {
+    public Service serType(String serType) {
         this.serType = serType;
         return this;
     }
@@ -161,11 +161,11 @@ public class Service {
         this.serName = serName;
     }
 
-    public ServiceType getSerType() {
+    public String getSerType() {
         return serType;
     }
 
-    public void setSerType(ServiceType serType) {
+    public void setSerType(String serType) {
         this.serType = serType;
     }
 
@@ -201,11 +201,11 @@ public class Service {
         this.serVersion = serVersion;
     }
 
-    public ServiceState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(ServiceState state) {
+    public void setState(String state) {
         this.state = state;
     }
 

@@ -1,11 +1,14 @@
 package TANDEM.icomtelecom.service_catalogue.Controllers;
 
+import TANDEM.icomtelecom.service_catalogue.Model.Exceptions.OrderNotFoundException;
 import TANDEM.icomtelecom.service_catalogue.Model.Exceptions.ProductNotFoundException;
+import TANDEM.icomtelecom.service_catalogue.Model.Order.Order;
 import TANDEM.icomtelecom.service_catalogue.Model.Product.Product;
 import TANDEM.icomtelecom.service_catalogue.Model.Product.ProductAvailabilityZones;
 import TANDEM.icomtelecom.service_catalogue.Model.Product.ProductPricePerChargeUnit;
 import TANDEM.icomtelecom.service_catalogue.Model.Product.ProductRef;
 import TANDEM.icomtelecom.service_catalogue.Model.Service.Service;
+import TANDEM.icomtelecom.service_catalogue.Repositories.OrderRepository;
 import TANDEM.icomtelecom.service_catalogue.Repositories.ProductRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +28,21 @@ import org.springframework.data.domain.PageRequest;
 @RequestMapping("servicecatalogue")
 @PropertySource("classpath:application.properties")
 @CrossOrigin("*")
-public class ProductRestController {
+public class OrderRestController {
 
     @Autowired
-    ProductRepository productRepository;
+    OrderRepository orderRepository;
     // All products
-    @GetMapping("/get/products")
-    public List<Product> getAllProducts(){
-        return productRepository.findAll();
+    @GetMapping("/get/orders")
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
     }
 
     //find specific service by id
-    @GetMapping("/get/products/{id}")
-    Product getProductById(@PathVariable String id) throws ProductNotFoundException {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
+    @GetMapping("/get/orders/{id}")
+    Order getOrderById(@PathVariable String id) throws OrderNotFoundException {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     //search for products
@@ -52,21 +55,21 @@ public class ProductRestController {
     }*/
 
     //create a product
-    @PostMapping(path = "/create/products",
+    @PostMapping(path = "/create/orders",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RolesAllowed({"platinum","gold"})
-    public ResponseEntity<Product> createProduct(@RequestBody @Valid Product newProduct) throws Exception {
-        Product product = productRepository.save(newProduct);
-        if (product == null) {
+    public ResponseEntity<Order> createOrder(@RequestBody @Valid Order newOrder) throws Exception {
+        Order order = orderRepository.save(newOrder);
+        if (order == null) {
             throw new Exception("Invalid arguments");
         } else {
-            return new ResponseEntity<>(product, HttpStatus.CREATED);
+            return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
     }
 
     //update a service
-    @PutMapping(path = "/update/products/{id}",
+ /*   @PutMapping(path = "/update/products/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
  //   @RolesAllowed({"platinum","gold"})
@@ -102,8 +105,8 @@ public class ProductRestController {
                     product.setCountMax(newProduct.getCountMax());
                     return productRepository.save(product);
                 }).orElseThrow(() -> new ProductNotFoundException(id));
-    }
-
+    }*/
+/*
     
           //update a product state
     @PutMapping(path = "/update/products/state",
@@ -116,16 +119,16 @@ public class ProductRestController {
                     product.setProductLifeCycleStatus(newProductState.getProductLifeCycleStatus());
                     return productRepository.save(product);
                 }).orElseThrow(() -> new ProductNotFoundException(newProductState.getProductId()));
-    }
+    }*/
     
     
     
     //Delete a product
-    @DeleteMapping("/delete/products/{id}")
+    @DeleteMapping("/delete/orders/{id}")
 //    @RolesAllowed("platinum")
  //   @RolesAllowed("platinum")
-    ResponseEntity<?> deleteProductById(@PathVariable String id){
-        productRepository.deleteById(id);
+    ResponseEntity<?> deleteOrderById(@PathVariable String id){
+        orderRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
