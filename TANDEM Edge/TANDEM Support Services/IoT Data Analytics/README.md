@@ -1,4 +1,4 @@
-The directories of Grafana, Eclipse-Mqtt, InfluxDB and Temperature & Humidity App contains all the deployment, services and volume files that are mandatory for the installation of an Iot Data Analytics PaaS Service. If we want to deploy manually the IoT Data and Analytics Workflow (without pi-edge) we have to execute :
+The directories of Grafana, Eclipse-Mqtt, InfluxDB and Temperature & Humidity App contains all the deployment, services and volume files that are mandatory for the installation of an Iot Data Analytics PaaS Service. If we want to deploy manually the IoT Data and Analytics Workflow (without pi-edge) we have to execute:
 
 kubectl apply -f Eclipse-Mqtt/*
 
