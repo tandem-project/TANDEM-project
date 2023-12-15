@@ -1,0 +1,6 @@
+#!/bin/bash
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm install --set persistence.enabled=false --set zookeeper.persistence.enabled=false --set metrics.kafka.enabled=true --set metrics.serviceMonitor.enabled=true --set service.type=NodePort --set service.nodePorts.client=31122 --set advertisedListeners="10.124.35.24:18000" kafka bitnami/kafka 

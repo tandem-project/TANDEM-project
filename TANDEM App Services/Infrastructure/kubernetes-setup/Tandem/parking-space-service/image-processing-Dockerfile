@@ -5,7 +5,8 @@
   #     owner: vagrant
   #     group: vagrant
   #   become: true
-FROM ubuntu:18.04
+#FROM ubuntu:18.04
+FROM opencvcourses/opencv-docker
 
   # - name: Set up a programming environment on Ubuntu Focal
   #   ansible.builtin.apt:
@@ -24,7 +25,7 @@ FROM ubuntu:18.04
   #   become: true
 RUN apt update
 RUN apt install -y \
-  python3-pip \
+#  python3-pip \
   build-essential \
   libssl-dev \
   libffi-dev \
@@ -33,7 +34,7 @@ RUN apt install -y \
   ffmpeg \
   libsm6 \
   libxext6 \
-  emacs \
+#  emacs \
   git
     
   # - name: Git Checkout
@@ -42,8 +43,8 @@ RUN apt install -y \
   #     dest: /var/tandem/camera4Me
 RUN git clone https://github.com/mvimplis2013/machine-learning-python.git
 
-RUN pip3 install --upgrade pip && \
-  pip3 install opencv-python
+RUN python3 -m pip install --upgrade pip && \
+  python3 -m pip install prometheus-client urllib3==1.26 #opencv-python
 
   # - name: Run Setup.py Install && After Start the Frame-Grabbing Application
   #   ansible.builtin.command:

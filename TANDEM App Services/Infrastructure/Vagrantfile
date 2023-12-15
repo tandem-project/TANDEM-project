@@ -1,8 +1,10 @@
 IMAGE_NAME = "bento/ubuntu-16.04"
 #IMAGE_NAME="ubuntu/focal64"
+#IMAGE_NAME = "bento/ubuntu-22.04"
+#IMAGE_NAME = "ubuntu/bionic64"
 
 # Number of Worker Nodes
-N = 2
+N = 1
 
 RABBITMQ_PORT = 31123
 RABBITMQ_HOST_PORT = 18001
@@ -76,14 +78,15 @@ Vagrant.configure("2") do |config|
   end
   
   # Enable NFS Synced Folders ... Host-Server {VS} All VM-Client
-  config.vm.synced_folder "/var/nfs/general/", "/data", type: "nfs", nfs_export: false
+  #config.vm.synced_folder "/var/nfs/general/", "/data", type: "nfs", nfs_export: false
+  config.vm.synced_folder "/var/nfs/general/", "/data", type: "nfs", nfs_export: false, nfs_udp: false
   #
     
   config.vm.define "k8s-master" do |master|
     master.vm.box = IMAGE_NAME
 
     # Copy CA-CERTIFICATES & Others
-    master.vm.provision "file", source: "/usr/local/share/ca-certificates/IntracomTelecomCA.crt", destination: "/var/tmp/"
+    master.vm.provision "file", source: "/usr/local/share/ca-certificates/IntracomTelecomCAG2.crt", destination: "/var/tmp/"
     master.vm.provision "file", source: "/home/vibm/kubernetes/learning-cloud-226142d8e000.json", destination: "/home/vagrant/"
     master.vm.provision "file", source: "/home/vibm/kubernetes/daemon.json", destination: "/home/vagrant/"
 
@@ -93,7 +96,7 @@ Vagrant.configure("2") do |config|
     master.vm.provision "file", source: "/home/vibm/kubernetes/kubernetes-setup/list-nfs-mount-points-on-clients.sh", destination: "/home/vagrant/toolset/"
     # Run SHELL scripts
     master.vm.provision "shell",
-                        inline: "sudo mv /var/tmp/IntracomTelecomCA.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates"
+                        inline: "sudo mv /var/tmp/IntracomTelecomCAG2.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates"
 
     master.vm.provision "shell", inline: $script
     
@@ -108,9 +111,10 @@ Vagrant.configure("2") do |config|
     
     #master.vm.network "forwarded_port", guest: PORT_ARGO_UI, host: PORT_ARGO_UI_HOST
 
-    #master.vm.network "forwarded_port", guest: REDIS_PORT, host: REDIS_HOST_PORT
+    master.vm.network "forwarded_port", guest: REDIS_PORT, host: REDIS_HOST_PORT
+    #master.vm.network "forwarded_port", guest: RABBITMQ_PORT, host: RABBITMQ_HOST_PORT
+
     #master.vm.network "forwarded_port", guest: CONSUL_UI_PORT, host: CONSUL_UI_HOST_PORT
-    master.vm.network "forwarded_port", guest: RABBITMQ_PORT, host: RABBITMQ_HOST_PORT
 
     #master.vm.network "forwarded_port", guest: AIRFLOW_PORT, host: AIRFLOW_HOST_PORT
 
@@ -144,7 +148,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "node-#{i}" do |node|
       node.vm.box = IMAGE_NAME
 
-      node.vm.provision "file", source: "/usr/local/share/ca-certificates/IntracomTelecomCA.crt", destination: "/var/tmp/"
+      node.vm.provision "file", source: "/usr/local/share/ca-certificates/IntracomTelecomCAG2.crt", destination: "/var/tmp/"
       node.vm.provision "file", source: "/home/vibm/kubernetes/learning-cloud-226142d8e000.json", destination: "/home/vagrant/"
       node.vm.provision "file", source: "/home/vibm/kubernetes/daemon.json", destination: "/home/vagrant/"
 
@@ -152,7 +156,7 @@ Vagrant.configure("2") do |config|
     
       # Run SHELL scripts
       node.vm.provision "shell",
-      inline: "sudo mv /var/tmp/IntracomTelecomCA.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates"
+      inline: "sudo mv /var/tmp/IntracomTelecomCAG2.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates"
 
       node.vm.provision "shell", inline: $script
 

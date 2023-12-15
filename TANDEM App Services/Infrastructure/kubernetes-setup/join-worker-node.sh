@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo "Acquire::http::Proxy \"http://icache.intracomtel.com:80/\";" >> /etc/apt/apt.conf
+echo -e "use_proxy = on\nhttp_proxy = http://icache.intracomtel.com:80/\nhttps_proxy = http://icache.intracomtel.com:80/" >> .wgetrc                                                       |
+git config --global http.proxy ${HTTP_PROXY}
+
+sudo apt update
+
 DOCKER_IMAGES_FOLDER=/data/images/
 
 user_id=$(id -u)
@@ -34,11 +40,12 @@ mkdir -p /opt/cni/bin/
 curl -fsSLo /opt/cni/bin/cni-plugins-linux-amd64-v1.1.1.tgz https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-amd64-v1.1.1.tgz
 tar -xzvf /opt/cni/bin/cni-plugins-linux-amd64-v1.1.1.tgz
 
-curl -fsSLo go1.18.3.linux-amd64.tar.gz https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
-#sudo curl -fsSLo go1.13.linux-amd64.tar.gz https://go.dev/dl/go1.13.linux-amd64.tar.gz
+GO_VERSION=1.21.4
+#curl -fsSLo go1.18.3.linux-amd64.tar.gz https://go.dev/dl/go"${GO_VERSION}".linux-amd64.tar.gz
+sudo curl -fsSLo go"${GO_VERSION}".linux-amd64.tar.gz https://go.dev/dl/go"${GO_VERSION}".linux-amd64.tar.gz
 rm -rf /usr/local/go/
 
-tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go"${GO_VERSION}".linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 
 go version
@@ -53,9 +60,13 @@ export GOPATH='/home/vagrant/go/'
 
 # CRI Interface for Docker-Engine
 git clone https://github.com/Mirantis/cri-dockerd.git
+
 cd cri-dockerd && mkdir bin
 
-go tidy
+#make cri-dockerd
+#mkdir -p /usr/local/bin/
+
+go mod tidy
 chmod a=wrx -R /home/vagrant/cri-dockerd/
 
 go build -o bin/cri-dockerd
@@ -79,8 +90,8 @@ runtime-endpoint: unix:///run/cri-dockerd.sock
 image-endpoint: unix:///run/cri-dockerd.sock
 EOF
 
-crictl pull busybox
-crictl image
+#crictl pull busybox
+#crictl image
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 # Docker Load Images from TAR file

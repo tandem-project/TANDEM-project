@@ -42,8 +42,8 @@ RUN apt install -y \
   #     dest: /var/tandem/camera4Me
 RUN git clone https://github.com/mvimplis2013/machine-learning-python.git
 
-RUN pip3 install --upgrade pip && \
-  pip3 install opencv-python
+RUN python3 -m pip install --upgrade pip && \
+  python3 -m pip install opencv-python urllib3==1.26.14
 
   # - name: Run Setup.py Install && After Start the Frame-Grabbing Application
   #   ansible.builtin.command:

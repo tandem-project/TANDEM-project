@@ -1,0 +1,23 @@
+  - name: Generate self-signed certificates for private registry
+    ansible.builtin.command:
+      cmd: 'openssl req -newkey rsa:4096 -nodes -sha256 -keyout /opt/certs/registry.key -x509 -days 365 -out /opt/certs/registry.crt -subj "/C=GR/ST=Attica/L=Athens/O=Linuxtechi/CN=k8s-master"'
+    become: true
+
+  - name: Verify generated key and certificate file
+    ansible.builtin.command:
+      cmd: ls -l /opt/certs/
+    register: ls_cert
+
+  - ansible.builtin.debug:
+      var: ls_cert
+
+  - name: Create directory for tandem-deployment files
+    ansible.builtin.file:
+      path: /home/vagrant/tandem/deployments/
+      state: directory
+      mode: '0755'
+
+  - name: Copy deployment file on master-node
+    ansible.builtin.copy:
+      src: "/home/vibm/kuberntes/kubernetes-setup/Tandem/private-docker-registry/private-registry-deployment.yaml"
+      dest: /home/vagrant/tandem/deployments/

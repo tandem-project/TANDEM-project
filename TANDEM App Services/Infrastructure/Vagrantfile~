@@ -1,0 +1,179 @@
+IMAGE_NAME = "bento/ubuntu-16.04"
+#IMAGE_NAME="ubuntu/focal64"
+#IMAGE_NAME = "bento/ubuntu-22.04"
+#IMAGE_NAME = "ubuntu/bionic64"
+
+# Number of Worker Nodes
+N = 1
+
+RABBITMQ_PORT = 31123
+RABBITMQ_HOST_PORT = 18001
+
+REDIS_PORT = 31961
+REDIS_HOST_PORT = 18001
+
+CONSUL_UI_PORT = 31962
+CONSUL_UI_HOST_PORT = 18002
+
+PORT_ARGO_UI = 31963
+PORT_ARGO_UI_HOST = 18003
+
+METRICS_SERVER_PORT = 31964
+METRICS_SERVER_HOST_PORT = 18004
+  
+STACK_PROMETHEUS_PORT = 31300
+STACK_PROMETHEUS_HOST_PORT = 18005
+
+STACK_GRAFANA_PORT = 31974
+STACK_GRAFANA_HOST_PORT = 18006
+
+STACK_ALERTMANAGER_PORT = 31976
+STACK_ALERTMANAGER_HOST_PORT = 18007
+
+KUBEVIEW_PORT = 31978
+KUBEVIEW_HOST_PORT = 18009
+
+AIRFLOW_PORT = 31980
+AIRFLOW_HOST_PORT = 18008
+
+# SOS: Same with AIRFLOW !
+HARBOR_PORT = 30303
+HARBOR_HOST_PORT = 18008
+
+#JAEGER_PORT = 31982
+JAEGER_PORT = 31164
+JAEGER_HOST_PORT = 18010
+
+MARKETPLACE_PORT = 30501
+MARKETPLACE_HOST_PORT = 18000
+
+APACHE_HTTP_PORT = 30818
+APACHE_HOST_PORT = 18000
+
+# KAFKA Client Connection
+KAFKA_BROKER_PORT = 31122
+KAFKA_BROKER_HOST_PORT = 18000
+
+$script = <<-SCRIPT
+     sudo http_proxy=http://icache.intracomtel.com:80 apt-get update
+     sudo http_proxy=http://icache.intracomtel.com:80 apt-get install -y emacs lynx
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+  config.ssh.forward_agent = true
+  
+  config.vm.provider "virtualbox" do |v|
+    #v.memory = 1024
+    #v.memory = 4096
+    v.memory = 8192
+    
+    v.cpus = 2
+  end
+
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http = "http://icache.intracomtel.com:80"
+    config.proxy.https = "http://icache.intracomtel.com:80"
+    config.proxy.no_proxy = "localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/24"
+  end
+  
+  # Enable NFS Synced Folders ... Host-Server {VS} All VM-Client
+  #config.vm.synced_folder "/var/nfs/general/", "/data", type: "nfs", nfs_export: false
+  config.vm.synced_folder "/var/nfs/general/", "/data", type: "nfs", nfs_export: false, nfs_udp: false
+  #
+    
+  config.vm.define "k8s-master" do |master|
+    master.vm.box = IMAGE_NAME
+
+    # Copy CA-CERTIFICATES & Others
+    master.vm.provision "file", source: "/usr/local/share/ca-certificates/IntracomTelecomCAG2.crt", destination: "/var/tmp/"
+    master.vm.provision "file", source: "/home/vibm/kubernetes/learning-cloud-226142d8e000.json", destination: "/home/vagrant/"
+    master.vm.provision "file", source: "/home/vibm/kubernetes/daemon.json", destination: "/home/vagrant/"
+
+    master.vm.provision "file", source: "/home/vibm/kubernetes/kubernetes-setup/initialize-kubernetes-cluster.sh", destination: "/home/vagrant/"
+    master.vm.provision "file", source: "/home/vibm/kubernetes/kubernetes-setup/deploy-dashboard.sh", destination: "/home/vagrant/"
+    
+    master.vm.provision "file", source: "/home/vibm/kubernetes/kubernetes-setup/list-nfs-mount-points-on-clients.sh", destination: "/home/vagrant/toolset/"
+    # Run SHELL scripts
+    master.vm.provision "shell",
+                        inline: "sudo mv /var/tmp/IntracomTelecomCA.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates"
+
+    master.vm.provision "shell", inline: $script
+    
+    #cd /var/tmp/
+    #cp intracomTelecomCA.crt /usr/local/share/ca-certiifcates/
+    #update-ca-certiifcates
+    
+    #master.vm.network "private_network", ip:"192.168.50.10"
+    master.vm.network "private_network", ip:"192.168.56.10"
+
+    #master.vm.network "forwarded_port", guest: MARKETPLACE_PORT, host: MARKETPLACE_HOST_PORT
+    
+    #master.vm.network "forwarded_port", guest: PORT_ARGO_UI, host: PORT_ARGO_UI_HOST
+
+    master.vm.network "forwarded_port", guest: REDIS_PORT, host: REDIS_HOST_PORT
+    #master.vm.network "forwarded_port", guest: RABBITMQ_PORT, host: RABBITMQ_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: CONSUL_UI_PORT, host: CONSUL_UI_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: AIRFLOW_PORT, host: AIRFLOW_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: KUBEVIEW_PORT, host: KUBEVIEW_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: JAEGER_PORT, host: JAEGER_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: HARBOR_PORT, host: HARBOR_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: STACK_PROMETHEUS_PORT, host: STACK_PROMETHEUS_HOST_PORT
+
+    #master.vm.network "forwarded_port", guest: STACK_GRAFANA_PORT, host: STACK_GRAFANA_HOST_PORT
+    #master.vm.network "forwarded_port", guest: STACK_ALERTMANAGER_PORT, host: STACK_ALERTMANAGER_HOST_PORT
+
+    master.vm.network "forwarded_port", guest: KAFKA_BROKER_PORT, host: KAFKA_BROKER_HOST_PORT
+    
+    master.vm.hostname = "k8s-master"
+
+    master.vm.provision "ansible" do |ansible|
+      ansible.playbook = "kubernetes-setup/master-playbook.yml"
+
+      ansible.extra_vars = {
+        #node_ip: "192.168.50.10",
+        node_ip: "192.168.56.10",
+      }
+    end
+    
+  end
+
+  (1..N).each do |i|
+    config.vm.define "node-#{i}" do |node|
+      node.vm.box = IMAGE_NAME
+
+      node.vm.provision "file", source: "/usr/local/share/ca-certificates/IntracomTelecomCAG2.crt", destination: "/var/tmp/"
+      node.vm.provision "file", source: "/home/vibm/kubernetes/learning-cloud-226142d8e000.json", destination: "/home/vagrant/"
+      node.vm.provision "file", source: "/home/vibm/kubernetes/daemon.json", destination: "/home/vagrant/"
+
+      node.vm.provision "file", source: "/home/vibm/kubernetes/kubernetes-setup/join-worker-node.sh", destination: "/home/vagrant/"
+    
+      # Run SHELL scripts
+      node.vm.provision "shell",
+      inline: "sudo mv /var/tmp/IntracomTelecomCAG2.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates"
+
+      node.vm.provision "shell", inline: $script
+
+      #node.vm.network "private_network", ip:"192.168.50.#{i+10}"
+      node.vm.network "private_network", ip:"192.168.56.#{i+10}"
+
+      #node.vm.network "forwarded_port", guest: MARKETPLACE_PORT, host: "#{MARKETPLACE_HOST_PORT+i}"
+      #node.vm.network "forwarded_port", guest: APACHE_HTTP_PORT, host: "#{APACHE_HOST_PORT+i}"
+      
+      node.vm.hostname = "node-#{i}"
+      node.vm.provision "ansible" do |ansible|
+        ansible.playbook = "kubernetes-setup/node-playbook.yml"
+        ansible.extra_vars = {
+          #node_ip: "192.168.50.#{i+10}",
+          node_ip: "192.168.56.#{i+10}",
+        }
+      end
+    end
+  end
+end

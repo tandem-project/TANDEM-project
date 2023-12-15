@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /home/vibm/docker/registry/
+./run-local-registry.sh 

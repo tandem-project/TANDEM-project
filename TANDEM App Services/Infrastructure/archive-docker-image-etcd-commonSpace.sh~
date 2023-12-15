@@ -1,0 +1,14 @@
+#!/bin/bash
+
+NAME="bitnami/etcd"
+TAG="3.5"
+
+OUTPUT_FOLDER="/var/nfs/general/images/"
+
+OUTPUT_FULLNAME=$OUTPUT_FOLDER$NAME".tar"
+
+docker pull $NAME:$TAG
+
+docker images
+
+docker save $NAME:$TAG --output $OUTPUT_FULLNAME

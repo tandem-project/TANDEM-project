@@ -4,6 +4,8 @@
       state: latest
       update_cache: yes
     become: true
+    environment:
+       http_proxy: http://icache.intracomtel.com:80/
 
   - name: Create Mount Directories
     ansible.builtin.file:

@@ -1,0 +1,8 @@
+# Delete previous deployments
+kubectl delete -f deployments/hd-watchdog-application.yaml -n tandem
+
+# DATA-WATCHDOG pod
+FILE="deployments/hd-watchdog-application.yaml"
+kubectl create -f $FILE -n tandem
+
+kubectl get pods -n tandem --watch

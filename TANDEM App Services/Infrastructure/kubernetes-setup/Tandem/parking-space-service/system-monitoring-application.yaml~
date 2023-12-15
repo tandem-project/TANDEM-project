@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: system-monitoring-application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: system-monitoring-application
+  template:
+    metadata:
+      labels:
+        app: system-monitoring-application
+    spec:
+      #hostNetwork: true
+      containers:
+        - name: system-monitoring
+          #image: "127.0.0.1:30007/camera4me:0.0.2"
+          image: "system-monitoring:0.0.2"
+          imagePullPolicy: Never
+          command:
+            #- system-monitoring
+	    - file-watchdog
+            #- "3600"
+          volumeMounts:
+            - mountPath: /dt2
+              name: volumes-hostdir-volume
+          env:
+          - name: MESSAGE_QUEUE_TYPE
+          #  value: "rabbitMQ"
+            value: Redis
+          #- name: RABBITMQ_PASSWORD
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: vibm-rabbitmq
+          #      key: rabbitmq-password
+          - name: RABBITMQ_SERVICE
+            value: vibm-rabbitmq.tandem.svc
+          #- name: INFLUXDB_PASSWORD
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: vibm-influxdb
+          #      key: admin-user-password
+          - name: INFLUXDB_SERVICE
+            value: vibm-influxdb.tandem.svc.cluster.local
+          - name: INFLUXDB_USER
+            value: admin
+          - name: INFLUXDB_NAME
+            value: parking
+      nodeSelector:
+        kubernetes.io/hostname: node-1
+    
+      volumes:
+        - hostPath:
+            path: /data
+          name: volumes-hostdir-volume
+        

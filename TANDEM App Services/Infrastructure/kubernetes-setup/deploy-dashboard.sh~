@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "STEP 1: Define Environment Variables for Intracom Proxy"
+export HTTP_PROXY=http://icache.intracomtel.com:80
+export HTTPS_PROXY=http://icache.intracomtel.com:80
+export NO_PROXY=192.168.0.0/16,10.96.0.0/16
+
+curl https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml -O

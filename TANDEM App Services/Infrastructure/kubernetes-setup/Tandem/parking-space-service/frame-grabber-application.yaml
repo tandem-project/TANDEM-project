@@ -12,7 +12,7 @@ spec:
       labels:
         app: frame-grabber
     spec:
-      #hostNetwork: true
+      hostNetwork: true
       containers:
         - name: camera4me
           #image: "127.0.0.1:30007/camera4me:0.0.2"

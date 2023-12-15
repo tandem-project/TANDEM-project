@@ -1,0 +1,195 @@
+---
+- hosts: all
+
+  vars:
+    kube_version: 1.24.11-00
+    kube_version: 1.26.00-00
+
+  become: true
+  tasks:
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+    vars:
+      packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+      - sshpass
+      
+  - name: Add an apt signing key for Docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+
+  - name: Add apt repository for stable version
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+
+  - name: Install docker and its dependencies
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+    vars:
+      packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - python3-pexpect
+    notify:
+      - docker status
+
+  - name: Add vagrant user to docker group
+    user:
+      name: vagrant
+      group: docker
+
+  - name: Define HTTP_PROXY, HTTPS_PROXY, and NO_PROXY for Docker Daemon
+    become: yes
+    ansible.builtin.script: /home/vibm/kubernetes/kubernetes-setup/docker-httpsProxy.sh
+
+  - name: Google Cloud SDK Installation
+    become: yes
+    ansible.builtin.script: /home/vibm/kubernetes/kubernetes-setup/google-cloud-installation.sh
+
+  - name: Google Cloud Account Authentication
+    become: yes
+    ansible.builtin.command: "{{ item }}"
+    with_items:
+    - gcloud config set proxy/type http
+    - gcloud config set proxy/address icache.intracomtel.com
+    - gcloud config set proxy/port 80
+    - gcloud auth activate-service-account learning-cloud@appspot.gserviceaccount.com --key-file=learning-cloud-226142d8e000.json
+
+  - name: Configure Docker with google-cloud authenbtication
+    ansible.builtin.expect:
+      command: gcloud auth configure-docker
+      responses:
+        (.*)Do you want to continue(.*): "Y"
+
+  - name: "failed to run Kubelet: misconfiguration: kubelet cgroup driver: \"systemd\" is different from docker cgroup driver: \"cgroupfs\""
+    ansible.builtin.command: "{{ item }}"
+    with_items:
+      - mv daemon.json /etc/docker/
+      - systemctl daemon-reload
+      - systemctl restart docker
+    become: yes
+
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
+
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0
+
+  - name: Add an apt signing key for Kubernetes
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+
+  - name: Add apt repository for kubernetes
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: kubernetes.list
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+
+  - name: Install kubernetes binaries [Use ... apt list -a kubelet]
+    apt:
+      name: "{{ packages  }}"
+      state: present
+      update_cache: yes
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
+    vars:
+      packages:
+      - kubelet={{ kube_version }}
+      - kubeadm={{ kube_version }}
+      - kubectl={{ kube_version }}
+
+  - name: Configure node ip
+    lineinfile:
+      path: /etc/default/kubelet
+      line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+      create: yes
+
+  - name: Restart kubelet
+    service:
+      name: kubelet
+      daemon_reload: yes
+      state: restarted
+
+  - name: Copy the join command to server location
+    copy: src="/home/vibm/kubernetes/join-command" dest="/tmp/join-command.sh" mode=0777
+
+  - name: Join the node to cluster
+    command: echo HELLO #sh /tmp/join-command.sh
+
+  - name: Install NFS-functionality on client
+    ansible.builtin.include_tasks:
+     file: "setup-nfs-client-on-worker-node.yaml"
+
+  - name: Copy registry certificate file to worker node
+    ansible.builtin.command:
+      cmd: "{{ item }}"
+    with_items:
+    - cp /opt/certs/registry.crt /usr/local/share/ca-certificates/
+    #- update-ca-certificates
+    # - systemctl restart docker
+    become: true
+    ignore_errors: false
+
+  - name: Hold new certificates
+    ansible.builtin.command:
+      cmd: update-ca-certificates
+    become: true
+    register: response_certs
+
+  - ansible.builtin.debug:
+      var: response_certs
+
+  - name: Restart docker after SSL cert renewal
+    ansible.builtin.command:
+      cmd: systemctl restart docker
+    become: true
+
+  - name: Create "grafana" folder in /home/vagrant/
+    ansible.builtin.file:
+      path: /home/vagrant/grafana/
+      state: directory
+      owner: 472
+      group: 472
+      
+  handlers:
+    - name: docker status
+      service: name=docker state=started

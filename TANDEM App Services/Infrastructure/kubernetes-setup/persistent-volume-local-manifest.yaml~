@@ -1,0 +1,50 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: vibm-local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+  #labels:
+  #  app: atlantis
+  #  #app.kubernetes.io/name: postgresql
+spec:
+  storageClassName: vibm-local-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  local:
+    path: "/home/vagrant/data/atlantis/"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - "node-2"
+  persistentVolumeReclaimPolicy: Delete
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-pvc
+  namespace: tandem
+spec:
+  storageClassName: vibm-local-storage
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 3Gi
+  #selector:
+  #  matchLabels:
+  #    app: atlantis
+---

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto-ephemeral
+  labels:
+    app: mosquitto-ephemeral
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mosquitto-ephemeral
+  template:
+    metadata:
+      labels:
+        app: mosquitto-ephemeral
+    spec:
+      containers:
+      - name: mosquitto-ephemeral
+        image: quay.io/kboone/mosquitto-ephemeral
+        ports:
+        - containerPort: 1883
+          protocol: TCP
+	- containerPort: 8883
+	  protocol: TCP
+	resources:
+	  limits:
+	    memory: 128Mi
+---
+kind: Service
+metadata:
+  name: mosquitto-ephemeral-tcp
+spec:
+  ports:
+  - port: 1883
+    targetPort: 1883
+---
+kind: Service
+metadata:
+  name: mosquitto-ephemeral-tls
+spec:
+  ports:
+  - port:8883
+    targetPort: 8883

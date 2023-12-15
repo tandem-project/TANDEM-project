@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-folder-application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-folder-watchdog
+  template:
+    metadata:
+      labels:
+        app: data-folder-watchdog
+    spec:
+      #hostNetwork: true
+      containers:
+        - name: file-watchdog
+          #image: "127.0.0.1:30007/camera4me:0.0.2"
+          image: "camera4mev0.0.2:latest"
+          imagePullPolicy: Never
+          command:
+            - file-watchdog
+            #- "3600"
+          volumeMounts:
+            - mountPath: /dt2
+              name: volumes-hostdir-volume
+          env:
+          - name: MESSAGE_QUEUE_TYPE
+            value: "rabbitMQ"
+          - name: RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: vibm-rabbitmq
+                key: rabbitmq-password
+                namespace: tandem
+          - name: RABBITMQ_SERVICE
+            value: vibm-rabbitmq.tandem.svc
+          - name: INFLUXDB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: vibm-influxdb
+                key: admin-user-password
+          - name: INFLUXDB_SERVICE
+            value: vibm-influxdb.tandem.svc.cluster.local
+          - name: INFLUXDB_USER
+            value: admin
+          - name: INFLUXDB_NAME
+            value: parking
+    
+      volumes:
+        - hostPath:
+            path: /data
+          name: volumes-hostdir-volume
+        

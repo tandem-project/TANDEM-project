@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Create a new workspace
+kubectl create namespace argocd

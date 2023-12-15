@@ -1,0 +1,9 @@
+#!/bin/bash
+
+kubectl create -f deployments/private-registry.yaml -n tandem
+
+kubectl get -f deployments/private-registry.yaml --watch - o wide 
+
+# Filter by Label
+kubectl get pods -l name=priva
+kubectl get pods -n tandem

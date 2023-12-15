@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Add Repository
+helm repo add trino https://trinodb.github.io/charts/
+
+# Install Chart
+helm install trino trino/trino --version 0.8.0

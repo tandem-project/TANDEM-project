@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging-operator-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messaging-operator-app
+  template:
+    metadata:
+      labels:
+        app: messaging-operator-app
+    spec:
+      #hostNetwork: true
+      containers:
+        - name: messaging-operator
+          #image: "127.0.0.1:30007/camera4me:0.0.2"
+          image: "messaging-operator:latest"
+          imagePullPolicy: IfNotPresent   
+          #imagePullPolicy: Always
+          #imagePullPolicy: Never
+          command:
+            - topic-subscriber	
+            #- "3600"
+          volumeMounts:
+            - mountPath: /dt2
+              name: volumes-hostdir-volume
+          env:
+          - name: MESSAGE_QUEUE_TYPE
+            #value: Redis
+            value: RabbitMQ
+          #- name: RABBITMQ_PASSWORD
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: vibm-rabbitmq
+          #      key: rabbitmq-password
+          - name: LISTENING_SERVICE
+            #value: 10.108.32.220:6379
+            value: 10.244.84.166:5672
+          - name: USERNAME_PASSWORD
+            value: tandem/tandem123
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: vibm-influxdb
+          #      key: admin-user-password
+          #- name: INFLUXDB_SERVICE
+          #  value: vibm-influxdb.tandem.svc.cluster.local
+          #- name: INFLUXDB_USER
+          #  value: admin
+          #- name: INFLUXDB_NAME
+          #  value: parking
+    
+      volumes:
+        - hostPath:
+            path: /data
+          name: volumes-hostdir-volume
+        

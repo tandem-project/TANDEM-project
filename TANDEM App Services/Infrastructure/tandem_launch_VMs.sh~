@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./export- 
+vagrant status
+
+vagrant destroy -f
+
+vagrant up k8s-master node-1 
+
+vagrant ssh k8s-master 

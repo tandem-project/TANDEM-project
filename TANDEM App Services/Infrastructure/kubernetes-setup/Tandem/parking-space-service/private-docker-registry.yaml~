@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frame-grabber
+spec:
+  hostNetwork: true
+  containers:
+  - name: redis
+    image: redis

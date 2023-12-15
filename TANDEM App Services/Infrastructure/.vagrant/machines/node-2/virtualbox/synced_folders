@@ -1,0 +1,1 @@
+{"nfs":{"/data":{"type":"nfs","nfs_export":false,"nfs_udp":false,"guestpath":"/data","hostpath":"/var/nfs/general","disabled":false,"__vagrantfile":true,"map_uid":0,"map_gid":0,"nfs_version":3,"uuid":"2490439042"}},"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/vibm/kubernetes","disabled":false,"__vagrantfile":true}}}

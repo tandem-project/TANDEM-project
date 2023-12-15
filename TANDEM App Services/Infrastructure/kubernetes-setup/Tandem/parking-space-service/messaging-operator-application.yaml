@@ -14,14 +14,46 @@ spec:
     spec:
       #hostNetwork: true
       containers:
-        - name: messaging-operator
-          #image: "127.0.0.1:30007/camera4me:0.0.2"
-          image: "messaging-operator:0.0.2"
-          #imagePullPolicy: IfNotPresent   
-          #imagePullPolicy: Always
-          imagePullPolicy: Never
+        - name: async-consumer-rabmq
+          image: "messaging-operator:latest"
+          imagePullPolicy: IfNotPresent
           command:
-            - polite-messenger	
+            - async-consumer-rabmq
+          args: ['--user', 'tandem', '--password', 'tandem123', '--host', '10.104.236.228', '--port', '5672']
+        - name: async-publisher-rabmq
+          image: "messaging-operator:latest"
+          imagePullPolicy: IfNotPresent
+          command:
+            - async-publisher-rabmq
+          args: ["", ""]
+        - name: rabbitmq-consumer
+          image: "messaging-operator:latest"
+          imagePullPolicy: IfNotPresent
+          command:
+            - rabbitmq-consumer
+          args: ['--user', 'tandem', '--password', 'tandem123', '--host', '10.104.236.228', '--port', '5672']
+        - name: topic-subscriber
+          image: "messaging-operator:latest"
+          imagePullPolicy: IfNotPresent
+          command:
+            - polite-messenger
+          args: ["-a", "subscribe"]
+          env:
+          - name: MESSAGE_QUEUE_TYPE
+            value: RabbitMQ
+          - name: LISTENING_SERVICE
+            value: 10.104.236.228:5672
+          - name: USERNAME_PASSWORD
+            value: tandem/tandem123
+        - name: topic-publisher
+          #image: "127.0.0.1:30007/camera4me:0.0.2"
+          image: "messaging-operator:latest"
+          imagePullPolicy: IfNotPresent   
+          #imagePullPolicy: Always
+          #imagePullPolicy: Never
+          command:
+            - polite-messenger
+          args: ["-a", "publish"]
             #- "3600"
           volumeMounts:
             - mountPath: /dt2

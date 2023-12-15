@@ -1,0 +1,12 @@
+Log created: 2023-09-19T08:45:40.740174000Z
+Process ID:  71565 (0x1178d)
+Parent PID:  1 (0x1)
+Executable:  /usr/lib/virtualbox/VBoxHeadless
+Arg[0]: /usr/lib/virtualbox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: kubernetes_node-2_1695042688343_54168
+Arg[3]: --startvm
+Arg[4]: 04c698ce-cd8f-4cfb-8683-d34159bd7439
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2

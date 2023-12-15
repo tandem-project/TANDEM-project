@@ -1,5 +1,10 @@
 ---
 - hosts: all
+
+  vars:
+    kube_version: 1.24.11-00
+    kube_version: 1.26.0-00
+
   become: true
   tasks:
   - name: Install packages that allow apt to be used over HTTPS
@@ -118,7 +123,7 @@
       http_proxy: http://icache.intracomtel.com:80
       https_proxy: http://icache.intracomtel.com:80
 
-  - name: Install kubernetes binaries
+  - name: Install kubernetes binaries [Use ... apt list -a kubelet]
     apt:
       name: "{{ packages  }}"
       state: present
@@ -128,9 +133,9 @@
       https_proxy: http://icache.intracomtel.com:80
     vars:
       packages:
-      - kubelet
-      - kubeadm
-      - kubectl
+      - kubelet={{ kube_version }}
+      - kubeadm={{ kube_version }}
+      - kubectl={{ kube_version }}
 
   - name: Configure node ip
     lineinfile:

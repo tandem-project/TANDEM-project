@@ -1,0 +1,20 @@
+#!/bin/bash
+
+source tandem/create-ns-tandem.sh
+
+kubectl create -f tandem/deployments/registry-pod.yaml -n tandem
+
+TAG="camera4me:0.0.2"
+DOCKERFILE="tandem/deployments/image-processing-Dockerfile"
+
+TARGET_IMAGE="127.0.0.1:30007/camera4me:0.0.2"
+
+docker build --tag $TAG -f $DOCKERFILE .
+
+docker tag $TAG $TARGET_IMAGE 
+
+docker push $TARGET_IMAGE
+
+docker rmi $TAG
+
+docker image ls

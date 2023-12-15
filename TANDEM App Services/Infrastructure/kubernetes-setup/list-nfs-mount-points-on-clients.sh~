@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Use NFSTAT to list NFS Mount Points
+nfsstat --mount
+
+# Use /PROC/MOUNTS to list NFS Mount Points
+cat /proc/mounts | grep nfs

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install bitnami/apache --debug --generate-name --wait --set service.type=NodePort
+
+helm list

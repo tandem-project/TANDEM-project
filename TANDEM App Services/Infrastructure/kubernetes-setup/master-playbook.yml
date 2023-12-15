@@ -1,6 +1,10 @@
 ---
 - hosts: all
   become: false
+
+  environment:
+    no_proxy: 192.168.0.0/16
+    
   tasks:
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -47,12 +51,18 @@
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
     become: true
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
 
   - name: Add apt repository for stable version
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
       state: present
     become: true
+    environment:
+      http_proxy: http://icache.intracomtel.com:80
+      https_proxy: http://icache.intracomtel.com:80
 
   - name: Install docker and its dependencies
     apt:
@@ -322,6 +332,12 @@
       dest: /home/vagrant/install-argo-workflows.sh
       mode: u+x
 
+  #- name: Copy CUSTOM-RESOURCES with Default-Pool-CIDR
+  #  ansible.builtin.copy:
+  #    src: /home/vibm/kubernetes/kubernetes-setup/custom-resources.yaml
+  #    dest: /home/vagrant/custom-resources.yaml
+  #    mode: a+rwx
+
   - name: Setup NFS server on master node and export /opt/certs & /opt/registry as nfs share
     ansible.builtin.include_tasks:
       file: "setup-nfs-server-on-master-node.yaml"
@@ -410,7 +426,8 @@
     ansible.builtin.copy:
       src: /home/vibm/kubernetes/kubernetes-setup/Tools/
       dest: /home/vagrant/Tools/
-      mode: u+x
+      mode: a=rwx
+    become: false
 
   - name: Copy registry-certificate file to master node
     ansible.builtin.command:

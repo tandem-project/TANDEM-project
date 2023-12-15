@@ -33,14 +33,17 @@ RUN apt install -y \
   ffmpeg \
   libsm6 \
   libxext6 \
+  emacs \
   git
     
   # - name: Git Checkout
   #   ansible.builtin.git:
   #     repo: https://github.com/mvimplis2013/machine-learning-python.git
   #     dest: /var/tandem/camera4Me
-RUN git clone https://github.com/mvimplis2013/machine-learning-python.git && \
-  cd machine-learning-python
+RUN git clone https://github.com/mvimplis2013/machine-learning-python.git
+
+RUN python3 -m pip install --upgrade pip && \
+  python3 -m pip install prometheus-client opencv-python urllib3==1.26
 
   # - name: Run Setup.py Install && After Start the Frame-Grabbing Application
   #   ansible.builtin.command:
@@ -50,5 +53,6 @@ RUN git clone https://github.com/mvimplis2013/machine-learning-python.git && \
   #     - python3 setup.py install
   #     #- smart-grab >/dev/null 2>&1 &
   #   become: yes
-RUN pip3 install --upgrade pip && \
-  python3 setup.py install
+WORKDIR machine-learning-python
+
+RUN python3 setup.py install

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+kubectl create -f deployments/private-registry-svc.yaml -n tandem
+
+kubectl get svc -n tandem -o wide --show-labels

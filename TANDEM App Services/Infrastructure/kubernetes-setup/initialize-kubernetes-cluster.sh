@@ -1,12 +1,32 @@
 #!/bin/bash
 
-#KUBE_VERSION=v1.24.2
-KUBE_VERSION=v1.25.0
+#KUBE_VERSION=v1.24.11
+#KUBE_VERSION=v1.25.0
+KUBE_VERSION=v1.26.0
+#KUBE_VERSION=v1.25.6
+#KUBE_VERSION=v1.29.1
+
+CALICO_VERSION=v3.26.1
+
+#CIDR=10.96.0.0/16
+#CIDR=10.200.0.0/16
+CIDR=192.168.0.0/10
+
+sudo chmod a+rwx /home/vagrant/
+
+sudo mkdir -p /home/vagrant/.kube/
+sudo chmod -R a+rwx /home/vagrant/.kube/
 
 echo "STEP 1: Define Environment Variables for Intracom Proxy"
 export HTTP_PROXY=http://icache.intracomtel.com:80
 export HTTPS_PROXY=http://icache.intracomtel.com:80
-export NO_PROXY=192.168.0.0/16,10.96.0.0/16
+export NO_PROXY=10.96.0.0/8,192.168.0.0/16,$CIDR
+
+echo "Acquire::http::Proxy \"http://icache.intracomtel.com:80/\";" | sudo tee -a /etc/apt/apt.conf
+
+echo -e "use_proxy = on\nhttp_proxy = http://icache.intracomtel.com:80/\nhttps_proxy = http://icache.intracomtel.com:80/" >> .wgetrc
+
+git config --global http.proxy ${HTTP_PROXY}
 
 # Forwarding IPv4 and letting iptables see bridged traffic
 #echo "--> Is BR_NETFILTER Module Loaded ? "$(lsmod | br_netfilter)
@@ -31,19 +51,59 @@ EOF
 # Apply systctl params without reboot
 sudo sysctl --system
 
+##############################################################################################################
+#### Check Procedure at ... kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm #### 
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl
 
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+###################################################################
+#####      How to Install Specific Version of Kubernetes      ##### 
+#####  kubeadm=<version> kubectl=<version> kubelet=<version>  #####
+###################################################################
+#sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo mkdir -p /etc/apt/keyrings/
+sudo chmod a+r /etc/apt/keyrings/
 
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+
+# curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apyt-key add -
+# echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+# sudo apt update -q && sudo apt install -qy kubelet=<1.26.0-00 kubectl=1.26.0.-00 kubeadm=1.26.0-00
+
+# Query for available versions
+curl -s https://packages.cloud.google.com/apt/dists/kubernetes-xenial/main/binary-amd64/Packages | grep -e 'Package' -e 'Version' | awk '{print $2}'
+
+#echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+#echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Download the KUBEADM / KUBELET and KUBECTL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!! SOS --> Must be Same with KUBE_VERSION !!!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#sudo apt-get install -qy kubelet=1.26.0-00 kubeadm=1.26.0-00 kubectl=1.26.0-00
+#sudo apt-get install -qy kubelet=1.25.6-00 kubeadm=1.25.6-00 kubectl=1.25.6-00
+#sudo apt-get install -qy kubelet=1.24.11-00 kubeadm=1.24.11-00 kubectl=1.24.11-00
+#sudo apt-get install -qy kubelet=1.25.0-00 kubeadm=1.25.0-00 kubectl=1.25.0-00
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#sudo apt-mark hold kubelet kubeadm kubectl
+
+## Install kubelet kubeadm and kubectl <without version numbers>
+echo "Kubernetes Version to Install: ${KUBE_VERSION}"
+#read -p "Is Version OK ? "
+
+# Remove First Character from KUBE_VERSION String : v1.24.11 --> 1.24.11
+sudo apt-get install -y kubelet="${KUBE_VERSION:1}-00" kubeadm="${KUBE_VERSION:1}-00" kubectl="${KUBE_VERSION:1}-00"
 sudo apt-mark hold kubelet kubeadm kubectl
 
-echo "STEP 2: Check Verison Number of Current Stable Release"
+#exit
+
+echo "STEP 2: Check Version Number of Current Stable Release"
 curl https://storage.googleapis.com/kubernetes-release/release/stable-1.txt -O
 echo "\nLatest Stable Kubernetes Version is:"
 cat stable-1.txt
@@ -59,7 +119,7 @@ echo "Container Runtime --> CONTAINERD"
 sudo systemctl disable containerd.service
 
 wget https://github.com/containerd/containerd/releases/download/v1.6.4/containerd-1.6.4-linux-amd64.tar.gz
-sudo tar Czxvf /usr/local containerd-1.6.4-linux-amd64.tar.gz
+sudo tar -zxvf  containerd-1.6.4-linux-amd64.tar.gz -C /usr/local
 
 wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
 #sudo mv containerd.service /usr/lib/systemd/system/
@@ -102,7 +162,7 @@ sudo sed -i 's/"cri"//' /etc/containerd/config.toml
 sudo systemctl restart containerd
 sudo systemctl status containerd --no-pager
 
-sudo cat /etc/containerd/config.toml
+#sudo cat /etc/containerd/config.toml
 
 #crictl ps
 #sudo critcl --debug pull nginx:latest
@@ -126,10 +186,13 @@ printf '********************************\nGO language install in Ubuntu 20\n****
 
 #sudo apt install golang-go -y
 
-sudo curl -fsSLo go1.18.3.linux-amd64.tar.gz https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
+GO_VERSION=1.21.4
+#sudo curl -fsSLo go1.18.3.linux-amd64.tar.gz https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
+sudo curl -fsSLo go"${GO_VERSION}".linux-amd64.tar.gz https://go.dev/dl/go"${GO_VERSION}".linux-amd64.tar.gz
 #sudo curl -fsSLo go1.13.linux-amd64.tar.gz https://go.dev/dl/go1.13.linux-amd64.tar.gz
+
 sudo rm -rf /usr/local/go/
-sudo tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go"${GO_VERSION}".linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 
 # Verify Installation
@@ -140,23 +203,63 @@ echo '!!!! Setup GOPATH environment variable !!!'
 sudo mkdir -p go/bin
 sudo mkdir -p go/pkg
 sudo mkdir -p go/src
-sudo chmod -R a=rwx /home/vagrant/go/
+sudo chmod -R a+rwx /home/vagrant/go/
 # SOS
 export GOPATH='/home/vagrant/go/'
 
 printf '********************************\nCRI Interface for Docker Engine\n********************************\n'
-sudo git clone https://github.com/Mirantis/cri-dockerd.git
-cd cri-dockerd && ls
+#sudo update-ca-certificates
 
+sudo curl -fsLo crictl-v1.28.0-linux-amd64.tgz https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.28.0/crictl-v1.28.0-linux-amd64.tar.gz
+sudo tar zxvf crictl-v1.28.0-linux-amd64.tgz -C /usr/local/bin/
+#cd cri && ls
+crictl --version
 
 echo "***************** go build ****************"
-go tidy
-sudo chmod a=wrx -R /home/vagrant/cri-dockerd/
 
-go build -o bin/cri-dockerd
+# How to install & use crictl-dockerd
+#####################################
+# Download TAR file
+# -----------------
+sudo apt install -y build-essential
+sudo git clone https://github.com/Mirantis/cri-dockerd.git
 
-sudo install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
-sudo cp -a packaging/systemd/* /etc/systemd/system
+cd cri-dockerd/
+
+sudo make cri-dockerd
+
+sudo mkdir -p /usr/local/bin
+
+#exit 1
+
+#sudo curl -fsSLo cri-dockerd-0.3.7.amd64.rpm https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.7/cri-dockerd-0.3.7.20231027185657.170103f2-0.el7.x86_64.rpm
+#sudo curl -fsLo cri-dockerd-0.3.7.amd64.tgz https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.7/cri-dockerd-0.3.7.amd64.tgz
+#exit 1
+
+# Extract the file
+# ----------------
+#sudo tar zxvf cri-dockerd-0.3.7.amd64.tgz # -C /usr/local/bin/
+
+# Install command
+# ---------------
+sudo install -o root -g root -m 0755 cri-dockerd /usr/local/bin/cri-dockerd
+
+# Check version
+# -------------
+#cri-dockerd --version
+
+#go mod tidy
+#exit 1
+
+#sudo chmod a+wrx -R /home/vagrant/cri-dockerd/
+
+#exit 1
+
+#go build -o bin/cri-dockerd
+
+# Run these commands as ROOT
+
+sudo install packaging/systemd/* /etc/systemd/system
 sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
 sudo systemctl daemon-reload
 sudo systemctl enable cri-docker.service
@@ -175,7 +278,7 @@ EOF
 echo 'Ready to Pull Busybox Image'
 docker login -u vibm69 -p firewind
 
-crictl pull busybox
+crictl pull --creds vibm69:firewind busybox
 crictl images
 
 # List Containers
@@ -225,6 +328,11 @@ crictl -r /run/cri-dockerd.sock -i /run/cri-dockerd.sock ps
 
 #sudo systemctl status cri-docker.service
 
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  KUBEADM INIT $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
 echo "STEP 3: Initialize Kubernetes Cluster - Setup Control Plane"
 #sudo kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10" --node-name k8s-master --pod-network-cidr=192.168.0.0/16 --service-cidr="10.96.#0.0/12" --kubernetes-version v1.23.1
 #sudo kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10" --node-name k8s-master --pod-network-cidr=10.244.0.0/16 --kubernetes-version v1.23.6
@@ -234,17 +342,62 @@ echo "STEP 3: Initialize Kubernetes Cluster - Setup Control Plane"
 #sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --apiserver-advertise-address="192.168.56.10" --apiserver-cert#-extra-sans="192.168.56.10" --node-name k8s-master --pod-network-cidr=192.168.0.0/16 --kubernetes-version ${KUBE_VERSION}
 
 # 192.168.56.0 is already used by Vagrant
-sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --apiserver-advertise-address="192.168.56.10" --pod-network-cidr="10.244.0.0/16" --node-name k8s-master --kubernetes-version ${KUBE_VERSION}  
+#sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --apiserver-advertise-address="192.168.56.10" --pod-network-cidr="10.244.0.0/16" --node-name k8s-master --kubernetes-version ${KUBE_VERSION}
+echo Hello, Ready to Run "kubeadm init"
+#read -p 'Do you Agree : ' answer
+
+sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --apiserver-advertise-address="192.168.56.10" --pod-network-cidr="$CIDR" --node-name k8s-master --kubernetes-version ${KUBE_VERSION}
+#sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --pod-network-cidr="$CIDR" --node-name k8s-master --kubernetes-version ${KUBE_VERSION}
+
+#sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --pod-network-cidr=192.168.0.0/16 --node-name k8s-master
+#sudo kubeadm init --cri-socket unix:///run/cri-dockerd.sock --apiserver-advertise-address="192.168.56.10" --pod-network-cidr="192.168.0.0/16" --node-name k8s-master --kubernetes-version ${KUBE_VERSION}  
+
+#exit
+# *********************************************************************************************************************************
 
 echo "STEP 4: Enable Vagrant User to Access Kubernetes Cluster"
 sudo mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+#exit
+
 echo "STEP 5: Setup Container Networking Provider and Policy Engine"
-sudo curl https://docs.projectcalico.org/manifests/calico.yaml -o /home/vagrant/calico.yaml
-kubectl apply -f /home/vagrant/calico.yaml
+#sudo curl -L https://docs.projectcalico.org/manifests/calico.yaml -o /home/vagrant/calico.yaml
+#sudo curl -L https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/custom-resources.yaml -o /home/vagrant/custom-resources.yaml
+
+#sed 's/^cidr: \).*$/\$CIDR/' /home/vagrant/custom-resources.yaml
+
+# **** Install YQ on Ubuntu 22.04 ***
+#sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+#sudo chmod a+x /usr/local/bin/yq
+#yq --version
+
+#sudo touch /home/vagrant/custom-resources-F.yaml
+#sudo chmod a+rwx /home/vagrant/custom-resources-F.yaml
+
+#yq e '.spec.calicoNetwork.ipPools[0].cidr |= $CIDR' /home/vagrant/custom-resources.yaml > /home/vagrant/custom-resources-F.yaml
+#echo "==> Content of Custom-Resources.YAML"
+#cat /home/vagrant/custom-resources.yaml
+
+#kubectl apply -f /home/vagrant/calico.yaml
 #kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+#kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/tigera-operator.yaml
+#exit
+
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/${CALICO_VERSION}/manifests/tigera-operator.yaml
+
+#sudo rm /home/vagrant/custom-resources.yaml
+#kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/${CALICO_VERSION}/manifests/custom-resources.yaml
+
+sudo wget -qO /home/vagrant/custom-resources.yaml https://raw.githubusercontent.com/projectcalico/calico/${CALICO_VERSION}/manifests/custom-resources.yaml
+sudo chmod a=rwx /home/vagrant/custom-resources.yaml
+
+#sudo sh -c "yq eval '.spec.calicoNetwork.ipPools[].cidr = \"10.200.0.0/16\"' /home/vagrant/custom-resources.yaml >> /home/vagrant/custom-resources.yaml.10.200"
+
+#exit
+
+kubectl create -f /home/vagrant/custom-resources.yaml
 
 #echo "STEP 6: Kubectl Shows Ready ?"
 #watch kubectl get nodes 
