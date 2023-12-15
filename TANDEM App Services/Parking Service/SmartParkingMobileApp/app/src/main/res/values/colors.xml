@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="appColor">#e74c3c</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name ="app_color">#FF0099cc</color>
+    <color name="intel_blue">#0071c5</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="colorRed">#FFFF0000</color>
+    <color name="colorGreen">#FF00FF00</color>
+    <color name="captionColor">#465c62</color>
+    <color name="labelMiddleColor">#465c62</color><!-- for showResults -->
+    <color name="layoutColor">#2f2f2f</color>
+    <color name="tabMedium">#2B2B2B</color>
+    <color name="tabDark">#000000</color>
+    <color name="tabTransparent">#10ffffff</color>
+    <color name="bp">#6f86c9</color>
+    <color name="bg">#8fbc8f</color>
+    <color name="weight">#f08080</color>
+    <!-- #1b64b9 grey=#757273 centercomormenubuttonsforgrey=#47464D-->
+    <color name="centerColor">#47464D</color>
+    <color name="menucolor">@color/darkgrey</color>
+    <color name="menubutton">@color/grey</color>
+    <color name="menutext">@color/white</color>
+    <color name="red">#900</color>
+    <color name="green">#090</color>
+    <color name="blue">@color/empowerBlue</color>
+    <color name="darkBlue">@color/empowerBlue</color>
+    <color name="cyan">#DD2ECCFA</color>
+    <color name="lightgreen">#8fbc8f</color>
+    <color name="orange">#FF6600</color>
+    <color name="yellow">#B3B1B1</color>
+    <color name="darkCyan">#008b8b</color>
+    <color name="silver">#B3B1B1</color>
+    <color name="calendar">#C9C7C7</color>
+    <color name="horzmenu">#f6b02e</color>
+    <color name="horzmenutab">#f6b02e</color>
+    <color name="horzmenutabpressed">#DEA12F</color>
+    <color name="actionBarBG">#2c9cc2</color>
+    <color name="actionBar">#ffffff</color>
+    <color name="darkText">#333336</color>
+    <color name="lightDark">#c0c0c0</color>
+    <color name="darkgrey">#2c2d2f</color>
+    <color name="darkGreen">#003300</color>
+    <color name="grey">#303036</color>
+
+    <color name="default_screen_bg">#20324a</color>
+    <color name="rounded_container_bg">#38383D</color>
+    <color name="rounded_container_border">#38383D</color>
+    <color name="light_gray_header_color">#646663</color>
+    <color name="empowerYellow">#ecdfc7</color>
+    <color name="lightYellow">#E3E1DC</color>
+    <color name="empowerBlue">#6f86c9</color>
+    <color name="empowerGrey">#6d6c5e</color>
+    <color name="formTitle">@color/empowerBlue</color>
+    <color name="bluegrey">#46495c</color>
+    <color name="ltgrey">#dcdcdc</color>
+    <color name="phexicongrey">#aeb0b3</color>
+    <color name="darkred">#500000</color>
+    <!--<color name="actionbar">#f6b02e</color>-->
+    <color name="pressed_mystyle">@color/empowerYellow</color>
+    <color name="violet">#EE82EE</color>
+    <!-- Added from TF object detection project -->
+    <color name="semi_transparent">#66000000</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="action_bar_color">#3290f0</color>
+    <color name="action_bar_color1">#6f86c9</color>
+
+    <color name="results_page_color">#E3E1DC</color>
+    <color name="resultslabelcolor">#71b1fc</color>
+    <color name="resultslabelcolor1">#f6b02e</color>
+    <color name="actionbar">#f6b02e</color>
+    <color name="appYellow">#ecdfc7</color>
+
+    <color name="colorGold">#FFD700</color>
+    <color name="colorGoldMetallic">#FFD7BE69</color>
+    <color name="colorGoldMatte">#FFD2BF37</color>
+    <color name="showMeasurementsCaption">#FF465c62</color>
+
+</resources>
