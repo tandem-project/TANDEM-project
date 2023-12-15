@@ -9,25 +9,15 @@ async function loadingServiceRegistration() {
     var urlCategory = urlPrefixSysManGet + "servicecategory";
     var urlType = urlPrefixSysManGet + "servicetype";
     var urlProvider = urlPrefixSysManGet + "provider";
-   
-//    var defaultConfParam = [{serParamName:'Smtp_server', serParamType:'string', serParamTypicalValue:'smtp.tandem.com:587', serParamDescr:'E-mail server address'}];
-//    var defaultSerOperationInputParams = [{serParamName:'Sender_email', serParamType:'string', serParamTypicalValue:'TANDEM-notifications@intracom-telecom.com', serParamDescr:'E-mail address of the sender'},
-//                                          {serParamName:'Receiver_email', serParamType:'string', serParamTypicalValue:'TANDEM-administrator@intracom-telecom.com', serParamDescr:'E-mail address of the receipient'}];
-//    var defaultSerOperationOutputParams = [{serParamName:'Sending result', serParamType:'string', serParamTypicalValue:'201', serParamDescription:'E-mail sending result, success or failure codes'}];
-//    var defaultOpParam = {serOperationName:'SendNotification', serOperationEndPoint:'/ICOM/NotificationSer', serOperationDescription:'Send Notifications', serOperationType:'Synchronous', serOperationInputParams:defaultSerOperationInputParams, serOperationOutputParams: defaultSerOperationOutputParams};
     params = getParams();
-//    console.log(params);
+
     if (typeof params['serId'] !== 'undefined') {
         // Serid is defined when we want to edit a service
         var serId = params['serId'];
         if ((serId !== null) && (serId !== ''))
-        {
-//            console.log("About to fill the fields");
-            
+        {         
             // Get the service from backend
-            console.log("serId = " + serId);
             var url = urlPrefixSerCat + serId;
-            console.log("Get service url = " + url);
             CallPostUrl(url,"GET",null,[],"jsoninfosrvedit");
             resultfnct['errjsoninfosrvedit'] = function (arg1) { 
                 alert(arg1);
@@ -35,7 +25,6 @@ async function loadingServiceRegistration() {
             // Get json info
             resultfnct['jsoninfosrvedit'] = async function (arg1) { 
                 var serviceInfo = JSON.parse(arg1);
-//                console.log(serviceInfo);
                 
                 // Fill fields we want to be pre-edited
                 var name = document.getElementById('servicenamereg');
@@ -143,6 +132,12 @@ async function loadingServiceRegistration() {
                         }
                     }
                 }
+                
+                // Required Volumes
+                addVolumeRow('volumestable', serviceInfo.serRequiredVolumes);
+                
+                // Required Environmental Parameters
+                addEnvParamRow('envparamstable', serviceInfo.serRequiredEnvParameters);
                 // Software Image Parameters
                 var root = document.getElementById('swImageParamsTable').getElementsByTagName('tbody')[0];
                 var rows = root.getElementsByTagName('tr');
@@ -157,6 +152,15 @@ async function loadingServiceRegistration() {
                 rows[5].cells[1].innerHTML = serviceInfo.serSwImage.serSWImageURL;
                 
                 //Last input parameters
+                var autoscalingMetric = document.getElementById('autoscalingmetric');
+                if (serviceInfo.serPaasAutoscalingMetric === '')
+                {
+                    autoscalingMetric.value = 'Select';
+                }
+                else
+                {
+                    autoscalingMetric.value = serviceInfo.serPaasAutoscalingMetric;
+                }
                 var consumedLocal = document.getElementById('consumedlocal');
                 if (serviceInfo.consumedLocalOnly === true)
                 {
@@ -170,6 +174,20 @@ async function loadingServiceRegistration() {
                 else
                 {
                     consumedLocal.value = 'Select';
+                }
+                var isPrivileged = document.getElementById('isprivileged');
+                if (serviceInfo.serPrivileged === true)
+                {
+                    isPrivileged.value = 'Yes';
+                        
+                }
+                else if (serviceInfo.isPrivileged === false)
+                {
+                    isPrivileged.value = 'No';
+                }
+                else
+                {
+                    isPrivileged.value = 'Select';
                 }
                 var isLocal = document.getElementById('islocal');
                 if (serviceInfo.isLocal === true)
@@ -188,7 +206,24 @@ async function loadingServiceRegistration() {
                 var localityScope = document.getElementById('scopeoflocality');
                 
                 localityScope.value = serviceInfo.scopeOfLocality;
-                
+//                var ports = [];
+    
+                var portsString = "";
+//    if (portsString !== "")
+//    {
+//        //Get the various ports that are sperated by commas (,)
+//        ports = portsString.split(/[.,!,?,;]/);
+                for (var i = 0; i < serviceInfo.serApplicationPorts.length; i++)
+                {
+                    portsString += serviceInfo.serApplicationPorts[i];
+                    if (i < serviceInfo.serApplicationPorts.length - 1)
+                    {
+                        portsString += ", ";
+                    }
+            
+                }
+                var ports = document.getElementById('ports');
+                ports.value = portsString;
                 // Fill the selection lists
                 selectionList('servicecategoryreg', urlCategory, serviceInfo.serCategory.name);
                 selectionList('servicetypereg', urlType, serviceInfo.serType);

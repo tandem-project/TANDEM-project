@@ -113,6 +113,9 @@ async function loadingProductRegistration() {
                     document.getElementById("productnodestable").style.display = 'block';
                     await showNodes('productnodestable', 'nodestable');
                     document.getElementById(productInfo.productNode).checked = true;
+                    
+                    //default values in not shown table
+                    jsonToTable('locationstable', locationsURL, null);
                 }
            
                 // Fill the selection lists

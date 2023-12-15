@@ -4,9 +4,9 @@ sudo docker build --build-arg http_proxy=http://icache.intracomtel.com:80/ --bui
 sudo docker push --push-arg http_proxy=http://icache.intracomtel.com:80/ --push-arg https_proxy=http://icache.intracomtel.com:80/ gsamaras/infrastructure_predict:predict_api
 
 # Example run
-docker exec a1839b3a243f63a6e38c4381d2a63d822c927486eb415b84d4367aa30aecaba9 curl -X GET http://0.0.0.0:5556/predict/localhost/k8smaster/1T/memory+cpu
-docker exec 6c074a3a82a63912ba73b5f614fc1f89fd120f645740e13760d700e6a9dbc248 curl -X GET http://0.0.0.0:5556/predict/localhost/tansecond-cluster/1T/memory+cpu+received_throughput+transmitted_throughput
-docker exec f84b9cfde40bbac3787a501cef09268d8b302f9dee997500920cd36faeb3f0cd curl -X GET http://0.0.0.0:5556/predict/localhost/k8ssecondary/5T/memory+cpu+received_throughput+transmitted_throughput
+docker exec a1839b3a243f63a6e38c4381d2a63d822c927486eb415b84d4367aa30aecaba9 curl -X GET http://0.0.0.0:5556/predict/146.124.106.209/k8smaster/1T/memory+cpu
+docker exec 6c074a3a82a63912ba73b5f614fc1f89fd120f645740e13760d700e6a9dbc248 curl -X GET http://0.0.0.0:5556/predict/146.124.106.220/tansecond-cluster/1T/memory+cpu+received_throughput+transmitted_throughput
+docker exec f84b9cfde40bbac3787a501cef09268d8b302f9dee997500920cd36faeb3f0cd curl -X GET http://0.0.0.0:5556/predict/146.124.106.209/k8ssecondary/5T/memory+cpu+received_throughput+transmitted_throughput
 
 # Start container
 sudo docker run -d -p 5556:5556 predict_api
@@ -34,7 +34,6 @@ docker system prune
 # Tag 'n push image:
 docker tag predict_api gsamaras/infrastructure_predict:predict_api
 sudo docker login -u gsamaras
-(kwdikos tou linux lab kai ena papi)
 sudo docker push gsamaras/infrastructure_predict:predict_api
 Then in the Tandem VM do:
 sudo docker pull gsamaras/infrastructure_predict:predict_api
@@ -42,8 +41,8 @@ sudo docker pull gsamaras/infrastructure_predict:predict_api
 # Kubernetes
 
 # MAIN FUNCTIONALLITY EXAMPLE:
-curl -X GET http://10.1.162.247:5556/predict/localhost/k8smaster/5T/memory
-curl -X GET http://10.1.162.247:5556/predict/localhost/k8smaster/15T/memory+cpu
+curl -X GET http://0.0.0.0:5556/predict/146.124.106.209/k8smaster/5T/memory
+curl -X GET http://0.0.0.0:5556/predict/146.124.106.209/k8smaster/15T/memory+cpu
 
 #SEE CURRENTLY DEPLOYED PODS INSIDE KUBERNETES CLUSTER
 kubectl get pods
@@ -131,3 +130,4 @@ Werkzeug                     2.2.3
 wheel                        0.37.1
 wrapt                        1.15.0
 zipp                         3.15.0
+

@@ -73,7 +73,7 @@ async function showNodeConfiguration(value, divId, tableId)
 
 //// Show and configure hidden elements for manually selecting services for the node(i.e. 1 header and 2 tables that are related to available and installed services
 var confManualSelected = false;
-async function showManualConfiguration(value, divId, table1, table2)
+async function showManualConfiguration(value, divId, table1, table2, services)
 {
 //    console.log("param1 = " + value);
 //   
@@ -151,25 +151,27 @@ async function showManualConfiguration(value, divId, table1, table2)
     }
         
         
-        //Fill the installed services table according to existing and newly selected tables
-        //Show existing services (To Be Done)
+    //Fill the installed services table according to existing and newly selected tables
+    if (services !== null)
+    {
+        //Show existing services 
 //        const tempServices = ["TBD1", "TBD2"];
-//        const root2 = document.getElementById("installedservicestable").getElementsByTagName('tbody')[0];
-//        
-//        for (let i = 0; i < tempServices.length; i++) {
-//                
-//            let option = document.createTextNode(tempServices[i]);
-//        
-//            //Add new row
-//            var tr = document.createElement('tr');
-//            var td = document.createElement('td');
-//                
-//            td.appendChild(option);
-//                
-//            tr.appendChild(td);
-//            root2.appendChild(tr);
-//        }
-       
+        const root2 = document.getElementById(table2).getElementsByTagName('tbody')[0];
+        
+        for (let i = 0; i < services.length; i++) {
+                
+            let option = document.createTextNode(services[i]);
+        
+            //Add new row
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+                
+            td.appendChild(option);
+                
+            tr.appendChild(td);
+            root2.appendChild(tr);
+        }
+    }
     //Add event handlers on above table's rows
     $(document).ready(function(){
         var startTable = table1;

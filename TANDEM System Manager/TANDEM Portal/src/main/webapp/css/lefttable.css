@@ -12,7 +12,7 @@
   margin-bottom: 12px;
 }
 
-#myTable, #devicesTable, #edgeCloudsTable, #usersTable, #applicationsTable, #productsTable {
+#myTable, #devicesTable, #edgeCloudsTable, #usersTable, #applicationsTable, #productsTable, #ordersTable {
   border-collapse: collapse;
   width: 100%;
   border: 1px solid #ddd;
@@ -30,13 +30,13 @@
 }
 
 #myTable th, #myTable td, #devicesTable th, #devicesTable td, #edgeCloudsTable th, #edgeCloudsTable td, #edgeCloudNodesTable th, 
-#edgeCloudNodesTable td, #usersTable th, #usersTable td, #applicationsTable th, #applicationsTable td, #productsTable th, #productsTable td,
+#edgeCloudNodesTable td, #usersTable th, #usersTable td, #applicationsTable th, #applicationsTable td, #productsTable th, #productsTable td, #ordersTable th, #ordersTable td,
 #serviceInstancesTable th, #serviceInstancesTable td, #serviceFunctionsTable th, #serviceFunctionsTable td{
   text-align: center;
   padding: 12px;
 }
 
-#myTable tr, #devicesTable tr, #edgeCloudsTable tr, #edgeCloudNodesTable tr, #usersTable tr, #applicationsTable tr, #productsTable tr, #serviceInstancesTable tr, #serviceFunctionsTable tr{
+#myTable tr, #devicesTable tr, #edgeCloudsTable tr, #edgeCloudNodesTable tr, #usersTable tr, #applicationsTable tr, #productsTable tr, #ordersTable tr, #serviceInstancesTable tr, #serviceFunctionsTable tr{
   border-bottom: 1px solid #ddd;
   text-align: center;
   background-color: white;
@@ -45,6 +45,6 @@
 
 #myTable tr.header, #myTable tr:hover , #devicesTable tr.header, #devicesTable tr:hover, #edgeCloudsTable tr.header, #edgeCloudsTable tr:hover, #edgeCloudNodesTable tr.header, 
 #edgeCloudNodesTable tr:hover, #usersTable tr.header, #usersTable tr:hover, #applicationsTable tr.header, #applicationsTable tr:hover, 
-#productsTable tr.header, #productsTable tr:hover, #serviceInstancesTable tr.header, #serviceInstancesTable tr:hover, #serviceFunctionsTable tr.header, #serviceFunctionsTable tr:hover{
+#productsTable tr.header, #productsTable tr:hover, #ordersTable tr.header, #ordersTable tr:hover, #serviceInstancesTable tr.header, #serviceInstancesTable tr:hover, #serviceFunctionsTable tr.header, #serviceFunctionsTable tr:hover{
   background-color: #f1f1f1;
 }

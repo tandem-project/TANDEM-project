@@ -1,6 +1,5 @@
 var _GUISERVER = "http://localhost:8080/gui/";
 
-
 function addNewRow(tableId, columnsToReplicate) {
     var root = document.getElementById(tableId).getElementsByTagName('tbody')[0];
     var rows = root.getElementsByTagName('tr');

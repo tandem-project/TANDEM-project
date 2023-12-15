@@ -4,7 +4,7 @@ curl --location 'http://10.152.183.214:5000/convert' \
     "components": [
         {
             "name": "iot_device1",
-            "type": "iot_device",
+            "type": "iot_device_proactive",
             "dependencies": [],
             "parameters": {
                 "input_from_prev":{
@@ -16,7 +16,7 @@ curl --location 'http://10.152.183.214:5000/convert' \
         },
         {
             "name": "iot_device2",
-            "type": "iot_device",
+            "type": "iot_device_proactive",
             "dependencies": [],
             "parameters": {
                 "input_from_prev":{
@@ -28,7 +28,7 @@ curl --location 'http://10.152.183.214:5000/convert' \
         },
         {
             "name": "iot_device3",
-            "type": "iot_device",
+            "type": "iot_device_proactive",
             "dependencies": [],
             "parameters": {
                 "input_from_prev":{

@@ -36,7 +36,7 @@
         "supportServices": [{"serID":"TANDEM_ser1", "serName":"Temperature and Humidity Monitoring Service"}, {"serID":"TANDEM_ser5", "serName":"EdgeX Foundry services"}, {"serID":"TANDEM_ser6", "serName":"Grafana Service"}, {"serID":"TANDEM_device3", "serName":"Humidity and Temperature sensor device 1"}],
         "serviceChain": "IoT SC1",
         "state": "Instantiated",
-        "AppURL": "http://localhost:8080/d/HGSpBtqnk/iot_metrics?from=now-3h&to=now",
-        "monServicesURL": "http://localhost:8080/d/ZsfRw_37z/paas-iot-monitoring-and-analytics-services?from=now-3h&to=now"
+        "AppURL": "http://146.124.106.209:3000/d/HGSpBtqnk/iot_metrics?from=now-3h&to=now",
+        "monServicesURL": "http://146.124.106.209:3000/d/ZsfRw_37z/paas-iot-monitoring-and-analytics-services?from=now-3h&to=now"
     }
 ]

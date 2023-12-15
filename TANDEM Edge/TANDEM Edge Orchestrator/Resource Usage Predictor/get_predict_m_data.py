@@ -1,7 +1,9 @@
+# alberto
 import json
 from flask import Flask, request, jsonify, Response
 from flask_restful import Resource, Api
 from flask_cors import CORS
+# gsamaras
 import concurrent.futures
 import requests
 import urllib.parse
@@ -106,22 +108,22 @@ trained_models = {
 
 accuracy_thresholds = {
     "k8smaster": {
-        "memory": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "cpu": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "received_throughput": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "transmitted_throughput": {"1T": 0.90, "5T": 0.90, "15T": 0.90}
+        "memory": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "cpu": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "received_throughput": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "transmitted_throughput": {"1T": 0.80, "5T": 0.80, "15T": 0.80}
     },
     "k8ssecondary": {
-        "memory": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "cpu": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "received_throughput": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "transmitted_throughput": {"1T": 0.90, "5T": 0.90, "15T": 0.90}
+        "memory": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "cpu": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "received_throughput": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "transmitted_throughput": {"1T": 0.80, "5T": 0.80, "15T": 0.80}
     },
     "tansecond-cluster": {
-        "memory": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "cpu": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "received_throughput": {"1T": 0.90, "5T": 0.90, "15T": 0.90},
-        "transmitted_throughput": {"1T": 0.90, "5T": 0.90, "15T": 0.90}
+        "memory": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "cpu": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "received_throughput": {"1T": 0.80, "5T": 0.80, "15T": 0.80},
+        "transmitted_throughput": {"1T": 0.80, "5T": 0.80, "15T": 0.80}
     }
 }
 
@@ -201,7 +203,7 @@ class Predict(Resource):
         self.horizon_to_range_selector_map = {"1T": "3", "5T": "15", "15T": "45"}
         prom_ip = os.environ.get("PROMETHEUS_IP")
         print(prom_ip)
-        self.prometheus_base_url = prom_ip if prom_ip != None else "http://localhost:8080"
+        self.prometheus_base_url = prom_ip if prom_ip != None else "http://0.0.0.0:9090"
 
         # Master instance
         self.k8smaster_memory_transformer_path = "trained_models/ts_forecasting_memory/k8smaster/1T/mem_standard_scaler_master.gz"
@@ -218,13 +220,16 @@ class Predict(Resource):
         #model_files = glob.glob('trained_models/ts_forecasting_cpu/master/5T/lstm*/lstm*')
         for monitored_type in monitored_type_lst:
             if trained_models[instance][monitored_type][horizon]["model"] == None:
+                #trained_models[instance][monitored_type][horizon]["transformer"] = joblib.load(self.k8smaster_memory_transformer_path)
                 
-                os.system(f'curl --output ts_forecasting_{monitored_type}_{instance}_{horizon}.tar.xz --header "PRIVATE-TOKEN: myprivatetoken" --header "User-Agent: Firefox/58.0" --noproxy "*" "https://colab-repo.intracom.com/api/v4/projects/77/repository/archive/?path=trained_models/ts_forecasting_{monitored_type}/{instance}/{horizon}"')
+                os.system(f'curl --output ts_forecasting_{monitored_type}_{instance}_{horizon}.tar.xz --header "PRIVATE-TOKEN: <my_private_token>" --header "User-Agent: Firefox/58.0" --noproxy "*" "https://colab-repo.intracom-telecom.com/api/v4/projects/77/repository/archive/?path=trained_models/ts_forecasting_{monitored_type}/{instance}/{horizon}"')
                 os.system(f'tar -xvf ts_forecasting_{monitored_type}_{instance}_{horizon}.tar.xz')
                 zip_files = glob.glob(f"model-repo-main-*-trained_models-ts_forecasting_{monitored_type}-{instance}-{horizon}/trained_models/ts_forecasting_{monitored_type}/{instance}/{horizon}/lstm*.zip")
                 with zipfile.ZipFile(zip_files[0], 'r') as z:
                     z.extractall(f'ts_forecasting_{monitored_type}_{instance}_{horizon}/')
+                #os.system(f'unzip model-repo-main-*-trained_models-ts_forecasting_{monitored_type}-{instance}-{horizon}-/trained_models/ts_forecasting_{monitored_type}/{instance}/{horizon}/lstm*.zip -d ts_forecasting_{monitored_type}_{instance}_{horizon}/')
                 model_files = glob.glob(f"ts_forecasting_{monitored_type}_{instance}_{horizon}/lstm*")
+                #model_files = glob.glob(f"trained_models/ts_forecasting_{monitored_type}/{instance}/{horizon}/lstm*/lstm*")
                 trained_models[instance][monitored_type][horizon]["model"] = load_model(model_files[0])
         
         return trained_models
@@ -244,7 +249,7 @@ class Predict(Resource):
 
     def predict_values(self, values, transformer, model):
         # Scaled
-        values = transformer.transform(np.array(values).reshape(-1, 1))
+        #values = transformer.transform(np.array(values).reshape(-1, 1))
 
         n_features = self.out
         online_values = np.array([values])
@@ -254,9 +259,9 @@ class Predict(Resource):
         yhat = yhat.tolist()
         print(yhat[0][0])
         # Scaled
-        unscaled_predicted_values = transformer.inverse_transform(yhat)
-        unscaled_predicted_values = unscaled_predicted_values.tolist()
-        print(unscaled_predicted_values)
+        #unscaled_predicted_values = transformer.inverse_transform(yhat)
+        #unscaled_predicted_values = unscaled_predicted_values.tolist()
+        #print(unscaled_predicted_values)
 
         return yhat[0][0]   
 
@@ -269,6 +274,7 @@ class Predict(Resource):
         return response_payload
 
     def get(self, cluster, instance, horizon, monitored_type):
+        # 'cluster' not actually used, since Promtheus URL is set in predict.yaml
         print(f"{cluster}, {instance}, {horizon}, {monitored_type}, {self.prometheus_base_url}")
         
         memory_q = f'topk({self.horizon_to_range_selector_map[horizon]}, node_memory_Active_bytes{{instance="{instance}"}} / node_memory_MemTotal_bytes{{instance="{instance}"}} * 100)[{self.horizon_to_range_selector_map[horizon]}m:]'
@@ -290,13 +296,18 @@ class Predict(Resource):
         prometheus_ip_address = parsed_prometheus_base_url.hostname
         os.environ['NO_PROXY'] = os.environ['NO_PROXY'] + ',' + prometheus_ip_address
         response = [requests.get(url).content for url in urls]
+        #print(response)
         data = []
         for response_item in response:
+            #print(response_item)
             string = response_item.decode('utf-8')
             json_obj = json.loads(string)
+            #print(json_obj["data"]["result"][0]["values"])
             data.append(json_obj["data"]["result"][0]["values"])
 
+        #print(data)
         combined_list = self.combine_data(data)
+        #print(combined_list)
 
         df = self.create_df(combined_list)
         self.check_if_retraining_needed(monitored_type_lst, df, instance, monitored_type, horizon)
@@ -307,7 +318,6 @@ class Predict(Resource):
         df = self.resample_df(df, horizon)
         self.check_if_retraining_needed(monitored_type_lst, df, instance, monitored_type, horizon)
             
-        # For serial execution:
         #for monitored_type in monitored_type_lst:
         #    response_payload = self.predict_values_util(instance, horizon, monitored_type, df, response_payload)
 

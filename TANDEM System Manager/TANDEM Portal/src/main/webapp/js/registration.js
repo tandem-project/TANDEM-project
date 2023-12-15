@@ -106,6 +106,15 @@ function initRoles(){
     var url = _BACKENDSERVER+"/usercatalogue/aam/getRoles";
     CallPostUrl(url,"GET",null,[{"keystr":"AAM-Authorization","valuestr":_TOKEN}],"_getuserroles");
 }
+function userrolechng(){
+    var x="";
+    x = document.getElementById("userrolereg").value;
+    if (x.startsWith("Organizational Units")){
+       document.getElementById('spcfld1').style.display = 'block';
+    }else{
+       document.getElementById('spcfld1').style.display = 'none';
+    }
+}
 resultfnct['err_getuserroles'] = function (arg1) {
     
 }

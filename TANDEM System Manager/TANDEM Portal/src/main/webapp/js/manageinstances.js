@@ -1,4 +1,4 @@
-var getInstantiateURL = 'http://localhost/systemmanager/get/monitoringurl/instance';
+var getInstantiateURL = 'http://146.124.106.209/systemmanager/get/monitoringurl/instance';
 const getServiceURL = _BACKENDSERVER + '/servicecatalogue/get/services/';
 
 async function serviceMonUrl(serviceId){

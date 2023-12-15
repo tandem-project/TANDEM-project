@@ -5,11 +5,11 @@ var _USERNAME = "";
 var _USERROLE = "";
 var _COMPANYNAME = "";
 var _CDF=0;
-var _UNREGISTER_ACTIONS = "1000000000000000010";
+var _UNREGISTER_ACTIONS = "10000000000000000100";
 var _USERACTIONS = _UNREGISTER_ACTIONS;
 
 var _BACKENDSERVER = "http://localhost:8080";
-var _BACKENDSERVER1 = "http://localhost:8080";
+var _BACKENDSERVER1 = "http://146.124.106.209";
 var _LEAVENOW = true;
 function gotopage(name,c){
     gotopage_v1(name,c);
@@ -57,9 +57,9 @@ try {
     _CDF = url.searchParams.get("c");
     _option = option;
     if (option>0&&_TOKEN=="0") gotopage("index.html");
-    var url = "data/navinfo5.txt?v=2";
+    var url = "data/navinfo5.txt?v=4";
     if (option==10){
-        url = "data/navinfosco.txt?v=2";
+        url = "data/navinfosco.txt?v=4";
     }
     CallPostUrl(url,"GET",null,[],"getnav");
     if (_FUNCTIONS=="")
@@ -82,9 +82,9 @@ try {
     _CDF = url.searchParams.get("c");
     _option = option;
     if (option>0&&_TOKEN=="0") gotopage("index.html");
-    var url = "data/navinfo5.txt?v=2";
+    var url = "data/navinfo5.txt?v=4";
     if (option==10){
-        url = "data/navinfosco.txt?v=2";
+        url = "data/navinfosco.txt?v=4";
     }
     CallPostUrl(url,"GET",null,[],"getnav");
     if (_FUNCTIONS=="")
@@ -364,10 +364,10 @@ function _makeicons(jsicontxt){
 }
 // this info should be received from back end
 var _ROLES = '['+  
-'{"role":"000","functs":["_ithome","_itapplications","_itservices","_itservmanagement","_itsco","_itopen","_itproducts","_itdevices","_itinfra","login"]},'+
-'{"role":"001","functs":["_ithome","_itapplications","_itservices","_itservmanagement","_itsco","_itopen","_itproducts","_itdevices","_itinfra","_ituserinfo"]},'+
-'{"role":"002","functs":["_ithome","_itapplications","_itservices","_itservregistration","_itservmanagement","_itsco","_itsave","_itopen","_itdelete","_itproducts","_itusers","_ituserregistration","_itusermanagement","_itdevices","_itinfra","_itbilling","_itconfig","_ituserinfo"]}'+
+'{"role":"000","functs":["_ithome","_itapplications","_itservices","_itservmanagement","_itsco","_itopen","_itproducts","_itorders","_itdevices","_itinfra","login"]},'+
+'{"role":"001","functs":["_ithome","_itapplications","_itservices","_itservmanagement","_itsco","_itopen","_itproducts","_itorders","_itdevices","_itinfra","_ituserinfo"]},'+
+'{"role":"002","functs":["_ithome","_itapplications","_itservices","_itservregistration","_itservmanagement","_itsco","_itsave","_itopen","_itdelete","_itproducts","_itorders","_itusers","_ituserregistration","_itusermanagement","_itdevices","_itinfra","_itbilling","_itconfig","_ituserinfo"]}'+
 ']';
 //var _FUNCTIONS = '["_ithome","_itapplications","_itservices","_itservregistration","_itservmanagement","_itsco","_itsave","_itopen","_itdelete","_itproducts","_itusers","_ituserregistration","_itusermanagement","_itdevices","_itinfra","_itbilling","_itconfig","login","_ituserinfo"]';
-var _FUNCTIONS = '["_ithome","_itapplications","_itservices","_itservregistration","_itservmanagement","_itsco","_itsave","_itopen","_itdelete","_itproducts","_itusers","_ituserregistration","_itusermanagement","_itdevices","_itinfra","_itbilling","_itconfig","login","_ituserinfo"]';
+var _FUNCTIONS = '["_ithome","_itapplications","_itservices","_itservregistration","_itservmanagement","_itsco","_itsave","_itopen","_itdelete","_itproducts","_itusers","_ituserregistration","_itusermanagement","_itdevices","_itinfra","_itbilling","_itconfig","login","_ituserinfo", "_itorders"]';
 //var _MINFUNCTIONS = '["_ithome","_itapplications","_itservices","_itservmanagement","_itsco","_itopen","_itproducts","_itdevices","_itinfra","login"]';

@@ -66,9 +66,8 @@ async function submitEdgeCloudRegistration(event) {
     var nodes = new Array();
     var tableNodes = document.getElementById("nodestable");
     var tr = tableNodes.getElementsByTagName("tr");
-//    console.log("tr.length = " + tr.length);
+
     for (var i = 2; i < tr.length; i++) {
-//        console.log("i = " + i);
         var node = {
             nodeName:'', 
             nodeId:'', 
@@ -99,7 +98,7 @@ async function submitEdgeCloudRegistration(event) {
         
         // Get Cloud Info (if it is an existing cloud) to check if the node already exists in it and fill the node info appropriately
    
-        console.log("getCloudUrl = " + getCloudUrl);
+//        console.log("getCloudUrl = " + getCloudUrl);
         await fetch(getCloudUrl)
     
             .then(response => response.json())
@@ -108,8 +107,8 @@ async function submitEdgeCloudRegistration(event) {
                 var edgeCloud = null;
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].edgeCloudId === id) {
-                        console.log("Cloud found!");
-                        console.log("About to get cloud's info");
+//                        console.log("Cloud found!");
+//                        console.log("About to get cloud's info");
                         // Get cloud's info
                         var edgeCloud = data[i];
                     
@@ -119,8 +118,8 @@ async function submitEdgeCloudRegistration(event) {
                 if (edgeCloud !== null) {
                     for (let i = 0; i < edgeCloud.nodes.length; i++) {
                         if (edgeCloud.nodes[i].nodeId === node.nodeId) {
-                            console.log("Node found!");
-                            console.log("About to get node's info");
+//                            console.log("Node found!");
+//                            console.log("About to get node's info");
                             
                             // Update the non-user defined parameters with existing values
                             node.nodeConditions = edgeCloud.nodes[i].nodeConditions;
@@ -147,26 +146,22 @@ async function submitEdgeCloudRegistration(event) {
         var manualConfRadioId = "inframanualconfigradio" + nodeRowIndex;
         var installedServicesTableId = "installedservicestable" + nodeRowIndex;
         var nodeServices = configuredServices(autoConfRadioId, manualConfRadioId, confServicesId, installedServicesTableId);
-//        console.log("nodeServices = " + nodeServices);
-        // ************TO BE UNCOMENTED************
-//        if (nodeServices === null)
-//        {
-//            node.services = [];
-//        }
-//        else
-//        {
-//            node.services = nodeServices;
-//        }
-// *****************************
+
+        if (nodeServices === null)
+        {
+            node.services = [];
+        }
+        else
+        {
+            node.services = nodeServices;
+        }
         nodes.push(node);
     }
     for (i = 0 ; i < nodes.length ; i++) {
         console.log("Node #" + i + ": " + nodes[i].nodeName + ", " + nodes[i].nodeId + ", " + nodes[i].nodeLocation + ", " + nodes[i].nodeAddresses.nodeHostName);
- //********TO BE UNCOMENTED*****************
-//        for (j = 0 ; j < nodes[i].services.length ; j++) {
-//            console.log("Node services #" + j + ": " + nodes[i].services[j]);
-//        }
-//****************************************************************
+        for (j = 0 ; j < nodes[i].services.length ; j++) {
+            console.log("Node services #" + j + ": " + nodes[i].services[j]);
+        }
     }
     
     // Get configured services for the Edge-Cloud
@@ -191,23 +186,32 @@ async function submitEdgeCloudRegistration(event) {
     
    
     // Create data to json
-//    json = JSON.stringify(data);
-//    console.log("---------------JSON---------------");
-//    console.log(json);
+    json = JSON.stringify(data);
+    console.log("---------------JSON---------------");
+    console.log(json);
     
     // Check the parameters of the page's URL
     var params = new Array();  
     params = getParams();
-    var url = '#';
+    var url1 = '#';
 
     if (typeof params['infraId'] === 'undefined') {
         // If infraid is not defined, then create a new infrastructure
-        url = _BACKENDSERVER+"/infrastructurecatalogue/create/infrastructure";
-        CallPostUrl(url,"POST",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addinfra");
+        url1 = _BACKENDSERVER+"/infrastructurecatalogue/create/infrastructure";
+        CallPostUrl(url1,"POST",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addinfra");
     }
-    // Update the infrastructure, so as to include the nodes as well
-    url = _BACKENDSERVER+"/infrastructurecatalogue/update/infrastructure/" + id;
-    CallPostUrl(url,"PUT",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addinfra");
+    // Update the infrastructure (nodes aren't updated with this call
+    url1 = _BACKENDSERVER+"/infrastructurecatalogue/update/infrastructure/" + id;
+    CallPostUrl(url1,"PUT",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addinfra");
+    
+    // Explicitly call the "Add node" for each node in the table, 
+    // in order to make sure that the new ones will be added 
+    // and the old ones will be updated
+    var url2 = _BACKENDSERVER+"/infrastructurecatalogue/addnode/infrastructure/" + id;
+    for (var i = 0; i < nodes.length; i++)
+    {
+        CallPostUrl(url2,"POST",nodes[i],[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addnode");
+    }
 }
 resultfnct['_addinfra'] = function (arg1) {
     dispmess('info','Edge-Cloud was saved');
@@ -215,4 +219,12 @@ resultfnct['_addinfra'] = function (arg1) {
 }
 resultfnct['err_addinfra'] = function (arg1) {
     dispmess('info','Edge-Cloud was saved');
+}
+
+resultfnct['_addnode'] = function (arg1) {
+    dispmess('info','Node was saved');
+
+}
+resultfnct['err_addnode'] = function (arg1) {
+    dispmess('info','Node was not saved');
 }

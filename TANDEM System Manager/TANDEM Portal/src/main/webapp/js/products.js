@@ -33,7 +33,7 @@ async function displayProducts(action) {
         var instanceIconId = 'instanceIcon' + j;
         var listId = 'dropDown' + j;
         var orderIconId = 'orderIcon' + j;
-        
+//        var runIconId = 'runIcon' + j;
         /////////////////////////////// construct icons table
         var iconstab = JSON.parse("{}");
         iconstab["tdstyle"]="padding-bottom: 1px;padding-top: 1px;border-style: outset;";
@@ -124,9 +124,6 @@ function addOnClickEditProductEvent(editIconId, productId){
 function addOnClickNextStateEvent(stateId, dropdownId, productId){
  
     document.getElementById(stateId).addEventListener('click', function(event){
-//        console.log("Event called!!!");
-//        console.log("stateId = " + stateId);
-//        console.log("dropdownId = " + dropdownId);
         // Get the status of the product
         var proStatus = '';
         var url = _BACKENDSERVER+"/systemmanager/get/parameters/productstate";
@@ -139,7 +136,7 @@ function addOnClickNextStateEvent(stateId, dropdownId, productId){
                 break;
             }
         }
-        //console.log("proStatus = " + proStatus);
+        
         if (document.getElementById(dropdownId).style.display === "")
         {
             // In this case, the selection list has already been opened.
@@ -236,16 +233,12 @@ function addOnClickProductInstancesEvent(instanceIconId, productId){
         // Regardless of the product status, show the instances (currently shows all the instances)
         // First get the product
   
-        const productUrl = getProductURL + productId;
-//        console.log("serviceUrl = " + serviceUrl);
-        
+        const productUrl = getProductURL + productId;      
         await fetch(productUrl)
     
         .then(response => response.json())
         .then(async data => {
             var product = data;
-            
-//            console.log("service = " + service);
             // Check if the product is defined from a service or an application
             if (product.productServiceId !== "")
             {
@@ -309,7 +302,7 @@ function addOnClickProductInstancesEvent(instanceIconId, productId){
                             for (var i = 0; i < allServices.length; i++) {
                                 // For each service
                                 var paasName = await getPaasName(allServices[i].serID);
-                                console.log("Paas Name = " + paasName);
+//                                console.log("Paas Name = " + paasName);
 
                                 if (paasName === '')
                                 {
@@ -397,6 +390,39 @@ function addOnClickCreateOrderEvent(productIconId, productId){
     });
 }
 
+//Function for executing a product
+//function addOnClickRunProductEvent(id, product){
+//    document.getElementById(id).addEventListener('click', function(event){
+//        //First check the it is allowed to run the product (according to status) and then open the respective link
+//        if ((product.productLifeCycleStatus !== "Product Instantiated") && (product.productLifeCycleStatus !== "Product Retired") && (product.productLifeCycleStatus !== "Rejected"))
+//        {
+//            //Change the status of the product
+//            var updateData = {
+//                productId:product.productId,
+//                productLifeCycleStatus:"Product Instantiated"
+//            };
+//            
+//            var updateUrl = _BACKENDSERVER+"/servicecatalogue/update/products/state";
+//            CallPostUrl(updateUrl,"PUT",updateData,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"updatepro");
+//            resultfnct['updatepro'] = function () {
+//                console.log("Updating product");
+//            };
+//            // Change the value in the table
+//            var myTable = document.getElementById("productsTable");
+//            var rowIndex = id.substr(7,id.length);
+//            var cellIndex = 7;
+//            myTable.rows[rowIndex].cells[cellIndex].innerHTML = "Product Instantiated";
+//                   
+//            dispmess("INFO", "The product has been instantiated");
+//        }
+//        else
+//        {
+//            dispmess('INFO', "You can't run a product with status '" + product.productLifeCycleStatus + "'");
+//            
+//        }
+//    });
+//}
+
 function deleteProduct(id){
     if (confirm("Delete Product?") === false) {
         return;
@@ -450,7 +476,7 @@ async function productsToDisplay(productsAll)
                 {
                     products.push(productsAll[i]);
                     productIndex++;
-                    console.log("#4");
+//                    console.log("#4");
                 }
                         
             }
@@ -485,7 +511,9 @@ async function loadProductsArray(){
     var stateIDs = [];
     var dropdownIDs = [];
     var orderIDs = [];
+//    var runIDs = [];
     var instancesIDs = [];
+    
     var tableLength = document.getElementById('productsTable').rows.length;
     for (var i = 1; i < tableLength; i++){
         var editId = 'editIcon';
@@ -493,12 +521,14 @@ async function loadProductsArray(){
         var stateIconId = 'stateIcon';
         var dropDownId = 'dropDown';
         var orderIconId = 'orderIcon';
+//        var runIconId = 'runIcon';
         var instanceIconId = 'instanceIcon';
         editId = editId + i;
         monIconId = monIconId + i;
         stateIconId = stateIconId + i;
         dropDownId = dropDownId + i;
         orderIconId = orderIconId + i;
+//        runIconId = runIconId + i;
         instanceIconId = instanceIconId + i;
         editIDs.push(editId);
         IDs.push(monIconId);
@@ -508,6 +538,7 @@ async function loadProductsArray(){
         stateIDs.push(stateIconId);
         dropdownIDs.push(dropDownId);
         orderIDs.push(orderIconId);
+//        runIDs.push(runIconId);
         instancesIDs.push(instanceIconId);
     }
     for (var k = 0; k < productsInfo.length; k++){
@@ -515,6 +546,7 @@ async function loadProductsArray(){
         addOnClickEditProductEvent(editIDs[k], productId);
         addOnClickNextStateEvent(stateIDs[k], dropdownIDs[k], productId);
         addOnClickCreateOrderEvent(orderIDs[k], productId);
+//        addOnClickRunProductEvent(runIDs[k], productsInfo[k]);
         addOnClickProductInstancesEvent(instancesIDs[k], productId);
     }  
 }

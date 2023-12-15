@@ -27,7 +27,7 @@ async function loadingEdgecloudRegistration() {
                 if (this.checked)
                 {
                     document.getElementById("conftables").style.display = 'none';
-                    showManualConfiguration(this.value, 'manualconftables', 'availableservicestable', 'installedservicestable');
+                    showManualConfiguration(this.value, 'manualconftables', 'availableservicestable', 'installedservicestable', null);
                 }
             }
         });
@@ -38,7 +38,6 @@ async function loadingEdgecloudRegistration() {
         radioButton.addEventListener('change', function() {
             if (this.checked)
             {
-//                console.log("this.checked = " + this.checked);
                 showNodeConfiguration(this.value, 'confservicestables', 'confservicestable');
             }
         });
@@ -68,8 +67,6 @@ async function loadingEdgecloudRegistration() {
                 name.value = infrastructureInfo.edgeCloudName;
                 var id = document.getElementById('infraidreg');
                 id.value = infrastructureInfo.edgeCloudId;
-//                id.contenteditable = false;
-//                document.getElementById('infraidreg').readonly = true;
                 document.getElementById("infraidreg").disabled = true;
                 var ip = document.getElementById('infraipreg');
                 ip.value = infrastructureInfo.piEdgeIP;
@@ -84,8 +81,14 @@ async function loadingEdgecloudRegistration() {
                 // Fill the selection lists
                 selectionList('infrazonereg', urlZone, infrastructureInfo.edgeCloudAvailabilityZone);
                 selectionList('infraproviderreg', urlProvider, infrastructureInfo.edgeCloudProvider);
-                //+++ To be modified in order to have the existing services preselected +++
-//                listServices('infraservicereg', null, null, false);
+                
+                // Show Services
+          
+                // Since the configurations are not actually saved in DB, by default the "Create Your Configuration" will be checked
+                document.getElementById("inframanualconfigreg").checked = true;
+                //Show hidden div
+                document.getElementById("manualconftables").style.display = 'block';
+                showManualConfiguration('', 'manualconftables', 'availableservicestable', 'installedservicestable', infrastructureInfo.services); 
             };
             
         }

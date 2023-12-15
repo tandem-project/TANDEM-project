@@ -28,6 +28,15 @@
       <a id="_itproductmanagement" href="#" onclick='gotopage("products.html",0);'>Management</a>
     </div>
   </div>
+  <div id="_itorders" class="dropdown">
+    <button class="dropbtn">Orders
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a id="_itorderregistration" href="#" onclick='gotopage("orderRegistration.html",0);'>Registration</a>
+      <a id="_itordermanagement" href="#" onclick='gotopage("orders.html",0);'>Management</a>
+    </div>
+  </div>
   <!--<a id="_itusers" href="#" onclick='gotopage("users.html",0);'>Users</a>-->
   <div id="_itusers" class="dropdown">
     <button class="dropbtn">Users

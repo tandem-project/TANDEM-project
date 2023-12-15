@@ -50,6 +50,7 @@ COPY data data
 ENV HTTP_PROXY=http://icache.intracomtel.com:80
 ENV HTTPS_PROXY=http://icache.intracomtel.com:80
 ENV FTP_PROXY=http://icache.intracomtel.com:80
-ENV NO_PROXY="localhost,::1,.intranet.gr"
+ENV NO_PROXY="localhost,::1,.intranet.gr,.intracomtel.com"
 
 CMD ["python", "-u", "get_predict_m_data.py"]
+

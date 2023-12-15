@@ -1,7 +1,7 @@
 [
   {
     "proid": "TANDEM_pro1",
-    "proMonitoringURL": "http://localhost:8080/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now",
+    "proMonitoringURL": "http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now",
     "proName": "Temperature Monitoring Service",
     "proVersion": "001",
     "proType": "FaaS Service",

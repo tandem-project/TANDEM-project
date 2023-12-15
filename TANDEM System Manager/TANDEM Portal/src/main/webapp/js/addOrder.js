@@ -98,8 +98,8 @@ async function submitOrderRegistration(event) {
     var checklist = document.getElementsByName('orderedproductname')[0];
     var productSelectedName = checklist.options[checklist.selectedIndex].text;
     var productSelectedId = checklist.options[checklist.selectedIndex].value;
-    console.log("productSelectedName = " + productSelectedName);
-    console.log("productSelectedId = " + productSelectedId);
+//    console.log("productSelectedName = " + productSelectedName);
+//    console.log("productSelectedId = " + productSelectedId);
     if (productSelectedName === 'Select')
     {
         productSelectedName = '';
@@ -121,35 +121,34 @@ async function submitOrderRegistration(event) {
     //below we are binding the input data (json format) in a variable in order to post it.
     
     var data = {
-        id: id,
-        name: name,
-        productType: type,
-        description: description, 
-        category: category,
-        agreement: agreement,
-        startDate: startDate,       
-        endDate: endDate,     
-        products: productId,
+        orderId: id,
+        orderName: name,
+        orderCategory: category,
+        orderType: type,
+        orderDescription: description, 
+        orderAgreement: agreement,
+        requestedStartDate: startDate,       
+        requestedCompletionDate: endDate,     
         totalPrice: price,
-        priority: priority,
         billingAccount: billing,
+        orderPriority: priority,
         contactInfo: contact,
-        notes: notes
-
+        notes: notes,
+        orderedProducts: [productId]
     };
 
     // Create data to json
     json = JSON.stringify(data);
-    console.log("---------------JSON---------------");
-    console.log(json);
+//    console.log("---------------JSON---------------");
+//    console.log(json);
     
     //Send json
-//    var url = _BACKENDSERVER+"/ordercatalogue/create/orders";
-//    CallPostUrl(url,"POST",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addorder");
+    var url = _BACKENDSERVER+"/servicecatalogue/create/orders";
+    CallPostUrl(url,"POST",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addorder");
 
     // Change product status
     var newStatus = await findStatusFromId(_BACKENDSERVER + "/systemmanager/get/parameters/productstate/", productOrderedStatusId);
-    console.log("newStatus = " + newStatus);
+//    console.log("newStatus = " + newStatus);
     var updateData = {
         productId: productId,
         productLifeCycleStatus: newStatus
@@ -161,93 +160,89 @@ async function submitOrderRegistration(event) {
     
     // Instantiate Application/Service
     // Get the product's info
-    console.log("productId = " + productId);
-    const getProUrl = _BACKENDSERVER+"/servicecatalogue/get/products/" + productId;
-    console.log("getProUrl = " + getProUrl);
-    await fetch(getProUrl)
-    
-        .then(response => response.json())
-        .then(async data => {
-            // Examine the text in the response
-            const product = data;
-            if ((product.productServiceId !== '') && (product.productServiceId !== 'Select'))       
-            {
-                // Instantiate Service
-                // Get service's info
-                const getSerUrl = _BACKENDSERVER+"/servicecatalogue/get/services/" + product.productServiceId;
-                await fetch (getSerUrl)
-                    .then (response => response.json())
-                    .then (async data => {
-                
-                        const service = data;
-       
-                        // Get configuration parameters from service and create the call's body
-                        var instantiateServiceBody = '{';
-                        for (var i = 0; i < service.serConfigParams.length; i++)
-                        {
-                            instantiateServiceBody = instantiateServiceBody + "\"" +service.serConfigParams[i].serParamName + "\": \"" + service.serConfigParams[i].serParamTypicalValue + "\"";
-                            if (i < service.serConfigParams.length - 1)
-                            {
-                                instantiateServiceBody = instantiateServiceBody + ', ';
-                            }
-                        }
-                        instantiateServiceBody = instantiateServiceBody + '}';
-
-                        let r = await fetch(instantiateServiceURL, {method: 'POST', headers:{'Content-Type': 'application/json'}, body: instantiateServiceBody});
-                   
-                        if (r.status !== 200)
-                        {
-                            dispmess("ERROR", "Unable to instantiate the service. Please try again later or contact the administrator");
-                         
-                        }
-                    })
-                    .catch(function(err) {  
-                        console.error('Fetch Error -', err);  
-                    }); 
-            }
-            else if ((product.productApplicationId !== '') && (product.productApplicationId !== 'Select'))
-            {
-                // Instantiate Application
-                // Get application's info
-                getAppUrl = getAppUrl + product.productApplicationId;
-                await fetch (getAppUrl)
-                    .then (response => response.json())
-                    .then (async data => {
-                
-                        const app = data;
-       
-                        var monURL = app.AppURL;
-                        window.open(monURL,'_blank');
-            
-                    })
-                    .catch(function(err) {  
-                        console.error('Fetch Error -', err);  
-                    }); 
-            }
-        })
-                
-              
-        .catch(function(err) {  
-            console.error('Fetch Error -', err);  
-        }); 
+//    console.log("productId = " + productId);
+//    const getProUrl = _BACKENDSERVER+"/servicecatalogue/get/products/" + productId;
+//    console.log("getProUrl = " + getProUrl);
+//    await fetch(getProUrl)
+//    
+//        .then(response => response.json())
+//        .then(async data => {
+//            // Examine the text in the response
+//            const product = data;
+//            if ((product.productServiceId !== '') && (product.productServiceId !== 'Select'))       
+//            {
+//                // Instantiate Service
+//                // Get service's info
+//                const getSerUrl = _BACKENDSERVER+"/servicecatalogue/get/services/" + product.productServiceId;
+//                await fetch (getSerUrl)
+//                    .then (response => response.json())
+//                    .then (async data => {
+//                
+//                        const service = data;
+//       
+//                        // Get configuration parameters from service and create the call's body
+//                        var instantiateServiceBody = '{';
+//                        for (var i = 0; i < service.serConfigParams.length; i++)
+//                        {
+//                            instantiateServiceBody = instantiateServiceBody + "\"" +service.serConfigParams[i].serParamName + "\": \"" + service.serConfigParams[i].serParamTypicalValue + "\"";
+//                            if (i < service.serConfigParams.length - 1)
+//                            {
+//                                instantiateServiceBody = instantiateServiceBody + ', ';
+//                            }
+//                        }
+//                        instantiateServiceBody = instantiateServiceBody + '}';
+//
+//                        let r = await fetch(instantiateServiceURL, {method: 'POST', headers:{'Content-Type': 'application/json'}, body: instantiateServiceBody});
+//                   
+//                        if (r.status !== 200)
+//                        {
+//                            dispmess("ERROR", "Unable to instantiate the service. Please try again later or contact the administrator");
+//                         
+//                        }
+//                    })
+//                    .catch(function(err) {  
+//                        console.error('Fetch Error -', err);  
+//                    }); 
+//            }
+//            else if ((product.productApplicationId !== '') && (product.productApplicationId !== 'Select'))
+//            {
+//                // Instantiate Application
+//                // Get application's info
+//                getAppUrl = getAppUrl + product.productApplicationId;
+//                await fetch (getAppUrl)
+//                    .then (response => response.json())
+//                    .then (async data => {
+//                
+//                        const app = data;
+//       
+//                        var monURL = app.AppURL;
+//                        window.open(monURL,'_blank');
+//            
+//                    })
+//                    .catch(function(err) {  
+//                        console.error('Fetch Error -', err);  
+//                    }); 
+//            }
+//        })
+//                
+//              
+//        .catch(function(err) {  
+//            console.error('Fetch Error -', err);  
+//        }); 
 }
 
 resultfnct['_updateproduct'] = function (arg1) {
-//    console.log("Status 200");
-    dispmess('info','Product status was changed to published');
+    dispmess('info','Order was saved and product status was changed to published');
 
 }
 resultfnct['err_updateproduct'] = function (arg1) {
-//    console.log("ERROR3 in submission");
-    dispmess('info','Product status was changed to published');
+    dispmess('info','Order was saved and product status was changed to published');
 }
 
-//resultfnct['_addorder'] = function (arg1) {
-////    console.log("Status 200");
-//    dispmess('info','Order was saved');
-//
-//}
-//resultfnct['err_addorder'] = function (arg1) {
-////    console.log("ERROR3 in submission");
-//    dispmess('info','Order was saved');
-//}
+resultfnct['_addorder'] = function (arg1) {
+    dispmess('info','Order was saved');
+
+}
+resultfnct['err_addorder'] = function (arg1) {
+    dispmess('info','Order was saved');
+}

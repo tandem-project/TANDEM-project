@@ -140,7 +140,7 @@ input[type=submit]:hover {
   opacity: 0.8;
 }
 
-#add-reqserv-btn, #add-offservuser-btn{
+#add-reqserv-btn, #add-offservuser-btn, #add-volumes-btn, #add-reqparams-btn{
   margin-top: 1%;
  /* margin-right:32%;
    width: 12%;

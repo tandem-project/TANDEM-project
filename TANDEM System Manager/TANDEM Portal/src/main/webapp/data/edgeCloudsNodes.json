@@ -6,8 +6,8 @@
     "nodeProvider": "INTRACOM TELECOM S.A",
     "nodeAddresses": {
         "nodeHostName": "Peania1_master",
-        "nodeExternalIP": "0.0.0.0", 
-        "nodeInternalIP": "localhost"
+        "nodeExternalIP": "146.124.114.147", 
+        "nodeInternalIP": "192.168.1.5"
     },
     "nodeConditions": {
         "nodeReady": "True",
@@ -37,8 +37,8 @@
         "nodeKubernetesVersion": "1.24.2",
         "nodeKernelVersion": "Ubuntu 22.04"
     },
-    "nodeUsageMonitoringURL": "http://localhost:8080/d/qgmX-lqnb/tandem-node-1?orgId=1&refresh=1m&from=now-3h&to=now",
-    "nodeServicesMonitoringURL":"http://localhost:8080/d/Q5Tyu93na/tandem-node-1-services?orgId=1&refresh=1m&from=now-3h&to=now"
+    "nodeUsageMonitoringURL": "http://146.124.106.209:3000/d/qgmX-lqnb/tandem-node-1?orgId=1&refresh=1m&from=now-3h&to=now",
+    "nodeServicesMonitoringURL":"http://146.124.106.209:3000/d/Q5Tyu93na/tandem-node-1-services?orgId=1&refresh=1m&from=now-3h&to=now"
   },
   {
     "nodeId": "Node2",
@@ -47,8 +47,8 @@
     "nodeProvider": "INTRACOM TELECOM S.A",
     "nodeAddresses": {
         "nodeHostName": "Peania1_worker1",
-        "nodeExternalIP": "0.0.0.0", 
-        "nodeInernalIP": "localhost"
+        "nodeExternalIP": "146.124.114.148", 
+        "nodeInernalIP": "192.168.1.6"
     },
     "nodeConditions": {
         "nodeReady": "True",
@@ -78,7 +78,7 @@
         "nodeKubernetesVersion": "1.24.2",
         "nodeKernelVersion": "Ubuntu 22.04"
     },
-    "nodeUsageMonitoringURL": "http://localhost:8080/d/qgmX-lqna/tandem-node-2?orgId=1&refresh=1m&from=now-3h&to=now",
-    "nodeServicesMonitoringURL":"http://localhost:8080/d/Q5Tyu66nk/tandem-node-2-services?orgId=1&refresh=1m&from=now-3h&to=now"
+    "nodeUsageMonitoringURL": "http://146.124.106.209:3000/d/qgmX-lqna/tandem-node-2?orgId=1&refresh=1m&from=now-3h&to=now",
+    "nodeServicesMonitoringURL":"http://146.124.106.209:3000/d/Q5Tyu66nk/tandem-node-2-services?orgId=1&refresh=1m&from=now-3h&to=now"
   }
 ]

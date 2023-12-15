@@ -1,0 +1,62 @@
+[
+    {
+        "policy": "maximize-performance",
+        "monitoring_metrics":
+        [
+            {
+                "metric": "cpu",
+                "limit": "1900m",
+                "request": "800m",
+                "util_percent": 60,
+                "is_default": true
+            },
+            {
+                "metric": "memory",
+                "limit": "0.5Gi",
+                "request": "0.2Gi",
+                "util_percent": 20,
+                "is_default": false   
+            }
+        ]
+    },
+    {
+        "policy": "minimize_cost",
+        "monitoring_metrics": 
+        [
+            {
+                "metric": "memory",
+                "limit": "0.5Gi",
+                "request": "0.2Gi",
+                "util_percent": 20,
+                "is_default": false
+            },
+            {
+                "metric": "cpu",
+                "limit": "500m",
+                "request": "150m",
+                "util_percent": 30,
+                "is_default": true
+            }
+        ]            
+    },
+    {
+        "policy": "service_availability",
+        "monitoring_metrics": 
+        [
+            {
+                "metric": "memory",
+                "limit": "0.5Gi",
+                "request": "0.2Gi",
+                "util_percent": 20,
+                "is_default": false
+            },
+            {
+                "metric": "cpu",
+                "limit": "500m",
+                "request": "150m",
+                "util_percent": 50,
+                "is_default": true
+            }
+        ]            
+    }
+ ]

@@ -1,4 +1,4 @@
-curl --location 'http://localhost:8080/convert' \
+curl --location 'http://10.152.183.214:5000/convert' \
 --header 'Content-Type: application/json' \
 --data '{
     "components": [

@@ -226,7 +226,7 @@ function addOnClickCloudMonitorNodesEvent(id, monitorNodesURL){
 
 function addOnClickCloudDeleteEvent(id, cloudId){
     document.getElementById(id).addEventListener('click', function(event){
-//        dispmess('INFO','This button will be implemented on next cycle');
+
         if (confirm("Delete the Inrastructure?") === false) {
             return;
         }
@@ -366,7 +366,7 @@ function addOnClickDeregisterNodeEvents(id, cloudId, nodeId){
                         nodeName: requestedNode.nodeName,
                         nodeHostname: requestedNode.nodeAddresses.nodeHostName,
                         nodePassword: requestedNode.nodePassword,
-                        nodeIp: requestedNode.nodeAddresses.nodeExternalIP
+                        nodeIP: requestedNode.nodeAddresses.nodeExternalIP
                     };
     
    

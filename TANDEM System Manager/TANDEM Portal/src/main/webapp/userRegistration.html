@@ -59,7 +59,7 @@
 <!--<script type="text/javascript" src="js/form.js"></script>-->
 <script type="text/javascript" src="js/addElement.js">
 <script type="text/javascript" src="js/fontstool.js"></script>
-<script type="text/javascript" src="js/registration.js?v=2"></script>
+<script type="text/javascript" src="js/registration.js?v=3"></script>
 
 <div class="title">
     <img src="img/cropped-cropped-tandem_logo.png" id="logo" alt="tandem-logo"/>
@@ -166,11 +166,17 @@
         <label for="userrolereg">User Role</label>
       </div>
       <div class="col-srvregistration">
-        <select id="userrolereg" name="userrolereg">
+          <table><tr><td>
+          <select id="userrolereg" onchange="userrolechng();" name="userrolereg">
           <option value="Select">Select</option>
-        </select>
+          </select></td></tr><tr><td>
+        <input type="text" id="spcfld1" placeholder="Organ. Units..">
+                  </td></tr></table>
       </div>
     </div>
+    <script>
+        document.getElementById('spcfld1').style.display = 'none';
+    </script>
       
 
       

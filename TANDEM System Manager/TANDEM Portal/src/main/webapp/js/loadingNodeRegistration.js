@@ -26,7 +26,7 @@ async function loadingNodeRegistration() {
                 if (this.checked)
                 {
                     document.getElementById("conftables").style.display = 'none';
-                    showManualConfiguration(this.value, 'manualconftables', 'availableservicestable', 'installedservicestable');
+                    showManualConfiguration(this.value, 'manualconftables', 'availableservicestable', 'installedservicestable', null);
                 }
             }
         });

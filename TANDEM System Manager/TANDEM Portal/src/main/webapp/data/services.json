@@ -13,7 +13,7 @@
     },
     "serVersion": "001",
     "state": "Approved (Active)",
-    "serMonitoringURL": "http://localhost:8080/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
+    "serMonitoringURL": "http://146.124.106.209:3000/d/KN4SFkR4k/temp-and-humidity-app?orgId=1&from=now-3h&to=now"
   },
   {
     "serId": "TANDEM_ser2",

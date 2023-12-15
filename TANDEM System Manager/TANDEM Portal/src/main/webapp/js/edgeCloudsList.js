@@ -14,7 +14,7 @@ function listEdgeClouds(listid) {
     dropdown.add(defaultOption);
     dropdown.selectedIndex = 0;
 
-    const url = 'http://localhost:8080/infrastructurecatalogue/get/infrastructure';
+    const url = 'http://10.152.183.117:8081/infrastructurecatalogue/get/infrastructure';
     $.get(url, function(data, status){
         console.log(data);
         console.log(status);

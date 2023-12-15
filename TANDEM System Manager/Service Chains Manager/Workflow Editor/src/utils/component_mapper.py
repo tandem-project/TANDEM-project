@@ -15,6 +15,9 @@ class ComponentMapper(object):
         
         setup_components = ['core_paas', 'custom_paas', 'edgex_mqtt_writer', 'iot_device', 'webhook', 
             'hardware_controller_service_function', "motion_planning_service_function", "object_detection_cans_service_function", "object_detection_pills_service_function", "pick_and_place_service_function"]
+        
+        # self.compid2Comp = {c: Component(os.path.join(cur_dir, rel_path, f'{c}/{c}.yaml')) \
+        #                     for c in setup_components}
 
         self.mapper = {
             "iot_device": {
@@ -48,6 +51,124 @@ class ComponentMapper(object):
                         "parameters": {
                             "default": {
                                 "paas_service_name": "iotmonitoring",
+                                "paas_instance_name": "tandemtest",
+                                "autoscaling_type": "minimize_cost",
+                                "count_min": "1",
+                                "count_max": "1",
+                                "location": "Peania_Athens_19002",
+                                "all_node_ports": "True",
+                            },
+                            "from_previous": {}
+                        },
+                        "output": ["output_path"]
+                    },
+                    {
+                        "comp_id": "edgex_mqtt_writer",
+                        "dependencies": ["custom_paas"],
+                        "parameters": {
+                            "default": {
+
+                            },
+                            "from_previous": {
+                                "custom_paas": [("output_path", "custom_paas_file")]
+
+                            }
+                        },
+                        "output": []
+                    }
+
+                ]
+            },
+            "iot_device_proactive": {
+                "setup_components": [
+                    {
+                        "comp_id": "core_paas",
+                        "dependencies": [],
+                        "parameters": {
+                            "default": {
+                                "core_paas": "edgex"
+                            },
+                            "from_previous": {}
+                        },
+                        "output": []
+                    },
+                    {
+                        "comp_id": "iot_device",
+                        "dependencies": ["core_paas"],
+                        "parameters": {
+                            "default": {
+                                "device_name": "mytandemdevice",
+                                "values_file": "values.json"
+                            },
+                            "from_previous": {}
+                        },
+                        "output": []
+                    },
+                    {
+                        "comp_id": "custom_paas",
+                        "dependencies": ["core_paas"],
+                        "parameters": {
+                            "default": {
+                                "paas_service_name": "iotmonitoringproactive",
+                                "paas_instance_name": "tandemtest",
+                                "autoscaling_type": "minimize_cost",
+                                "count_min": "1",
+                                "count_max": "1",
+                                "location": "Peania_Athens_19002",
+                                "all_node_ports": "True",
+                            },
+                            "from_previous": {}
+                        },
+                        "output": ["output_path"]
+                    },
+                    {
+                        "comp_id": "edgex_mqtt_writer",
+                        "dependencies": ["custom_paas"],
+                        "parameters": {
+                            "default": {
+
+                            },
+                            "from_previous": {
+                                "custom_paas": [("output_path", "custom_paas_file")]
+
+                            }
+                        },
+                        "output": []
+                    }
+
+                ]
+            },
+            "iot_device_proactive_tiny": {
+                "setup_components": [
+                    {
+                        "comp_id": "core_paas",
+                        "dependencies": [],
+                        "parameters": {
+                            "default": {
+                                "core_paas": "edgex"
+                            },
+                            "from_previous": {}
+                        },
+                        "output": []
+                    },
+                    {
+                        "comp_id": "iot_device",
+                        "dependencies": ["core_paas"],
+                        "parameters": {
+                            "default": {
+                                "device_name": "mytandemdevice",
+                                "values_file": "values.json"
+                            },
+                            "from_previous": {}
+                        },
+                        "output": []
+                    },
+                    {
+                        "comp_id": "custom_paas",
+                        "dependencies": ["core_paas"],
+                        "parameters": {
+                            "default": {
+                                "paas_service_name": "iotmonitoringproactivetinyml",
                                 "paas_instance_name": "tandemtest",
                                 "autoscaling_type": "minimize_cost",
                                 "count_min": "1",

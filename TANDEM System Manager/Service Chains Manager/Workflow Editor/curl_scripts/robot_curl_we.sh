@@ -1,4 +1,4 @@
-curl --location 'http://localhost:8080/convert' \
+curl --location 'http://10.152.183.214:5000/convert' \
 --header 'Content-Type: application/json' \
 --data '{
     "components": [
@@ -17,7 +17,7 @@ curl --location 'http://localhost:8080/convert' \
         {
             "name": "motion_planning1",
             "type": "motion_planning",
-            "dependencies": ["hw_controller1"],
+            "dependencies": [],
             "parameters": {
                 "input_from_prev":{
                 },
@@ -41,7 +41,7 @@ curl --location 'http://localhost:8080/convert' \
         {
             "name": "pick_n_place1",
             "type": "pick_n_place",
-            "dependencies": ["motion_planning1"],
+            "dependencies": [],
             "parameters": {
                 "input_from_prev":{
                 },

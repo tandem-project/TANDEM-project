@@ -1,0 +1,53 @@
+curl --location --request POST 'http://146.124.106.209/workflows/create' \
+--header 'Content-Type: text/plain' \
+--data-raw '{"name":"emperature and Humidity Monitoring","description":null,"json":{"prmtrs":[],"issync":false,"startnodeid":"0","endnodeid":"1","prmtrsout":"","prmtrsin":[],"t001d":[{"id":"0","xpos":100.92500305175781,"ypos":83.59999084472656,"type":"START_NODE","truethen":"","falsethen":"","n001s":["2"],"p001s":[]},{"id":"1","xpos":524.9250030517578,"ypos":297,"type":"END_NODE","truethen":"","falsethen":"","n001s":[],"p001s":["5"]},{"id":"2","xpos":265.9250030517578,"ypos":128,"type":"PAAS_NODE","truethen":"","falsethen":"","n001s":["3"],"p001s":["0"],"description":"EDGE FOUNDRY","properties":"","service":"TANDEM_ser3","servicedescr":"Notification Service"},{"id":"3","xpos":391.9250030517578,"ypos":132,"type":"PAAS_NODE","truethen":"","falsethen":"","n001s":["6"],"p001s":["2"],"description":"IOT MONITORING","properties":"","service":"tandem_custom_3","servicedescr":"Trial 2"},{"id":"4","xpos":304.9250030517578,"ypos":255,"type":"DEVICE_SERVICE","truethen":"","falsethen":"","n001s":[],"p001s":["5"],"description":"MEC SERVICES","properties":"","service":"tandem_custom_13","servicedescr":"Trial 3"},{"id":"5","xpos":454.9250030517578,"ypos":203,"type":"FAAS_NODE","truethen":"","falsethen":"","n001s":["1","4"],"p001s":["6"],"description":"","properties":"","service":"TANDEM_ser3","servicedescr":"Notification Service"},{"id":"6","xpos":540.9250030517578,"ypos":123.19999980926514,"type":"USERAPP_SERVICE","truethen":"","falsethen":"","n001s":["5"],"p001s":["3"]}],"maxnode":"6"},"type":"1"}'
+
+curl --location --request POST 'http://146.124.106.209/workflows/create' \
+--header 'Content-Type: text/plain' \
+--data-raw '{"name":"emperature and Humidity Monitoring1","description":null,"json":{"prmtrs":[],"issync":false,"startnodeid":"0","endnodeid":"1","prmtrsout":"","prmtrsin":[],"t001d":[{"id":"0","xpos":100.92500305175781,"ypos":83.59999084472656,"type":"START_NODE","truethen":"","falsethen":"","n001s":["2"],"p001s":[]},{"id":"1","xpos":500.9250030517578,"ypos":373,"type":"END_NODE","truethen":"","falsethen":"","n001s":[],"p001s":["5"]},{"id":"2","xpos":265.9250030517578,"ypos":128,"type":"PAAS_NODE","truethen":"","falsethen":"","n001s":["3"],"p001s":["0"],"description":"EDGE FOUNDRY","properties":"","service":"TANDEM_ser3","servicedescr":"Notification Service"},{"id":"3","xpos":391.9250030517578,"ypos":132,"type":"PAAS_NODE","truethen":"","falsethen":"","n001s":["6"],"p001s":["2"],"description":"IOT MONITORING","properties":"","service":"tandem_custom_3","servicedescr":"Trial 2"},{"id":"4","xpos":309.9250030517578,"ypos":253,"type":"DEVICE_SERVICE","truethen":"","falsethen":"","n001s":[],"p001s":["6"],"description":"MEC SERVICES","properties":"","service":"tandem_custom_13","servicedescr":"Trial 3"},{"id":"5","xpos":465.9250030517578,"ypos":241,"type":"FAAS_NODE","truethen":"","falsethen":"","n001s":["1"],"p001s":["6"],"description":"email","properties":"","service":"TANDEM_ser3","servicedescr":"Notification Service"},{"id":"6","xpos":540.9250030517578,"ypos":123.19999980926514,"type":"USERAPP_SERVICE","truethen":"","falsethen":"","n001s":["5","7","4"],"p001s":["3"],"description":"EVENT SENSOR","properties":"","service":"TANDEM_ser3","servicedescr":"Notification Service"},{"id":"7","xpos":602.9250030517578,"ypos":245,"type":"FAAS_NODE","truethen":"","falsethen":"","n001s":[],"p001s":["6"],"description":"alarm","properties":"","service":"TANDEM_ser3","servicedescr":"Notification Service"}],"maxnode":"7"},"type":"1"}'
+
+curl --location --request POST 'http://146.124.106.209/usercatalogue/aam/add/documents' \
+--header 'AAM-Authorization: v4.local.1A1oD7vbdDqrKwMXXqgvhf1TpgGic7g9btpwLXN7JIoiB5jeFgkorRORTiaGVCHPV-49B8Bf5IEgmNrz_NV3kB6sTrj-GehIg_UAC9-Kv7RFq1YvJV-ncGUZErLE5RLmKIXqGmhR2dpmuPWTaATBfQdInCjUIFnMkcKwoVU6fvJ6izgdAQjGvTcE8bGcuF6HtoeTSisQMoi9vXyCmHd9mXjWug' \
+--header 'Content-Type: application/json' \
+--data-raw '{"doc":"actions","info":[
+    {"order":0,"type":0,"name":"g.home","description":"home page","value":"_ithome"}
+    ,{"order":10,"type":0,"name":"g.applications","description":"applications","value":"_itapplications"}
+    ,{"order":20,"type":0,"name":"g.services","description":"services","value":"_itservices"}
+    ,{"order":30,"type":0,"name":"g.servregistration","description":"register service","value":"_itservregistration"}
+    ,{"order":40,"type":0,"name":"g.servmanagement","description":"service management","value":"_itservmanagement"}
+    ,{"order":50,"type":0,"name":"g.sco","description":"SCO","value":"_itsco"}
+    ,{"order":60,"type":0,"name":"g.save","description":"SCO save","value":"_itsave"}
+    ,{"order":70,"type":0,"name":"g.open","description":"SCO open","value":"_itopen"}
+    ,{"order":80,"type":0,"name":"g.delete","description":"SCO delete","value":"_itdelete"}
+    ,{"order":90,"type":0,"name":"g.products","description":"products","value":"_itproducts"}
+    ,{"order":100,"type":0,"name":"g.users","description":"users","value":"_itusers"}
+    ,{"order":110,"type":0,"name":"g.userregistration","description":"register user","value":"_ituserregistration"}
+    ,{"order":120,"type":0,"name":"g.usermanagement","description":"user management","value":"_itusermanagement"}
+    ,{"order":130,"type":0,"name":"g.devices","description":"devices","value":"_itdevices"}
+    ,{"order":140,"type":0,"name":"g.infra","description":"infrastructure","value":"_itinfra"}
+    ,{"order":150,"type":0,"name":"g.billing","description":"billing","value":"_itbilling"}
+    ,{"order":160,"type":0,"name":"g.config","description":"configuration","value":"_itconfig"}
+    ,{"order":170,"type":0,"name":"g.login","description":"login","value":"login"}
+    ,{"order":180,"type":0,"name":"g.userinfo","description":"user logged in info","value":"_ituserinfo"}
+    ,{"order":0,"type":1,"name":"f.aam.add.documents","description":"add documents","value":"/aam/add/documents"}
+    ,{"order":1,"type":1,"name":"f.aam.getactions","description":"get actions","value":"/aam/getactions"}
+    ,{"order":2,"type":1,"name":"f.aam.getroles","description":"get roles","value":"/aam/getroles"}
+    ,{"order": 0,"type": 2,"name": "n.services","description": "notification group1","value": [{"name": "servicecatalogue","status": ["status1","status2"]}]}
+    ]}'
+
+
+curl --location --request POST 'http://146.124.106.209/usercatalogue/aam/add/documents' \
+--header 'AAM-Authorization: icomaamkey' \
+--header 'Content-Type: application/json' \
+--data-raw '{"doc":"rolesactions","info":[{"role":"Standard User","actions":"1111100111111111101","services":"111111111","notifications":"111"},{"role":"Administrator","actions":"1111111111111111001","services":"111111111","notifications":"111"},{"role":"Organizational Units (OU) Administrator","actions":"111111111111111111","services":"111111111","notifications":"111"},{"role":"Subscription Manager","actions":"111111111111111111","services":"111111111"},{"role":"Service Manager","actions":"1111111110111101001","services":"111111111"},{"role":"Product Manager","actions":"111111111111111111","services":"111111111","notifications":"111"},{"role":"Reseller","actions":"111111111111111111","services":"111111111","notifications":"111"},{"role":"Broker","actions":"111111111111111111","services":"111111111","notifications":"111"},{"role":"Marketplace Manager","actions":"111111111111111111","services":"111111111","notifications":"111"},{"role":"Operator","actions":"1011111111111111101","services":"111111111","notifications":"111"},{"role":"Unregister User","actions":"1000000000000000010","services":"111111111","notifications":"111"}]
+}'
+
+
+curl --location --request POST 'http://146.124.106.209/usercatalogue/aam/add/documents' \
+--header 'AAM-Authorization: icomaamkey' \
+--header 'Content-Type: application/json' \
+--data-raw '{"doc":"users","info":[{"username":"admin","role":"Administrator","firstname":"admin","lastname":"admin","password":"admin","company":"ICOM"},
+{"username":"standard","role":"Standard User","firstname":"test","lastname":"test","password":"user","company":"UNIVERSITY aaa"},{"username":"operator",
+"role":"Operator","firstname":"test","lastname":"test","password":"user","company":"UNIVERSITY bbb"}]
+}'
+

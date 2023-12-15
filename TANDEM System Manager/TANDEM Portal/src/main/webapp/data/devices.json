@@ -9,7 +9,7 @@
     "operatingState": "ENABLED",
     "protocols": {
         "example": {
-            "host": "localhost",
+            "host": "146.124.106.208",
             "port": "8080",
             "unitID": "3"
         }
@@ -37,11 +37,11 @@
             "id": "871bc0ef-8b3d-45be-891d-432cd1f3b135",
             "name": "AlarmActivationApp",
             "protocol": "HTTP",
-            "address": "localhost:8080",
+            "address": "146.124.106.208",
             "port": 5000,
             "path": "/api/v1/device/register",
-            "baseURL": "http://localhost:8080",
-            "url": "http://localhost:8080/api/v1/device/register"
+            "baseURL": "http://146.124.106.208:5000",
+            "url": "http://146.124.106.208:5000/api/v1/device/register"
         },
         "adminState": "UNLOCKED"
     },
@@ -224,7 +224,7 @@
     "operatingState": "ENABLED",
     "protocols": {
         "example": {
-            "host": "localhost",
+            "host": "146.124.106.208",
             "port": "5000",
             "unitID": "2"
         }
@@ -251,11 +251,11 @@
             "id": "871bc0ef-8b3d-45be-891d-432cd1f3b135",
             "name": "AlarmActivationApp",
             "protocol": "HTTP",
-            "address": "localhost",
+            "address": "146.124.106.208",
             "port": 5000,
             "path": "/api/v1/device/register",
-            "baseURL": "http://localhost:8080",
-            "url": "http://localhost:8080/api/v1/device/register"
+            "baseURL": "http://146.124.106.208:5000",
+            "url": "http://146.124.106.208:5000/api/v1/device/register"
         },
         "adminState": "UNLOCKED"
     },

@@ -1,5 +1,5 @@
 
-function submitServiceRegistration(event) {
+async function submitServiceRegistration(event) {
   
     var id, name, type, provider, description, categoryName, version, state;
     
@@ -40,6 +40,26 @@ function submitServiceRegistration(event) {
         errorlist.push("is local");
     }
     
+        
+    // Get ports for service/application
+    var ports = [];
+    
+    var portsString = document.getElementById("ports").value;
+    if (portsString !== "")
+    {
+        //Get the various ports that are sperated by commas (,)
+        ports = portsString.split(/[.,!,?,;]/);
+        for (var i = 0; i < ports.length; i++)
+        {
+            if (isNaN(ports[i]))
+            {
+                dispmess('ERROR', "The Service ports should contain only numbers");
+                return;
+            }
+            ports[i] = parseInt(ports[i]);
+        }
+    }
+//    console.log("port length = " + ports.length);
     
     if (!isoktoadd){
         var message = "The next fields are empty:";
@@ -115,7 +135,6 @@ function submitServiceRegistration(event) {
         globalConfParamIndex++;
         confParam.serParamType = td_serParamType.value;
 
-//        console.log("Param type: " + confParam.serParamType);
         confParam.serParamTypicalValue = tableConfParams.rows[i].cells[2].innerHTML;
         confParam.serParamDescr = tableConfParams.rows[i].cells[3].innerHTML;
         var j = i - 2;
@@ -172,7 +191,7 @@ function submitServiceRegistration(event) {
         var opOutputParams = new Array();
         var outputParamTableId = tableOperations.rows[i].cells[6].innerHTML;
         var tableOutputParams = document.getElementById(outputParamTableId);
-        console.log("tableOutputParams = " + tableOutputParams);
+//        console.log("tableOutputParams = " + tableOutputParams);
         var trOutput = tableOutputParams.getElementsByTagName("tr");
         for (j = 2; j < trOutput.length; j++) {
             var opOutputParam = {serParamName:'', serParamType:'', serParamValue:'', serParamDescr:'', serParamTypicalValue:''};
@@ -266,6 +285,39 @@ function submitServiceRegistration(event) {
         k++;
     }
 
+    // Get Required Volumes
+    var tableVolumes = document.getElementById("volumestable");
+    var tr = tableVolumes.getElementsByTagName("tr");
+   
+    var volumes = [];
+
+    for (i = 2; i < tr.length; i++) {
+        var volume = {name:'', path:'', hostpath:'', storage:''};
+        
+        volume.name = tableVolumes.rows[i].cells[0].innerHTML;
+
+        volume.path = tableVolumes.rows[i].cells[1].innerHTML;
+        volume.hostpath = tableVolumes.rows[i].cells[2].innerHTML; 
+        volume.storage = tableVolumes.rows[i].cells[3].innerHTML; 
+        volumes.push(volume);
+        
+    }
+    
+    // Get Environmental Parameters
+    var tableEnvParams = document.getElementById("envparamstable");
+    var tr = tableEnvParams.getElementsByTagName("tr");
+   
+    var envParams = [];
+
+    for (i = 2; i < tr.length; i++) {
+        var param = {name:'', value:''};
+        
+        param.name = tableEnvParams.rows[i].cells[0].innerHTML;     
+        param.value = tableEnvParams.rows[i].cells[1].innerHTML; 
+        envParams.push(param);
+        
+    }
+
     // Get Software Image Parameters
     swImage = {serSWImageId:'', serSWImageName:'', serSWImageContainerFormat:'', serSWImageSizeinMBs:'', serSWImageOS:'', serSWImageURL:''};
     
@@ -279,10 +331,20 @@ function submitServiceRegistration(event) {
     
     
     // Get other individual parameters
+    var autoscalingMetric = document.getElementById("autoscalingmetric").value;
+    if (autoscalingMetric === "Select")
+    {
+        autoscalingMetric = '';
+    }
     var consumedLocal = document.getElementById("consumedlocal").value;
     if (consumedLocal === "Select")
     {
         consumedLocal = '';
+    }
+    var isPrivileged = document.getElementById("isprivileged").value;
+    if (isPrivileged === "Select")
+    {
+        isPrivileged = '';
     }
     var isLocal = document.getElementById("islocal").value;
     if (isLocal === "Select")
@@ -291,7 +353,7 @@ function submitServiceRegistration(event) {
     }
     var localityScope = document.getElementById("scopeoflocality").value;
     console.log('Consumed Local = ' + consumedLocal + '\nIs Local = ' + isLocal + '\nScope of locality = ' + localityScope);
-    var consumedLocalJson, isLocalJson;
+    var consumedLocalJson, isLocalJson, isPrivilegedJson;
     if (consumedLocal === "Yes")
     {
         consumedLocalJson = true;
@@ -304,6 +366,15 @@ function submitServiceRegistration(event) {
     {
         consumedLocalJson = '';
     }
+    if (isPrivileged === "Yes")
+    {
+        isPrivilegedJson = true;
+    }
+    else 
+    {
+        isPrivilegedJson = false;
+    }
+   
     if (isLocal === "Yes")
     {
         isLocalJson = true;
@@ -316,6 +387,23 @@ function submitServiceRegistration(event) {
     {
         isLocalJson = '';
     }
+
+    //Get available autoscaling policies from json and add all of them in the service
+    const file = "./data/autoscaling_policies.json";
+    var autoscaling_policies = null;
+    await fetch(file)
+    
+        .then(response => response.json())
+        .then(data => {
+//            console.log("data = " + data);
+            autoscaling_policies = data;
+//            console.log("autoscaling_policies = " + autoscaling_policies);
+        })
+                
+              
+        .catch(function(err) {  
+            console.error('Fetch Error -', err);  
+        });
     
     //below we are binding the input data (json format) in a variable inorder to post it.
 
@@ -343,14 +431,20 @@ function submitServiceRegistration(event) {
         transportProtocol: "",
         scopeOfLocality: localityScope,
         consumedLocalOnly: consumedLocalJson,
-        isLocal: isLocalJson
+        isLocal: isLocalJson,
+        serApplicationPorts: ports,
+        serAutoscalingPolicies: autoscaling_policies,
+        serRequiredVolumes: volumes,
+        serRequiredEnvParameters: envParams,
+        serPrivileged: isPrivilegedJson,
+        serPaasAutoscalingMetric: autoscalingMetric
     };
     
    
     // Create data to json
     json = JSON.stringify(data);
-//    console.log("---------------JSON---------------");
-//    console.log(json);
+    console.log("---------------JSON---------------");
+    console.log(json);
     
     //Send json
     var url = _BACKENDSERVER+"/servicecatalogue/create/services";

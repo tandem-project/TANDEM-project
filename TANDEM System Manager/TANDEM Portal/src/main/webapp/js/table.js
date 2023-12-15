@@ -1,6 +1,6 @@
 function myFunction(tableId, col) {
   var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById(tableId);
+  input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById(tableId);
   tr = table.getElementsByTagName("tr");

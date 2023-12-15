@@ -30,7 +30,8 @@
 <script type="text/javascript" src="js/setServiceDescription.js"></script>
 <script type="text/javascript" src="js/loadingServiceRegistration.js?v=1"></script>
 <script type="text/javascript" src="js/servicesList.js"></script>
-
+<script type="text/javascript" src="js/addVolumeRow.js"></script>
+<script type="text/javascript" src="js/addEnvParamRow.js"></script>
 
 
 
@@ -350,7 +351,54 @@
         </div>
     </div>
  
-          
+    <!-- Required Volumes & Required Environmental Parameters -->
+    <div class="row regformrow">
+        <div class="col-srvregistration-tables" style="width:45%;">
+            <table class="srvregtable" id="volumestable">
+                <thead>
+                    <tr>
+                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Required Volumes</b></td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Path</th>
+                        <th>Host Path</th>
+                        <th>Storage</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table> 
+        </div>
+        <div class="col-srvregistration-tables" style="width:44%;">
+            <table class="srvregtable" id="envparamstable">
+                <thead>
+                    <tr>
+                        <td style="background-color: #9e9e9e;" colspan="100%"><b>Environmental Parameters</b></td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table> 
+        </div>
+    </div>    
+   
+    <div class="row" style="margin-left:25%">
+        <div class="col-srvregistration">
+            <input id="add-volumes-btn" type="button" value="+ Add Volume" onclick="addVolumeRow('volumestable', null)">
+        </div>
+        <div class="col-srvregistration" style="margin-left:25%">
+            <input id="add-reqparams-btn" type="button" value="+ Add Environmental Parameter" onclick="addEnvParamRow('envparamstable', null)">
+        </div>
+    </div>
       
     <div class="row regformrow">
         <div class="col-srvregistration-tables" style="width:45%">
@@ -395,10 +443,34 @@
         <div class="col-srvregistration-tables" style="width:47%;">
             <div style="overflow: hidden">
                 <div class="col-srvregistration" style="width:40%">
+                    <label for="autoscalingmetric">Autoscaling metric</label>
+                </div>
+                <div class="col-srvregistration" style="width:35%">
+                    <select id="autoscalingmetric" name="autoscalingmetric">
+                        <option value="Select">Select</option>
+                        <option value="CPU">CPU</option>
+                        <option value="Memory">Memory</option>
+                    </select>
+                </div>
+            </div>
+            <div style="overflow: hidden">
+                <div class="col-srvregistration" style="width:40%">
                     <label for="consumedlocal" class="required">Consumed Local</label>
                 </div>
                 <div class="col-srvregistration" style="width:35%">
                     <select id="consumedlocal" name="consumedlocal">
+                        <option value="Select">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
+            <div style="overflow: hidden">
+                <div class="col-srvregistration" style="width:40%">
+                    <label for="isprivileged">Is Privileged</label>
+                </div>
+                <div class="col-srvregistration" style="width:35%">
+                    <select id="isprivileged" name="isprivileged">
                         <option value="Select">Select</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -423,6 +495,14 @@
                 </div>
                 <div class="col-srvregistration" style="width:35%;">
                     <input type="text" style="height:10%;" id="scopeoflocality" name="scopeoflocality" placeholder="Locality scope..">
+                </div>
+            </div>
+            <div style="overflow: hidden">
+                <div class="col-srvregistration" style="width: 40%;">
+                    <label for="ports">Service ports</label>
+                </div>
+                <div class="col-srvregistration" style="width:35%;">
+                    <input type="text" style="height:10%;" id="ports" name="ports" placeholder="1234, 8080">
                 </div>
             </div>
         </div>

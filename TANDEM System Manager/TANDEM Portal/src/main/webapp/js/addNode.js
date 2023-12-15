@@ -96,13 +96,45 @@ async function submitNodeRegistration(event) {
     
     // Here are the node infos that are required to include when adding a node, but are not given by the user.
     
-    var nodeConditions = null;
-    var nodeCapacity = null;
-    var nodeAllocatableResources = null;
-    var nodeGeneralInfo = null;
-    var nodeUsage = null;
-    var nodeUsageMonitoringURL = null;
-    var nodeServicesMonitoringURL = null;
+    var nodeConditions =  {
+        nodeReady: false,
+        nodeDiskPressure: false,
+        nodeMemoryPressure: false,
+        nodePIDPressure: false,
+        nodeNetworkUnavailable: false
+    };
+    var nodeCapacity = {
+        nodeCPUCap: 0,
+        nodeMemoryCap: 0,
+        nodeMemoryCapMU: "",
+        nodeStorageCap: 0,
+        nodeStorageCapMU: "",
+        nodeMaxNoofPods: 0
+    };
+    var nodeAllocatableResources = {
+        nodeCPUCap: 0,
+        nodeMemoryCap: 0,
+        nodeMemoryCapMU: "",
+        nodeStorageCap: 0,
+        nodeStorageCapMU: ""
+    };
+    var nodeGeneralInfo = {
+        nodeOS: "",
+        nodeKubernetesVersion: "",
+        nodeKernelVersion: "",
+        nodeArchitecture: "",
+        nodecontainerRuntimeVersion: ""
+    };
+    var nodeUsage = {
+        nodeCPUInUse: "",
+        nodeCPUInUseMU: "",
+        nodeCPUUsage: "",
+        nodeMemoryInUse: "",
+        nodeMemoryInUseMU: "",
+        nodeMemoryUsage: ""
+    };
+    var nodeUsageMonitoringURL = "";
+    var nodeServicesMonitoringURL = "";
     
     // Get Cloud Info to check if the node already exists in it and fill the node info appropriately
    
@@ -112,15 +144,15 @@ async function submitNodeRegistration(event) {
     
         .then(response => response.json())
         .then(data => {
-            // Check if the node is alreadt included in the edge-cloud
+            // Check if the node is already included in the edge-cloud
             
             for (let i = 0; i < data.nodes.length; i++) {
                 if (data.nodes[i].nodeId === id) {
-                    console.log("Node found!");
-                    console.log("About to get node's info");
+//                    console.log("Node found!");
+//                    console.log("About to get node's info");
                     // Get node's info
                     var node = data.nodes[i];
-                    console.log("node = " + node);
+//                    console.log("node = " + node);
                     // Update the non-user defined parameters with existing values
                     nodeConditions = node.nodeConditions;
                     nodeCapacity = node.nodeCapacity;
@@ -132,20 +164,6 @@ async function submitNodeRegistration(event) {
                     break;
                 }
             }
-//            if (i < data.nodes.length) {
-//                console.log("About to get node's info");
-//                // Get node's info
-//                var node = data.nodes[i];
-//                console.log("node = " + node);
-//                // Update the non-user defined parameters with existing values
-//                nodeConditions = node.nodeConditions;
-//                nodeCapacity = node.nodeCapacity;
-//                nodeAllocatableResources = node.nodeAllocatableResources;
-//                nodeGeneralInfo = node.nodeGeneralInfo;
-//                nodeUsage = node.nodeUsage;
-//                nodeUsageMonitoringURL = node.UsageMonitoringURL;
-//                nodeServicesMonitoringURL = node.nodeServicesMonitoringURL;
-//            }
                         
         })
                 
@@ -156,13 +174,16 @@ async function submitNodeRegistration(event) {
         
     
     
-    //below we are binding the input data (json format) in a variable inorder to post it.
+    //below we are binding the input data (json format) in a variable in order to post it.
 
     var data = {
         nodeId: id,
         nodeName: name,
+        nodeType: type,
         nodeLocation: location,
         nodeAddresses: nodeAddresses,
+        nodePassword: psw,
+        nodeDescription: description,
         nodeConditions: nodeConditions,
         nodeCapacity: nodeCapacity,
         nodeAllocatableResources: nodeAllocatableResources,
@@ -170,7 +191,8 @@ async function submitNodeRegistration(event) {
         nodeUsage: nodeUsage,
         nodeUsageMonitoringURL: nodeUsageMonitoringURL,
         nodeServicesMonitoringURL: nodeServicesMonitoringURL,
-        nodePassword: psw
+        
+        nodeServices: installedServices
     };
     
    
@@ -181,7 +203,6 @@ async function submitNodeRegistration(event) {
     
     //Send json
     var url = _BACKENDSERVER+"/infrastructurecatalogue/addnode/infrastructure/" + cloud;
-//    console.log("url = " + url);
     CallPostUrl(url,"POST",data,[{"keystr":"AAM-Authorization-Token","valuestr":_TOKEN}],"_addnode");
 
 }
