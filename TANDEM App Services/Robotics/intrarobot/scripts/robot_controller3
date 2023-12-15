@@ -1,0 +1,944 @@
+#!/usr/bin/env python3
+
+print("Pick and Place!")
+
+import rospy
+from moveit_msgs.msg import Grasp, PlaceLocation
+from geometry_msgs.msg import Pose,PoseStamped
+from sensor_msgs.msg import Image, PointCloud2, PointField
+from sensor_msgs import point_cloud2
+from std_msgs.msg import Header
+import numpy as np
+import os 
+import cv2
+from cv_bridge import CvBridge
+import random
+from tf.transformations import quaternion_from_euler, euler_from_quaternion
+import open3d
+import colorsys
+import time 
+import message_filters
+from moveit_python_interface import Controller
+import requests
+import copy
+
+L = []
+
+bridge = CvBridge()
+ROBOT_NAME = 'wx200'
+COLOR_IMAGE_TOPIC = '/locobot/camera/color/image_raw'
+POINT_CLOUD_TOPIC = '/locobot/camera/depth_registered/points'
+POINT_CLOUD_TOPIC = '/locobot/camera/depth/color/points'
+# POINT_CLOUD_TOPIC = '/camera/depth/points'
+IGNORE_ROLL = False
+
+pick_command_publisher = rospy.Publisher("/"+ROBOT_NAME+"/pick_command",Grasp,queue_size=1)
+place_command_publisher = rospy.Publisher("/"+ROBOT_NAME+"/place_command",PlaceLocation,queue_size=1)
+
+class Master(Controller):
+    def __init__(self,robot_name=ROBOT_NAME):
+        Controller.__init__(self)
+        self.robot_name = robot_name
+        # self.base_frame = (0.092, 0, 0.124163, 0, 0, 0)
+        translation, rotation = self.transformation_listener(link1='locobot/base_footprint',link2='locobot/arm_base_link')
+        self.base_frame = list(translation) + list(rotation)
+        # self.camera_frame = (0.078643,0.017516,0.487583,-0.000022,0.700871,0.000226)
+        self.camera_frame = (0,0,0.6,0,np.pi/4,0)
+        self.IMG_WIDTH = 640
+        self.IMG_HEIGHT = 480
+        self.img = None
+        self.surface_height = None
+        self.last_sec = -1
+        
+        self.vizualizations_dir = "/home/ntinos/Workspaces/intrarobots_ws/src/extras/vizualizations/"
+        self.prtscr = False
+        
+        x0, y0, z0 ,_ ,_ ,_ = self.base_frame 
+        
+        theta = self.get_gripper_yaw(0,0.35,x0,y0)
+        self.red_bucket = (0,0.35,0.3,0,0,theta)
+
+        theta = self.get_gripper_yaw(0,-0.35,x0,y0)
+        self.green_bucket = (0,-0.35,0.3,0,0,theta)
+
+        self.camera_subscriber = message_filters.Subscriber(COLOR_IMAGE_TOPIC, Image)
+        self.pointcloud2_subscriber = message_filters.Subscriber(POINT_CLOUD_TOPIC, PointCloud2)
+
+        self.ts = message_filters.TimeSynchronizer([self.camera_subscriber,self.pointcloud2_subscriber],5)
+        self.ts.registerCallback(self.read_img_and_ptc)
+        
+        self.valid_classes = ['can','defective']
+
+        self.object_list = []
+        self.temp_objects = []
+
+        self.robot_in_move = False
+
+        self.clear_scene_objects()
+
+        # exit()
+
+    def clear_scene_objects(self):
+        print("_-"*30)
+        for obj_name in self.scene.get_known_object_names():
+            self.scene.remove_world_object(obj_name)
+
+        return
+
+    def transform(self,ptc):
+        print("Point Cloud transformation to robot frame...")
+
+        translation,rotation = self.transformation_listener()
+        
+        transformations = []
+
+        ptc1 = copy.deepcopy(ptc)
+
+        T = np.eye(4)
+        T[:3, :3] = ptc1.get_rotation_matrix_from_xyz((-np.pi/2, 0, 0))
+        ptc1 = copy.deepcopy(ptc1).transform(T)
+        transformations.append(T)
+
+        T = np.eye(4)
+        T[:3, :3] = ptc1.get_rotation_matrix_from_xyz((0, 0, -np.pi/2))
+        ptc1 = copy.deepcopy(ptc1).transform(T)
+        transformations.append(T)
+
+        T = np.eye(4)
+        T[:3, :3] = ptc1.get_rotation_matrix_from_xyz((rotation[0], 0, 0))
+        ptc1 = copy.deepcopy(ptc1).transform(T)
+        transformations.append(T)
+
+        T = np.eye(4)
+        T[:3, :3] = ptc1.get_rotation_matrix_from_xyz((0, rotation[1], 0))
+        ptc1 = copy.deepcopy(ptc1).transform(T)
+        transformations.append(T)
+
+        T = np.eye(4)        
+        T[:3, :3] = ptc1.get_rotation_matrix_from_xyz((0, 0, rotation[2]))
+        ptc1 = copy.deepcopy(ptc1).transform(T)
+        transformations.append(T)
+
+        T = np.eye(4)
+        T[:3,3] = translation
+        ptc1 = copy.deepcopy(ptc1).transform(T)
+        transformations.append(T)
+
+        return ptc1
+
+    def combine_ptcs(self,ptc1,ptc2):
+        t0 = time.time()
+
+        print("Combining Point Clouds")
+        self.create_transformation()
+        ptc1.transform(self.transformation)
+
+        points = list(ptc1.points) + list(ptc2.points)
+        colors = list(ptc1.colors) + list(ptc2.colors)
+
+        points.append((0,0,0))
+        colors.append((0,0,0))
+
+        print("Total Points",len(points))
+
+        ptc = open3d.geometry.PointCloud()
+        ptc.points = open3d.utility.Vector3dVector(np.array(points))
+        ptc.colors = open3d.utility.Vector3dVector(np.array(colors)) 
+
+        # print("Exec time for combine_ptc:",time.time()-t0)
+        # open3d.visualization.draw_geometries([ptc])
+        return ptc     
+    
+    def objdet_client(self,cv_image):
+        img_encoded = cv2.imencode(".jpg",cv_image)[1]
+        file = {'file': ('image.jpg', img_encoded.tostring(), 'image/jpeg')}
+        data = {"id" : "2345AB"}
+        objdet_server = os.environ.get('OBJDET_SERVER')
+
+        for _ in range(3):
+            try:
+                response = requests.post(objdet_server,files=file, data=data)
+                status_code = response.status_code
+                print("Status code:",status_code)
+                predictions = response.json()['predictions_list']
+                break
+            except Exception as e:
+                print(objdet_server)
+                print(e)
+                status_code = -1
+                predictions = []
+
+        if status_code != 200:
+            print("Object Detection Module! Not Responding!")
+
+        
+        return predictions, status_code
+
+    def read_img_and_ptc(self,img_msg,ptc_msg,display_image=False):
+        global IGNORE_ROLL
+        
+        """
+        Time Synchronized Callback for two different subscribers
+        """
+        
+        if self.robot_in_move: return
+
+        print("Reading Depth Camera...")
+
+        # sometimes it reads an old ptc message
+        sec = int(ptc_msg.header.stamp.secs)
+        if self.last_sec > sec - 2:
+            print("Received an old point cloud.")
+            return
+        
+        self.robot_in_move = True
+
+        # from rosmsg format to cv2 format
+        cv_image = bridge.imgmsg_to_cv2(img_msg, desired_encoding='bgr8')
+
+        t0 = time.time()
+        # send image file to object detecion server and get list of presictions
+        predictions,response_status_code = self.objdet_client(cv_image)        
+        
+        
+        print("Inference time:",time.time()-t0)
+
+        print('Object Detection predictions:',predictions)
+        
+        if response_status_code != 200:
+            return
+
+        # transform point type from ros message (point_cloud2) to open3d point cloud
+        ptc = self.pt2_to_open3d(ptc_msg)
+        
+        ptc_transformed = self.transform(ptc)
+        if not self.surface_height:
+            self.surface_height = self.surface_detection(ptc_transformed)
+        if not 'floor' in self.scene.get_objects():
+            self.add_floor_plane(self.surface_height-0.02)
+
+        # if point cloud is all black, abort 
+        if np.mean(np.array(ptc.colors)) == 0:
+            return
+
+        self.last_sec = sec
+
+        # crop point cloud to keep only points around objects        
+        ptc_segments = []
+        for box in predictions:
+            print(box)
+            [x1,y1,x2,y2,obj_class] = box[0:5]
+            if obj_class in ['can','defective']: IGNORE_ROLL = True
+            #if obj_class in self.valid_classes:
+            ptc_segment = self.ptc_img_map(cv_image,ptc,x1,y1,x2,y2)
+            #open3d.visualization.draw_geometries([ptc_segment])
+            self.ptc2objects(ptc_segment,obj_class)
+      
+        self.execute_object_list()
+
+    def ptc2objects(self,ptc,predicted_class):
+        
+        # transfor, point cloud coordinates from camera-center-point to robot-center-point
+        ptc = self.transform(ptc)
+
+        # detect main surface in point cloud (table)
+        if not self.surface_height:
+            self.surface_height = self.surface_detection(ptc)       
+
+        print("surface height:",self.surface_height)
+
+        print("Cropping region of interest...")        
+        
+        # keep points inside a rectangle in front of robot, and above table level
+        bbox = open3d.geometry.AxisAlignedBoundingBox(min_bound=(-1,-1, self.surface_height+0.005), max_bound=(1,1,1))
+        ptc_cropped = ptc.crop(bbox)    
+
+        print("Clustering 3d points...")
+        objects = self.cluster_objects_3d(ptc_cropped)
+
+        # sometimes we have outlier points within an object
+        # we want to avoid classifying these points as a seperate object
+        if len(objects) > 1:
+            max_p = 0
+            for obj in objects:
+                if len(obj.points) > max_p: 
+                    max_p = len(obj.points)
+                    main_object = obj
+            objects = [main_object]
+
+        # open3d.visualization.draw_geometries(objects)
+        
+        print(f"Recognised {len(objects)} objects.")
+
+        for i,o in enumerate(objects):
+        
+            grab_pose_euler,box_to_add = self.get_grasp_pose(o)
+
+            if not grab_pose_euler: continue
+            
+            if predicted_class in ['can','panadol']:
+                x_place, y_place = 0,-0.35
+            elif predicted_class in ['defective','tirosint']:
+                x_place, y_place = 0,0.35
+                
+            z_place = grab_pose_euler[2] + 0.01
+            roll_place = grab_pose_euler[3]
+            pitch_place = grab_pose_euler[4]
+            x0, y0, z0 ,_ ,_ ,_ = self.base_frame 
+            theta = self.get_gripper_yaw(x_place, y_place,x0,y0)
+            place_pose_euler = (x_place, y_place, z_place, roll_place, pitch_place, theta)
+            
+            x,y,z,_,_,_ = grab_pose_euler
+            
+            obj_id = str(round(x,2)).replace('.','')+str(round(y,2)).replace('.','')
+            self.prtscr = False
+
+            pose,size = box_to_add
+            object_name = obj_id
+            self.scene.add_box(object_name,pose,size)
+
+            object_ = [obj_id,grab_pose_euler,place_pose_euler]
+            self.object_list.append(object_)      
+        return 
+
+    def execute_object_list(self):
+        self.robot_in_move = True
+
+        random.shuffle(self.object_list)
+
+        for obj_id,grab_pose_euler,place_pose_euler in self.object_list:
+            master.publish_pick_command(grab_pose_euler,obj_id=obj_id)
+            master.publish_place_command(place_pose_euler,obj_id=obj_id)
+        #     break
+        
+        self.clear_scene_objects()
+        self.object_list = []
+        self.tasks = [] # [id, grasp_pose, place_pose, done,attempts]
+        self.ptr = {} # { id: ptr_to_tasks_list }
+
+        self.robot_in_move = False
+
+    def add_obstacles_width(self):
+
+        scene_objects = self.scene.get_objects()
+        attached_objects = self.scene.get_attached_objects()
+
+        for object_name in self.scene.get_known_object_names():
+            object = scene_objects[object_name]
+
+            if object.id in attached_objects: continue
+            if len(object.primitives)>0:
+                if object.primitives[0].type != 1: continue
+            else:
+                continue
+
+            object_dimensions = object.primitives[0].dimensions
+            object_dimensions = (0.1,0.1,0.2)
+            object_header = object.header
+            object_pose = object.pose
+            object_pose_stamped = PoseStamped()
+            object_pose_stamped.header = object_header
+            object_pose_stamped.pose = object_pose
+            
+            temp_id = "temp_"+object.id
+            self.scene.add_box(temp_id,object_pose_stamped,object_dimensions)
+            self.temp_objects.append(temp_id)
+
+    def ptc_img_map(self,img,ptc,x1,y1,x2,y2):
+        # https://answers.ros.org/question/50146/mapping-between-pointcloud-and-image/
+        # https://docs.opencv.org/3.4/d9/d0c/group__calib3d.html#ga1019495a2c8d1743ed5cc23fa0daff8c
+        
+        # camera parameters matrices (rostopic echo /locobot/camera/depth/camera_info)
+        D = [0.0, 0.0, 0.0, 0.0, 0.0]
+        K = [384.25164794921875, 0.0, 324.1221923828125, 0.0, 384.25164794921875, 237.54432678222656, 0.0, 0.0, 1.0]
+        K = [607.6456909179688, 0.0, 322.227783203125, 0.0, 607.7970581054688, 252.47821044921875, 0.0, 0.0, 1.0]
+        R = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+        P = [384.25164794921875, 0.0, 324.1221923828125, 0.0, 0.0, 384.25164794921875, 237.54432678222656, 0.0, 0.0, 0.0, 1.0, 0.0]
+        
+        ptc_points = np.array(ptc.points)
+        ptc_colors = np.array(ptc.colors)
+        
+        K = np.array(K).reshape((3,3))        
+        rvec = np.array(R).reshape((3,3))     #np.array([0,0,0]).reshape((1,3))
+        tvec = np.zeros((3, 1))
+        D = np.array(D)
+               
+        res,_ = cv2.projectPoints(objectPoints=ptc_points, rvec=rvec, tvec=tvec, cameraMatrix=K, distCoeffs=D, imagePoints=img)
+        
+        seg_points = []
+        seg_colors = []       
+        for i in range(len(res)):
+            xp,yp = res[i][0]
+            if (xp > x1-40 and xp < x2) and (yp > y1-40 and yp < y2):
+                seg_points.append(ptc_points[i])
+                seg_colors.append(ptc_colors[i]) 
+               
+        ptc_segment = open3d.geometry.PointCloud() 
+        
+        if len(seg_points) == 0: 
+            return ptc_segment
+        
+        ptc_segment.points = open3d.utility.Vector3dVector(np.array(seg_points))
+        ptc_segment.colors = open3d.utility.Vector3dVector(np.array(seg_colors))
+        
+        return ptc_segment
+
+    def get_grasp_pose(self,o):
+        
+    	# we want to get the x,y,z of the grasping pose
+        r = np.array(o.points)
+        z_max = np.max(r[:,2])
+        print("Point in object with maximum z:",z_max)
+        
+        # MINIMAL BBOX OF OBJECT
+        object_box = o.get_minimal_oriented_bounding_box()
+        # TOP PART OF OBJECT
+        #bbox = open3d.geometry.AxisAlignedBoundingBox(min_bound=(-1,-1, z_max - (z_max-self.surface_height)/2), max_bound=(1,1,1))
+        bbox = open3d.geometry.AxisAlignedBoundingBox(min_bound=(-1,-1, z_max - 0.02), max_bound=(1,1,1))
+        o_top = o.crop(bbox)
+
+        bbox_points = o_top.get_minimal_oriented_bounding_box().get_box_points()
+        bmax = object_box.get_max_bound()
+        centered = False
+        
+        if IGNORE_ROLL:
+            # Project the bounds of the top part onto the surface
+            p1 = o_top.get_max_bound()
+            p2 = o_top.get_min_bound()
+            p1[2] = self.surface_height
+            p2[2] = self.surface_height
+            extra_points = [] #[p1,p2]
+            extra_colors = [] #[[1,0,0] for _ in extra_points]
+            
+            points_top = np.array(list(np.array(o_top.points)) + extra_points)        
+            colors_top = np.array(list(np.array(o_top.colors)) + extra_colors)
+            
+            o_top = open3d.geometry.PointCloud()
+            o_top.points = open3d.utility.Vector3dVector(points_top)
+            o_top.colors = open3d.utility.Vector3dVector(colors_top)
+
+        # MINIMAL BBOX OF TOP PART OF OBJECT
+        top_bbox = o_top.get_minimal_oriented_bounding_box()
+
+        bmax = object_box.get_max_bound()
+        bmin = object_box.get_min_bound()
+        center = object_box.get_center()
+
+        # CREATE BOX SIZE AND POSE FOR MOVEIT SCENE
+        size_x = np.abs(bmax[0] - bmin[0])
+        size_y = np.abs(bmax[1] - bmin[1])
+        size_z = np.abs(bmax[2] - bmin[2])
+        size = (0.015,0.015,size_z)
+        
+        box_pose = PoseStamped()
+        box_pose.header.frame_id = "floor"
+        box_pose.pose.position.x = center[0]
+        box_pose.pose.position.y = center[1]
+        box_pose.pose.position.z = center[2]
+            
+        # GET X,Y,Z (ROBOT GRASP POSE)
+        center_top = top_bbox.get_center()
+        x,y,z = center_top[0], center_top[1], z_max+0.005
+
+        bbox_points = np.asarray(top_bbox.get_box_points())
+
+        if IGNORE_ROLL: 
+            roll = 0
+        else:
+            roll = get_gripper_roll(bbox_points)
+
+        #################################################
+        pts = list(bbox_points)
+        # get 4 points with the maximum z
+        pts1 = pts
+        pts.sort(key=lambda x:x[2],reverse=True)
+        pts = pts[:4]
+    
+        color = [0,0,0]
+        colors = [color for _ in pts1]
+        ptc = open3d.geometry.PointCloud()
+        ptc.points = open3d.utility.Vector3dVector(np.array(pts1))
+        ptc.colors = open3d.utility.Vector3dVector(np.array(colors))
+    
+        color = [0,1,0]
+        colors = [color for _ in pts]
+        ptc1 = open3d.geometry.PointCloud()
+        ptc1.points = open3d.utility.Vector3dVector(np.array(pts))
+        ptc1.colors = open3d.utility.Vector3dVector(np.array(colors))
+    
+        # Debug: shades of red by height for whole object
+        colors = [[p[2]/0.2, 0, 0] for p in list(np.array(o.points))]
+        ptc2 = open3d.geometry.PointCloud()
+        ptc2.points = o.points
+        ptc2.colors = open3d.utility.Vector3dVector(colors)
+        
+        print("ROLL:",roll)
+        
+        pitch = 0 # paraller to ground
+        pitch = np.pi/2.01 # grasp from above
+                     
+        if pitch < np.pi/2.01:
+            roll = 0
+            x -= np.sign(x)*x/50
+            y -= np.sign(y)*y/50
+
+        # get gripper's yaw angle
+        x0, y0, z0 ,_ ,_ ,_ = master.base_frame 
+        yaw = self.get_gripper_yaw(x,y,x0,y0)
+
+        grab_pose_euler = (x,y,z,roll,pitch,yaw)
+
+        return grab_pose_euler,(box_pose,size)
+	
+    def read_camera(self,msg,display_image=False):
+
+        cv_image = bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+        self.img = cv_image
+
+        print("Captured image.")
+        print(f"Image shape: {cv_image.shape}")
+        
+        # cv_image = rotate_image(cv_image, 180)
+        # cv_image = cv_image[140:270, 160:320]
+        # cv_image = inference(cv_image)
+
+        if display_image:
+            cv2.imshow('Image',cv_image)
+            cv2.waitKey(5) # milLiseconds
+
+    def get_gripper_orientation(self,object_points):
+        object_points.estimate_normals()
+        object_points.orient_normals_consistent_tangent_plane(k=3)
+
+        points = object_points.points
+        colors = object_points.colors
+        normals = object_points.normals
+
+        a = open3d.geometry.PointCloud()
+        a.points = normals
+        a.normals = points
+        a.colors = colors
+        # open3d.visualization.draw_geometries([a])
+        print("1821")
+        print(np.asarray(a.normals).shape)
+        cl = self.cluster_objects_3d(a)
+        b = []
+
+        for c in cl:
+            points = c.normals
+            colors = c.colors
+            normals = c.points
+            
+            m = len(list(points))
+            p = list(points)[int(m/2)]
+            n = list(normals)[int(m/2)]
+
+            b.append(p)
+            print("Point:", p)
+            print("Normal:", n)
+        
+        a = open3d.geometry.PointCloud()
+        a.points = open3d.utility.Vector3dVector(np.array(b))
+        # open3d.visualization.draw_geometries([a])
+
+        return 
+
+    def pt2_to_open3d(self,msg,scan_by_color=False):
+        t0 = time.time()
+        H = msg.height # 480
+        W = msg.width # 640
+
+        FIELDS_XYZ = [
+            PointField(name='x', offset=0, datatype=PointField.FLOAT32, count=1),
+            PointField(name='y', offset=4, datatype=PointField.FLOAT32, count=1),
+            PointField(name='z', offset=8, datatype=PointField.FLOAT32, count=1),
+        ]
+        FIELDS_XYZRGB = FIELDS_XYZ + [
+                PointField(name='b', offset=16, datatype=PointField.UINT8, count=1),
+                PointField(name='g', offset=17, datatype=PointField.UINT8, count=1),
+                PointField(name='r', offset=18, datatype=PointField.UINT8, count=1),
+            ]
+
+        msg.fields = FIELDS_XYZRGB
+
+        points = point_cloud2.read_points(msg,skip_nans=True)
+
+        xyz = []
+        rgb = []
+        red_objects_points = []
+        red_objects_colors = []
+        green_objects_points = []
+        green_objects_colors = []
+
+        for i,p in enumerate(points):
+            x,y,z,b,g,r = p      
+            # x,y,z,r,g,b = p      
+            xyz.append((x,y,z))
+            rgb.append((r,g,b))
+
+            if scan_by_color:
+                if is_red(r,g,b): 
+                    red_objects_points.append((x,y,z))
+                    red_objects_colors.append((r,g,b))
+                if is_green(r,g,b): 
+                    green_objects_points.append((x,y,z))
+                    green_objects_points.append((r,g,b))
+
+        # CREATE AN OPEN3D POINT CLOUD OF THE WORLD
+        open3d_cloud = open3d.geometry.PointCloud()
+        if len(xyz)>0:
+            open3d_cloud.points = open3d.utility.Vector3dVector(np.array(xyz))
+            open3d_cloud.colors = open3d.utility.Vector3dVector(np.array(rgb)/255.0) 
+            # open3d_cloud.estimate_normals()   
+        else:
+            print("Zero Points Found")
+
+        
+        # CREATE AN OPEN3D POINT CLOUD CONTAINING ALL THE RED POINTS
+        reds = open3d.geometry.PointCloud()
+        if len(red_objects_points) > 0 and scan_by_color:
+            reds.points = open3d.utility.Vector3dVector(np.array(red_objects_points))
+            reds.colors = open3d.utility.Vector3dVector(np.array(red_objects_colors))
+
+        # CREATE AN OPEN3D POINT CLOUD CONTAINING ALL THE GREEN POINTS
+        greens = open3d.geometry.PointCloud()
+        if len(green_objects_points)>0 and scan_by_color:
+            greens.points = open3d.utility.Vector3dVector(np.array(green_objects_points))
+            greens.colors = open3d.utility.Vector3dVector(np.array(green_objects_colors))
+
+        print("Exec time for pt2_to_open3d:",time.time()-t0)
+        # open3d.visualization.draw_geometries([reds])
+        if scan_by_color:
+            return open3d_cloud, reds, greens
+        else:
+            return open3d_cloud
+
+    def cluster_objects_3d(self,point_cloud):
+        """
+        input: point cloud
+        output: list of point clouds (clusters of points representing objects)
+        """
+        if len(list(point_cloud.points)) < 3: return []
+
+        cluster_ind = np.array( point_cloud.cluster_dbscan(eps=0.02,min_points=20) )
+        num_clusters = cluster_ind.max() + 1
+        all_points = np.array(point_cloud.points)
+        all_colors = np.array(point_cloud.colors)
+        all_normals = np.array(point_cloud.normals)
+
+        has_normals = len(list(all_normals)) == len(list(all_points))
+        has_colors = len(list(all_colors)) == len(list(all_points))
+
+        clusters = []
+
+        for i in range(num_clusters):
+            a = np.ones(cluster_ind.shape)
+            a[cluster_ind != i] = 0
+
+            cluster = open3d.geometry.PointCloud()
+
+            cluster_points = all_points[a==1]
+            cluster.points = open3d.utility.Vector3dVector(cluster_points)
+
+            if has_colors: 
+                cluster_colors = all_colors[a==1]
+                cluster.colors = open3d.utility.Vector3dVector(cluster_colors)
+            
+            if has_normals: 
+                cluster_normals = all_normals[a==1]
+                cluster.normals = open3d.utility.Vector3dVector(cluster_normals)
+
+            clusters.append(cluster)
+        
+        return clusters
+
+    def img_crop2ptc_segment(self,r0,c0,r1,c1,ptc):
+        """
+        get point cloud segment corresponding to image box (r0,c0),(r1,c1)
+        """
+        
+        c0,r0,c1,r1 = int(r0),int(c0),int(r1),int(c1)
+
+        ptc_segment = open3d.geometry.PointCloud()
+        segment_points = []
+        segment_colors = []
+
+        ptc_points = np.array(ptc.points)
+        ptc_colors = np.array(ptc.colors)
+        print(ptc_points.shape)
+        print(ptc_points[0])
+
+        for r in range(r0,r1-1):
+            for c in range(c0,c1-1):
+                index = r*self.IMG_WIDTH+1 + c
+                segment_points.append((ptc_points[index]))
+                segment_colors.append((ptc_colors[index]))
+
+        ptc_segment.points = open3d.utility.Vector3dVector(np.array(segment_points))
+        ptc_segment.colors = open3d.utility.Vector3dVector(np.array(segment_colors))
+
+        return ptc_segment
+
+    def publish_pick_command(self,pick_pose,obj_id=0):
+        pose = self.create_pose_msg(pick_pose)
+        pose_stamped = PoseStamped()
+        pose_stamped.pose = pose
+        
+        header = Header()
+        header.frame_id = str(self.robot_name) + '_' + str(obj_id)
+        now = rospy.get_rostime()
+        header.stamp.secs = now.secs
+        header.stamp.nsecs = now.nsecs
+        pose_stamped.header = header
+
+        grasp_msg = Grasp()
+        grasp_msg.id = str(self.robot_name) + '_' + str(obj_id)
+        grasp_msg.grasp_pose = pose_stamped
+
+        # pick_command_publisher.publish(grasp_msg)
+        self.update_pick_command(grasp_msg)
+
+    def publish_place_command(self,place_pose,obj_id=0):
+        pose = self.create_pose_msg(place_pose)
+        pose_stamped = PoseStamped()
+        pose_stamped.pose = pose
+        
+        header = Header()
+        header.frame_id = str(self.robot_name) + '_' + str(obj_id)
+        now = rospy.get_rostime()
+        header.stamp.secs = now.secs
+        header.stamp.nsecs = now.nsecs
+        pose_stamped.header = header
+
+        place_msg = PlaceLocation()
+        place_msg.id = str(self.robot_name) + '_' + str(obj_id)
+        place_msg.place_pose = pose_stamped
+        # place_command_publisher.publish(place_msg)
+        self.pick_and_place_routine(place_msg)
+
+    def create_pose_msg(self,pose_goal_raw):
+        quat = quaternion_from_euler(pose_goal_raw[3], pose_goal_raw[4], pose_goal_raw[5])
+        pose = Pose()
+        pose.position.x = pose_goal_raw[0]
+        pose.position.y = pose_goal_raw[1]
+        pose.position.z = pose_goal_raw[2]
+        pose.orientation.x = quat[0]
+        pose.orientation.y = quat[1]
+        pose.orientation.z = quat[2]
+        pose.orientation.w = quat[3]
+        return pose
+
+    def ptc_screenshot(self,ptc):
+        vis = open3d.visualization.Visualizer()
+        vis.create_window(visible=True) #works for me with False, on some systems needs to be true
+        if type(ptc)==list:
+            [vis.add_geometry(geom) for geom in ptc]
+        else:
+            vis.add_geometry(ptc)
+
+        param_default = vis.get_view_control().convert_to_pinhole_camera_parameters()
+
+        viewpoint_export = "/home/ntinos/Workspaces/intrarobots_ws/src/extras/vizualizations/viewpoint.json"
+        param = open3d.io.read_pinhole_camera_parameters(viewpoint_export)
+        
+        param.intrinsic = param_default.intrinsic
+        vis.get_view_control().convert_from_pinhole_camera_parameters(param)
+
+        if type(ptc)==list:
+            [vis.update_geometry(geom) for geom in ptc]
+        else:
+            vis.update_geometry(ptc)
+
+        vis.poll_events()
+        vis.update_renderer()
+        filename = 'ptc' + str(time.time()).replace('.','')+'.png'
+        print(filename)
+        vis.capture_screen_image('/home/ntinos/Workspaces/intrarobots_ws/src/extras/vizualizations/'+filename,True)
+        vis.destroy_window()
+        return
+
+    def save_view_point(self, pcd):
+        filename = "/home/karagk/Workspaces/intrarobots_ws/src/extras/vizualizations/viewpoint.json"
+        vis = open3d.visualization.Visualizer()
+        vis.create_window()
+        vis.add_geometry(pcd)
+        vis.run()  # user changes the view and press "q" to terminate
+        param = vis.get_view_control().convert_to_pinhole_camera_parameters()
+        open3d.io.write_pinhole_camera_parameters(filename, param)
+        vis.destroy_window()
+
+    def load_view_point(self, pcd):
+        filename = "/home/ntinos/Workspaces/intrarobots_ws/src/extras/vizualizations/viewpoint.json"
+        vis = open3d.visualization.Visualizer()
+        vis.create_window()
+        ctr = vis.get_view_control()
+        param = open3d.io.read_pinhole_camera_parameters(filename)
+        vis.add_geometry(pcd)
+        ctr.convert_from_pinhole_camera_parameters(param)
+        vis.run()
+        vis.destroy_window()
+
+    def surface_detection(self,ptc=None):
+
+        """
+        we want to detect working surface
+        segment_plane gets the dominant plane in the pointcloud
+        if z axis is aligned with real height, just get mean(z) of plane points
+        """
+
+        t0 = time.monotonic()
+
+        if not ptc:
+            surface_height = 0.12
+            print("Assuming simulation table height")
+            return surface_height
+
+        plane_params, inliers_list = ptc.segment_plane(0.0015,3,100)
+        points = np.array(ptc.points)[inliers_list]
+        surface_height = np.max(points[:,2])
+        print("Detected surface height:",surface_height)
+
+        t1 = time.monotonic()
+
+        print(f"Time to detect surface height: {t1-t0}")
+
+        return surface_height
+
+    def add_axis_origin(self,ptc):
+        points = list(np.array(ptc.points))
+        colors = list(np.array(ptc.colors))
+        points.append((0,0,0))
+        points.append((0.1,0,0))
+        points.append((0,0.1,0))
+        points.append((0,0,0.1))
+        colors.append((0,0,0))
+        colors.append((1,0,0))
+        colors.append((0,1,0))
+        colors.append((0,0,1))
+        ptc.points = open3d.utility.Vector3dVector(np.array(points))
+        ptc.colors = open3d.utility.Vector3dVector(np.array(colors))
+
+        return ptc
+        
+    def vizualize_point(self,ptc,point):
+        x,y,z = point
+        points = list(np.array(ptc.points))
+        colors = list(np.array(ptc.colors))
+        points.append((x,y,z))
+        colors.append((0,0,0))
+        ptc.points = open3d.utility.Vector3dVector(np.array(points))
+        ptc.colors = open3d.utility.Vector3dVector(np.array(colors))
+      
+        open3d.visualization.draw_geometries([ptc])        
+        
+        return ptc        
+
+    def read_ptc(self,msg):
+        # print("Reading Point Cloud...")
+
+        ptc = self.pt2_to_open3d(msg)
+        
+        self.ptc2objects(ptc)
+
+        # segment = self.img_crop2ptc_segment(150,150,300,300,ptc)
+        # open3d.visualization.draw_geometries([segment])
+        # return
+
+def is_red(r,g,b):
+    if r>1.0 or g>1.0 or b>1.0:
+        r,g,b = r/255.0,b/255.0,g/255.0
+    (h,s,v) = colorsys.rgb_to_hsv(r,g,b)
+    (h,s,v) = (h*180,s*255,v*255)
+
+    c1 = (h<10) and (s>50) and (v>50)
+    c2 = (h>170 and h<180) and (s>200) and (v>50)
+    
+    return (c1 or c2)
+
+def is_green(r,g,b):
+    if r>1.0 or g>1.0 or b>1.0:
+        r,g,b = r/255.0,b/255.0,g/255.0
+    (h,s,v) = colorsys.rgb_to_hsv(r,g,b)
+    (h,s,v) = (h*180,s*255,v*255)
+
+    return ((h>=40 and h<=70) and (s>40) and (v>40))
+
+def plot_ptc(points,color=[0,0,0]):
+    colors = [color for _ in points]
+    print(colors)
+    ptc = open3d.geometry.PointCloud()
+    ptc.points = open3d.utility.Vector3dVector(np.array(points))
+    ptc.colors = open3d.utility.Vector3dVector(np.array(colors))
+    open3d.visualization.draw_geometries([ptc])
+    return
+
+def get_gripper_roll(bbox_points):
+    #bbox_points = [ [x,y,z] , ...]
+    pts = list(bbox_points)
+
+    # get 4 points with the maximum z
+    pts.sort(key=lambda x:x[2],reverse=True)
+    pts = pts[:4]
+    
+    # from the 4 top box points we get the two with the minimum distance
+    xa,ya,za = pts[0]
+    xb,yb,zb = pts[1]
+    xc,yc,zc = pts[2]
+    xd,yd,zd = pts[3]
+    
+    dab = np.sqrt((xb-xa)**2 + (yb-ya)**2)
+    dac = np.sqrt((xc-xa)**2 + (yc-ya)**2)
+    dad = np.sqrt((xd-xa)**2 + (yd-ya)**2)
+    
+    dists = [dab,dac,dad]
+    
+    dists.sort()
+    ratio = dists[0] / dists[1]
+    
+    print("dists",dists[0],dists[1])
+    print("RATIO:",ratio)
+    #if ratio > 0.8 and ratio < 1.25:
+    #    return 0
+    
+    if min(dists) == dab:
+        pts = [[xa,ya,za],[xb,yb,zb]]
+    if min(dists) == dac:
+        pts = [[xa,ya,za],[xc,yc,zc]]
+    if min(dists) == dad:
+        pts = [[xa,ya,za],[xd,yd,zd]]
+    
+    # sort them in y axis
+    pts.sort(key=lambda x:x[1])
+    
+    xa,ya,_ = pts[0]
+    xb,yb,_ = pts[1]   
+
+    # get angle between those two points
+    roll = np.arctan((xb-xa)/(yb-ya))
+
+    return roll
+
+def main():
+    print("Listening to camera topic ...")
+    rospy.spin()
+
+def test_pick():
+    x0, y0,z0 ,_ ,_ ,_ = master.base_frame # Arm's base position relative to (0,0,0)
+    x,y,z = 0.3,0.1,0.25
+    theta = self.get_gripper_yaw(x,y,x0,y0)
+    grab_pose_euler = (x,y,z,0,np.pi/4,theta)
+    test_pose = (0.4024964426154708, -0.020609750391953945, 0.13994792362763114, 0, 0, -0.06627996815943597)
+
+    master.publish_pick_command(test_pose)
+    master.publish_place_command(test_pose)
+    
+    rospy.spin()
+
+if __name__ == "__main__":
+
+    master = Master()
+
+    #test_pick()
+    main()
+    
+

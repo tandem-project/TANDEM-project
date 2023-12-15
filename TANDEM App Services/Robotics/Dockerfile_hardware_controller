@@ -1,0 +1,31 @@
+FROM ros:noetic-ros-core-focal
+
+RUN apt update
+
+# SET TIMEZONE
+ENV TZ=Europe/Athens
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# SET NON INTERACTIVE TERMINAL COMMANDS DURING BUILD
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+RUN rosdep init 
+RUN rosdep update
+
+RUN cp /usr/bin/python3 /usr/bin/python
+WORKDIR /
+
+RUN mkdir /catkin_ws && mkdir /catkin_ws/src
+COPY ./installation/interbotix_ws/src /catkin_ws/src
+COPY ./intrarobot /catkin_ws/src/intrarobot
+RUN cd /catkin_ws && rosdep install --from-paths src --ignore-src -r -y --rosdistro=noetic
+
+COPY ./installation/locobot_wx200.srdf.xacro /catkin_ws/src/interbotix_xslocobot_moveit/config/srdf/locobot_wx200.srdf.xacro
+COPY ./installation/rs_camera.launch /opt/ros/noetic/share/realsense2_camera/launch/rs_camera.launch
+
+RUN /bin/bash -c '. /opt/ros/noetic/setup.bash; cd /catkin_ws; catkin_make'
+RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
+
+COPY ./entrypoint_hardware_controller.sh /entrypoint_hardware_controller.sh
+RUN chmod +x /entrypoint_hardware_controller.sh
+ENTRYPOINT ["/entrypoint_hardware_controller.sh"]

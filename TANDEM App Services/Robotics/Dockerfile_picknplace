@@ -1,0 +1,30 @@
+FROM ros:noetic-ros-core-focal
+
+RUN apt update
+RUN apt install -y python3
+RUN apt install -y python3-pip
+RUN pip install --upgrade pip wheel
+
+RUN cp /usr/bin/python3 /usr/bin/python
+
+RUN pip install numpy
+RUN pip install opencv-python
+RUN pip install --ignore-installed open3d-cpu
+
+# RUN apt install --reinstall ca-certificates
+
+RUN apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+RUN rosdep init 
+RUN rosdep update
+
+RUN mkdir /catkin_ws
+RUN mkdir /catkin_ws/src
+COPY ./intrarobot /catkin_ws/src/intrarobot
+
+RUN cd /catkin_ws && rosdep install --from-paths src --ignore-src -r -y --rosdistro=noetic
+RUN /bin/bash -c '. /opt/ros/noetic/setup.bash; cd /catkin_ws; catkin_make'
+RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
+
+COPY ./entrypoint_picknplace.sh /entrypoint_picknplace.sh
+RUN chmod +x /entrypoint_picknplace.sh
+ENTRYPOINT ["/entrypoint_picknplace.sh"]
