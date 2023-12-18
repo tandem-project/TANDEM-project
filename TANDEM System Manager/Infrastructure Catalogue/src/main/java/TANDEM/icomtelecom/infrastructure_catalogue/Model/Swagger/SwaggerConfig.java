@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("TANDEM.icomtelecom.service_catalogue"))
+                .apis(RequestHandlerSelectors.basePackage("TANDEM.icomtelecom.infrastructure_catalogue"))
 //                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Tandem service catalogue")
-                .description("Service catalogue with list of Tandem services")
+                .title("Tandem infrastructure catalogue")
+                .description("Infrastructure catalogue with list of Tandem infrastructure")
                 .version("1.0.0")
                 .build();
     }

@@ -1,13 +1,10 @@
 package TANDEM.icomtelecom.infrastructure_catalogue.Model.Infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.validation.annotation.Validated;
-
-
 import java.util.List;
-import java.util.Objects;
+
 
 /**
  * This type represents the general information of a MEC service.
@@ -46,9 +43,6 @@ public class InfrastructureNode {
   @JsonProperty("nodeAllocatableResources")
   private NodeAllocatableResources nodeAllocatableResources = null;
   
- // @JsonProperty("eviction-hard")
- // private String eviction_hard = null;
-  
   @JsonProperty("nodeGeneralInfo")
   private NodeGeneralInfo nodeGeneralInfo = null;
   
@@ -82,22 +76,6 @@ public class InfrastructureNode {
     public void setNodeName(String nodeName) {
         this.nodeName = nodeName;
     }
-
- /*   public String getNodeType() {
-        return nodeType;
-    }
-
-    public void setNodeType(String nodeType) {
-        this.nodeType = nodeType;
-    }*/
-
- /*   public String getNodeProvider() {
-        return nodeProvider;
-    }
-
-    public void setNodeProvider(String nodeProvider) {
-        this.nodeProvider = nodeProvider;
-    }*/
 
     public String getNodeLocation() {
         return nodeLocation;
@@ -139,14 +117,6 @@ public class InfrastructureNode {
     public void setNodeAllocatableResources(NodeAllocatableResources nodeAllocatableResources) {
         this.nodeAllocatableResources = nodeAllocatableResources;
     }
-
-  /*  public String getEviction_hard() {
-        return eviction_hard;
-    }
-
-    public void setEviction_hard(String eviction_hard) {
-        this.eviction_hard = eviction_hard;
-    }*/
 
     public NodeGeneralInfo getNodeGeneralInfo() {
         return nodeGeneralInfo;

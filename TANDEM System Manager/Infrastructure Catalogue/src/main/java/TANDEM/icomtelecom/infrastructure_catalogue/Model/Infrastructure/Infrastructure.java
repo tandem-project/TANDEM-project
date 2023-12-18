@@ -31,9 +31,6 @@ public class Infrastructure {
   @JsonProperty("edgeCloudNumberofNodes")
   private Integer edgeCloudNumberofNodes = null;
 
- // @JsonProperty("edgeCloudNumberofIoTDevices")
-//  private Integer edgeCloudNumberofIoTDevices = null;
-
   @JsonProperty("edgeCloudProvider")
   private String edgeCloudProvider = null;
 
@@ -84,14 +81,6 @@ public class Infrastructure {
     public void setEdgeCloudNumberofNodes(Integer edgeCloudNumberofNodes) {
         this.edgeCloudNumberofNodes = edgeCloudNumberofNodes;
     }
-
- /*   public Integer getEdgeCloudNumberofIoTDevices() {
-        return edgeCloudNumberofIoTDevices;
-    }
-
-    public void setEdgeCloudNumberofIoTDevices(Integer edgeCloudNumberofIoTDevices) {
-        this.edgeCloudNumberofIoTDevices = edgeCloudNumberofIoTDevices;
-    }*/
 
     public String getEdgeCloudProvider() {
         return edgeCloudProvider;

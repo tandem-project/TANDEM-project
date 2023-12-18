@@ -81,7 +81,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"edgeCloudId\": \"EC2\",\r\n    \"edgeCloudName\": \"Edge Cloud 2\",\r\n    \"edgeCloudAvailabilityZone\": \"Zone 3\",\r\n    \"edgeCloudNumberofNodes\": 24,\r\n    \"edgeCloudNumberofIoTDevices\": 6,\r\n    \"edgeCloudProvider\": \"INTRACOM S.A. Telecom Solutions\",\r\n    \"piEdgeIP\":\"localhost\",\r\n    \"monitorNodesURL\": \"http://localhost:8080/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now\"\r\n}",
+					"raw": "{\r\n    \"edgeCloudId\": \"EC2\",\r\n    \"edgeCloudName\": \"Edge Cloud 2\",\r\n    \"edgeCloudAvailabilityZone\": \"Zone 3\",\r\n    \"edgeCloudNumberofNodes\": 24,\r\n    \"edgeCloudNumberofIoTDevices\": 6,\r\n    \"edgeCloudProvider\": \"INTRACOM S.A. Telecom Solutions\",\r\n    \"piEdgeIP\":\"146.10.124.202\",\r\n    \"monitorNodesURL\": \"http://146.124.106.209:3000/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

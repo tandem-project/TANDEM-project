@@ -18,7 +18,7 @@ public class NodeUsage {
     @JsonProperty("nodeCPUInUseMU")
     private String nodeCPUInUseMU = null;
     @JsonProperty("nodeCPUUsage")
-    private String nodeCPUUsage = null;
+    private Float nodeCPUUsage = null;
     @JsonProperty("nodeMemoryInUse")
     private String nodeMemoryInUse = null;
     @JsonProperty("nodeMemoryInUseMU")
@@ -45,11 +45,11 @@ public class NodeUsage {
         this.nodeCPUInUseMU = nodeCPUInUseMU;
     }
 
-    public String getNodeCPUUsage() {
+    public Float getNodeCPUUsage() {
         return nodeCPUUsage;
     }
 
-    public void setNodeCPUUsage(String nodeCPUUsage) {
+    public void setNodeCPUUsage(Float nodeCPUUsage) {
         this.nodeCPUUsage = nodeCPUUsage;
     }
 

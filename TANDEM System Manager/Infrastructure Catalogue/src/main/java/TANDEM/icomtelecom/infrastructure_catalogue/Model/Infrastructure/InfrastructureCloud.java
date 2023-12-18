@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.validation.annotation.Validated;
-
-
 import java.util.List;
 import java.util.Objects;
 
@@ -27,12 +25,6 @@ public class InfrastructureCloud {
 
   @JsonProperty("edgeCloudAvailabilityZone")
   private String edgeCloudAvailabilityZone = null;
-          
- // @JsonProperty("edgeCloudNumberofNodes")
- // private Integer edgeCloudNumberofNodes = null;
-
- // @JsonProperty("edgeCloudNumberofIoTDevices")
- // private Integer edgeCloudNumberofIoTDevices = null;
 
   @JsonProperty("edgeCloudProvider")
   private String edgeCloudProvider = null;
@@ -42,9 +34,6 @@ public class InfrastructureCloud {
     
   @JsonProperty("piEdgePort")
   private String piEdgePort = null;
-      
-//  @JsonProperty("monitorNodesURL")
- // private String monitorNodesURL = null;
 
   @JsonProperty("nodes")
   private List<InfrastructureNode> nodes = null;
@@ -75,22 +64,6 @@ public class InfrastructureCloud {
     public void setEdgeCloudAvailabilityZone(String edgeCloudAvailabilityZone) {
         this.edgeCloudAvailabilityZone = edgeCloudAvailabilityZone;
     }
-
-   /* public Integer getEdgeCloudNumberofNodes() {
-        return edgeCloudNumberofNodes;
-    }
-
-    public void setEdgeCloudNumberofNodes(Integer edgeCloudNumberofNodes) {
-        this.edgeCloudNumberofNodes = edgeCloudNumberofNodes;
-    }*/
-
-  /*  public Integer getEdgeCloudNumberofIoTDevices() {
-        return edgeCloudNumberofIoTDevices;
-    }
-
-    public void setEdgeCloudNumberofIoTDevices(Integer edgeCloudNumberofIoTDevices) {
-        this.edgeCloudNumberofIoTDevices = edgeCloudNumberofIoTDevices;
-    }*/
 
     public String getEdgeCloudProvider() {
         return edgeCloudProvider;
@@ -124,17 +97,6 @@ public class InfrastructureCloud {
         this.services = services;
     }
 
-    
-    
-    
-  /*  public String getMonitorNodesURL() {
-        return monitorNodesURL;
-    }
-
-    public void setMonitorNodesURL(String monitorNodesURL) {
-        this.monitorNodesURL = monitorNodesURL;
-    }*/
-
     public List<InfrastructureNode> getNodes() {
         return nodes;
     }
@@ -160,22 +122,9 @@ public class InfrastructureCloud {
         Objects.equals(this.piEdgeIP, infrastructure.piEdgeIP) &&
         Objects.equals(this.piEdgePort, infrastructure.piEdgePort) &&
         Objects.equals(this.services, infrastructure.services) &&
-
-   //     Objects.equals(this.edgeCloudNumberofNodes, infrastructure.edgeCloudNumberofNodes) &&
-   //     Objects.equals(this.edgeCloudNumberofIoTDevices, infrastructure.edgeCloudNumberofIoTDevices) &&
         Objects.equals(this.edgeCloudProvider, infrastructure.edgeCloudProvider) ;
-     //   Objects.equals(this.monitorNodesURL, infrastructure.monitorNodesURL);
-//        Objects.equals(this.transportInfo, service.transportInfo) &&
-//        Objects.equals(this.serializer, service.serializer) &&
-//        Objects.equals(this.scopeOfLocality, service.scopeOfLocality) &&
-//        Objects.equals(this.consumedLocalOnly, service.consumedLocalOnly) &&
-//        Objects.equals(this.isLocal, service.isLocal);
   }
 
-//  @Override
-//  public int hashCode() {
-//    return Objects.hash(serInstanceId, serName, serCategory, version, state, transportInfo, serializer, scopeOfLocality, consumedLocalOnly, isLocal);
-//  }
 
   @Override
   public String toString() {
@@ -187,16 +136,8 @@ public class InfrastructureCloud {
     sb.append("    edgeCloudAvailabilityZone: ").append(toIndentedString(edgeCloudAvailabilityZone)).append("\n");
     sb.append("    piEdgeIP: ").append(toIndentedString(piEdgeIP)).append("\n");
     sb.append("    piEdgePort: ").append(toIndentedString(piEdgePort)).append("\n");
-
-  //  sb.append("    edgeCloudNumberofNodes: ").append(toIndentedString(edgeCloudNumberofNodes)).append("\n");
- //   sb.append("    edgeCloudNumberofIoTDevices: ").append(toIndentedString(edgeCloudNumberofIoTDevices)).append("\n");
     sb.append("    edgeCloudProvider: ").append(toIndentedString(edgeCloudProvider)).append("\n");
     sb.append("    services: ").append(toIndentedString(services)).append("\n");
-//    sb.append("    transportInfo: ").append(toIndentedString(transportInfo)).append("\n");
-//    sb.append("    serializer: ").append(toIndentedString(serializer)).append("\n");
-//    sb.append("    scopeOfLocality: ").append(toIndentedString(scopeOfLocality)).append("\n");
-//    sb.append("    consumedLocalOnly: ").append(toIndentedString(consumedLocalOnly)).append("\n");
-//    sb.append("    isLocal: ").append(toIndentedString(isLocal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
