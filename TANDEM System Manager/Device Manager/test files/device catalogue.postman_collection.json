@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "c3cde66b-2c2d-4801-9ade-bf7116caada1",
+		"name": "device catalogue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1477552"
+	},
+	"item": [
+		{
+			"name": "get devices",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/applicationcatalogue/get/applications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"applicationcatalogue",
+						"get",
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create device",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"id\",\r\n    \"name\":\"name\",\r\n    \"description\":\"description\",\r\n    \"labels\":[\"labels\"],\r\n    \"operatingState\":\"opState\",\r\n    \"adminState\":\"adminState\",\r\n    \"ip\":\"ip\",\r\n    \"port\":\"port\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8086/devicecatalogue/create/devices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"devicecatalogue",
+						"create",
+						"devices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update device",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"edgeCloudId\": \"EC2\",\r\n    \"edgeCloudName\": \"Edge Cloud 2\",\r\n    \"edgeCloudAvailabilityZone\": \"Zone 3\",\r\n    \"edgeCloudNumberofNodes\": 24,\r\n    \"edgeCloudNumberofIoTDevices\": 6,\r\n    \"edgeCloudProvider\": \"INTRACOM S.A. Telecom Solutions\",\r\n    \"piEdgeIP\":\"146.10.124.202\",\r\n    \"monitorNodesURL\": \"http://146.124.106.209:3000/d/qgmX-lqnz/infrastructure-metrics?orgId=1&refresh=1m&from=now-3h&to=now\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://146.124.106.209/infrastructurecatalogue/update/infrastructure/EC1",
+					"protocol": "http",
+					"host": [
+						"146",
+						"124",
+						"106",
+						"209"
+					],
+					"path": [
+						"infrastructurecatalogue",
+						"update",
+						"infrastructure",
+						"EC1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete device",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJySzBUN0xOVGU3c3F6NUQ2em04cFlBVVN3VzBMamRWU0lhMGYtSUpSc1NzIn0.eyJleHAiOjE2NTgzMzcwMTEsImlhdCI6MTY1ODMwODIxMSwianRpIjoiYjM1ZmE0MzUtNGZjYi00OWEyLWE1NGEtNjVlYTZjY2JhYjE3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgwL2F1dGgvcmVhbG1zL1NlcnZpY2VDYXRhbG9ndWVLZXljbG9hayIsInN1YiI6IjZkYWE2NmVhLTExNDgtNDFkMy1hNTViLWEyYmVmMzBjZGQzMiIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNlcnZpY2VDYXRhbG9ndWVMb2dpbiIsInNlc3Npb25fc3RhdGUiOiIzZTcyZDFlNy0xZWYyLTRmMjctOTVlMS1iODhjMmUxNmZjZDUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInBsYXRpbnVtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiU2VydmljZUNhdGFsb2d1ZUxvZ2luIjp7InJvbGVzIjpbInBsYXRpbnVtIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiM2U3MmQxZTctMWVmMi00ZjI3LTk1ZTEtYjg4YzJlMTZmY2Q1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrb252YXNpbG9wX3BsYXRpbnVtIn0.DcuA84nBSpsVprneHSldGmym9MKb2rUHFmO7o935f044BEVNePG3fpmDM2QMoBeiPeKGnMCp4P_itMcJl2-mzJnBrl_V3zM1eRs3dW4UOYDQBXo_FmKNZ5t3jjATzQrZ5szQ2yHRmvJe5aGqDNseSUeDX_YGEL_wZ-6tL7OC5bExP39ZqUurVi0Lw5C2bAHsYMSo0PbRxXQyqYldAeZmH4I08O7QvZ-GzyS3P6p0aGfO2MHnGqAuk_m1iXtn7sWMk8idUqo-JtlixRDKWew-Z5cdPabCeDtNwaAORUpHxA09yVpYBMYvugnIn0zLSiYmDfjeG9W66XuHkLXeQ9RAIw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/devicecatalogue/delete/device/EC1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"devicecatalogue",
+						"delete",
+						"device",
+						"EC1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
