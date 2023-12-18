@@ -3,7 +3,6 @@ package TANDEM.icomtelecom.user_catalogue.Model.aam;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
 
 public class AamToken {
     @Id

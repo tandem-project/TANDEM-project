@@ -9,7 +9,6 @@ import TANDEM.icomtelecom.user_catalogue.Repositories.aam.ActionsRepository;
 import TANDEM.icomtelecom.user_catalogue.Repositories.aam.RolesActionsRepository;
 import TANDEM.icomtelecom.user_catalogue.Repositories.aam.TokenRepository;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -57,6 +56,8 @@ ActionsRepository actionsRep){
     }
     public User getUserFromJson(JSONObject jo){
         User aUser = new User();
+        if (jo.has("userid"))
+            aUser.setUserId(jo.getString("userid"));
         aUser.setUserName(jo.getString("username"));
         aUser.setUserRole(jo.getString("role"));
         aUser.setUserFirstName(jo.getString("firstname"));
@@ -93,6 +94,26 @@ ActionsRepository actionsRep){
         long newtime = moveMillsBack(AamConfig.getExPeriod()*10);
         query.addCriteria(Criteria.where("time").lt(newtime));
         mongoTemplate.findAllAndRemove(query, User.class);
+    }
+    public String checkAuthExp(String token){
+        try {
+            String ret = getGuiUser(token, null);
+            JSONObject jobj = new JSONObject(ret);
+            if (jobj.getInt("status") != 200) return jobj.toString();
+            Long tokenTime = jobj.getJSONObject("result").getLong("time");
+            long tm = moveMillsBack(AamConfig.getExPeriod());// to be configurable
+            if (tokenTime.longValue()<tm){
+                jobj = new JSONObject().put("status",401).put("result",new JSONObject().put("access",false).put("reason","token expired"));
+                return jobj.toString();
+            }
+            else
+                jobj = new JSONObject().put("status",200).put("result",new JSONObject().put("access",true));
+            ret = jobj.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        JSONObject jobj = new JSONObject().put("status",401).put("result",new JSONObject().put("access",false).put("reason","token expired"));
+        return jobj.toString();
     }
     public String checkAuth(String token, String actionname){
         String ret = "";

@@ -4,7 +4,6 @@ import TANDEM.icomtelecom.user_catalogue.Model.User.User;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public interface UserCustomRepository {
     

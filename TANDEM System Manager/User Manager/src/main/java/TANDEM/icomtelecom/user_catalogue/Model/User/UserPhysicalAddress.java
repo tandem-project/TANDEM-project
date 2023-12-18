@@ -2,7 +2,6 @@ package TANDEM.icomtelecom.user_catalogue.Model.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 
 public class UserPhysicalAddress {
     @JsonProperty("userCountry")
@@ -15,8 +14,6 @@ public class UserPhysicalAddress {
     private String userState;
     @JsonProperty("userPostalCode")
     private String userPostalCode;
- //   @JsonProperty("serOperationInputParams")
- //   private List<ServiceOperationParameter> serOperationInputParams;
 
     public String getUserCountry() {
         return userCountry;

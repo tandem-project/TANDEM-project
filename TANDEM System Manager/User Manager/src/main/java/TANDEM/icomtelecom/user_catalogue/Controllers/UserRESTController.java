@@ -3,13 +3,9 @@ package TANDEM.icomtelecom.user_catalogue.Controllers;
 import TANDEM.icomtelecom.user_catalogue.Model.Exceptions.UserNotFoundException;
 import TANDEM.icomtelecom.user_catalogue.Model.User.User;
 import TANDEM.icomtelecom.user_catalogue.Model.aam.AamCompany;
-import TANDEM.icomtelecom.user_catalogue.Model.aam.AamToken;
 import TANDEM.icomtelecom.user_catalogue.Repositories.aam.CompanyRepository;
-import TANDEM.icomtelecom.user_catalogue.aam.AamConfig;
-import TANDEM.icomtelecom.user_catalogue.aam.AamConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,13 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
 import java.util.List;
 import TANDEM.icomtelecom.user_catalogue.Repositories.UserRepository;
-import com.google.gson.Gson;
-import org.json.JSONObject;
 
 @RestController
 @RequestMapping("usercatalogue")
@@ -39,7 +30,7 @@ public class UserRESTController {
     private MongoTemplate mongoTemplate;
     // All services
     @GetMapping("/get/users")
-    public List<User> getAllInfrastructure(){
+    public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
@@ -80,13 +71,7 @@ public class UserRESTController {
 //    @RolesAllowed({"platinum","gold"})
     public ResponseEntity<User> createUser(@RequestHeader(value="AAM-Authorization-Token") String token,
                                            @RequestBody User newUser) throws Exception {
-       /* System.out.println(inputstr);
-        JSONObject jobj = new JSONObject(inputstr);
-        String token = jobj.getString("token");
-        JSONObject newUserJson = jobj.getJSONObject("userinfo");
-        String newUserStr = newUserJson.toString();
-        Gson gson = new Gson();  
-        User newUser = gson.fromJson(newUserStr, User.class);  */
+
 //////////////////////////////////////////////////////
         // http call http//<ip>aam/check/auth  passing the token
         //String tmp1 = AamConnection.checkAndRefresh(token,"f.usercatalogue.create.users");
@@ -138,7 +123,7 @@ public class UserRESTController {
     @DeleteMapping("/delete/users/{id}")
 //    @RolesAllowed("platinum")
  //   @RolesAllowed("platinum")
-    ResponseEntity<?> deleteInfrastructureById(@PathVariable String id){
+    ResponseEntity<?> deleteUserById(@PathVariable String id){
         userRepository.deleteById(id);
 
         return ResponseEntity.ok().build();

@@ -4,27 +4,22 @@ import TANDEM.icomtelecom.user_catalogue.Model.User.User;
 import TANDEM.icomtelecom.user_catalogue.Model.aam.AamActions;
 import TANDEM.icomtelecom.user_catalogue.Model.aam.AamCompany;
 import TANDEM.icomtelecom.user_catalogue.Model.aam.AamRolesActions;
-import TANDEM.icomtelecom.user_catalogue.Model.aam.AamToken;
 import TANDEM.icomtelecom.user_catalogue.Repositories.aam.ActionsRepository;
 import TANDEM.icomtelecom.user_catalogue.Repositories.aam.RolesActionsRepository;
 import TANDEM.icomtelecom.user_catalogue.Repositories.aam.TokenRepository;
 import TANDEM.icomtelecom.user_catalogue.Repositories.UserRepository;
 import TANDEM.icomtelecom.user_catalogue.aam.AamConfig;
-import TANDEM.icomtelecom.user_catalogue.aam.AamConnection;
 import TANDEM.icomtelecom.user_catalogue.aam.AamFactory;
 import TANDEM.icomtelecom.user_catalogue.aam.Tester;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -134,6 +129,16 @@ public class AamRESTController {
     public String RESTgetGuiUser(@RequestHeader(value="AAM-Authorization") String tokenHeader){
         String ret = "";
         try{
+            String tmp1 = new AamFactory(
+                    mongoTemplate,
+                    userRepository,
+                    tokenRepository,
+                    rolesActionsRepository,
+                    actionsRepository
+            ).checkAuthExp(tokenHeader);// check token expiration
+            JSONObject jtmp1 = new JSONObject(tmp1);
+            if (jtmp1.getInt("status")!=200) return tmp1;
+
             ret = new AamFactory(
                     mongoTemplate,
                     userRepository,

@@ -2,7 +2,6 @@ package TANDEM.icomtelecom.user_catalogue.Model.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 
 public class UserPaymentInfo {
     @JsonProperty("userCardNumber")
@@ -15,8 +14,6 @@ public class UserPaymentInfo {
     private String userCVV;
     @JsonProperty("userPAN")
     private String userPAN;
- //   @JsonProperty("serOperationInputParams")
- //   private List<ServiceOperationParameter> serOperationInputParams;
 
     public String getUserCardNumber() {
         return userCardNumber;

@@ -1,11 +1,8 @@
 package TANDEM.icomtelecom.user_catalogue.Model.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.validation.annotation.Validated;
-
-
 import java.util.List;
 import java.util.Objects;
 

@@ -2,8 +2,6 @@ package TANDEM.icomtelecom.user_catalogue.Model.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class UserInterest {
     @JsonProperty("interestId")
     private String interestId;
