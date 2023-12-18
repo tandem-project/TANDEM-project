@@ -3,16 +3,12 @@ package TANDEM.icomtelecom.service_catalogue.Controllers;
 import TANDEM.icomtelecom.service_catalogue.Model.Exceptions.WorkflowNotFoundException;
 import TANDEM.icomtelecom.service_catalogue.Model.Workflows.Workflow;
 import TANDEM.icomtelecom.service_catalogue.Repositories.WorkflowRepository;
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +55,6 @@ public class WorkflowRestController {
     @DeleteMapping(path = "/delete/{name}")
     public ResponseEntity<?> createWorkflow(@PathVariable String name) throws Exception {
         if(!workflowRepository.existsById(name)){
-//            return new ResponseEntity<>("Workflow with name " + name + " was not found", HttpStatus.NOT_FOUND);
             return new ResponseEntity<String>(new WorkflowNotFoundException(name).getMessage(), HttpStatus.NOT_FOUND);
         }
         workflowRepository.deleteById(name);

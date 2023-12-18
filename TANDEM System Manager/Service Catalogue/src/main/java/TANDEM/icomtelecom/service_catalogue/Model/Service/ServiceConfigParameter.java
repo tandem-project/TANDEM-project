@@ -1,7 +1,6 @@
 package TANDEM.icomtelecom.service_catalogue.Model.Service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
 public class ServiceConfigParameter {
     @JsonProperty("serParamName")

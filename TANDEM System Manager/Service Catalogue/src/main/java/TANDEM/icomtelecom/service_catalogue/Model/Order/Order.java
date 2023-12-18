@@ -1,16 +1,10 @@
 package TANDEM.icomtelecom.service_catalogue.Model.Order;
 
-import TANDEM.icomtelecom.service_catalogue.Model.Product.*;
-import TANDEM.icomtelecom.service_catalogue.Model.Service.*;
-import TANDEM.icomtelecom.service_catalogue.Model.CategoryRef;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.validation.annotation.Validated;
-
-
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This type represents the general information of a MEC service.

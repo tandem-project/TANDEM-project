@@ -3,8 +3,6 @@ package TANDEM.icomtelecom.service_catalogue.Model.Workflows;
 import TANDEM.icomtelecom.service_catalogue.Utilities.Validators.WorkflowJsonConstraint;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
-import org.springframework.validation.annotation.Validated;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

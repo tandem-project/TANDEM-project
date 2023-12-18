@@ -1,15 +1,10 @@
 package TANDEM.icomtelecom.service_catalogue.Model.Service;
 
 import TANDEM.icomtelecom.service_catalogue.Model.CategoryRef;
-import TANDEM.icomtelecom.service_catalogue.Model.piEdgeInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.validation.annotation.Validated;
-
-
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This type represents the general information of a MEC service.
@@ -84,18 +79,34 @@ public class Service {
 
   @JsonProperty("transportProtocol")
   private String transportProtocol = null;
-////
+
   @JsonProperty("scopeOfLocality")
   private String scopeOfLocality = null;
-//
+
   @JsonProperty("consumedLocalOnly")
   private Boolean consumedLocalOnly = null;
-//
+
   @JsonProperty("isLocal")
   private Boolean isLocal = null;
 
- // @JsonProperty("piEdgeInfo")
-//  private TANDEM.icomtelecom.service_catalogue.Model.piEdgeInfo piEdgeInfo = null;
+  @JsonProperty("serApplicationPorts")
+  private List<Integer> serApplicationPorts = null;
+    
+  @JsonProperty("serAutoscalingPolicies")
+  private List<AutoscalingPolicy> serAutoscalingPolicies = null;
+  
+  @JsonProperty("serRequiredVolumes")
+  private List<RequiredVolume> serRequiredVolumes = null;
+  
+  @JsonProperty("serRequiredEnvParameters")
+  private List<RequiredEnvParameter> serRequiredEnvParameters = null;
+  
+  @JsonProperty("serPrivileged")
+  private Boolean serPrivileged = null;
+    
+  @JsonProperty("serPaasAutoscalingMetric")
+  private String serPaasAutoscalingMetric = null;
+
 
     public Service(String serId, String serName, String serType, String serProvider,
             String serDescription, CategoryRef serCategory, String serVersion, String state,
@@ -337,98 +348,52 @@ public class Service {
         this.isLocal = isLocal;
     }
 
-  /*  public piEdgeInfo getPiEdgeInfo() {
-        return piEdgeInfo;
+    public List<Integer> getSerApplicationPorts() {
+        return serApplicationPorts;
     }
 
-    public void setPiEdgeInfo(piEdgeInfo piEdgeInfo) {
-        this.piEdgeInfo = piEdgeInfo;
-    }*/
-  
-
-
-
- 
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public void setSerApplicationPorts(List<Integer> serApplicationPorts) {
+        this.serApplicationPorts = serApplicationPorts;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    public List<AutoscalingPolicy> getSerAutoscalingPolicies() {
+        return serAutoscalingPolicies;
     }
-    Service service = (Service) o;
-    return Objects.equals(this.serId, service.serId) &&
-        Objects.equals(this.serName, service.serName) &&
-        Objects.equals(this.serCategory, service.serCategory) &&
-        Objects.equals(this.serVersion, service.serVersion) &&
-        Objects.equals(this.state, service.state) &&
-        Objects.equals(this.serType, service.serType) &&
-        Objects.equals(this.serProvider, service.serProvider) &&
-        Objects.equals(this.serDescription, service.serDescription) &&
-        Objects.equals(this.serAPIDescriptionURL, service.serAPIDescriptionURL) &&
-        Objects.equals(this.serConfigParams, service.serConfigParams) &&
-        Objects.equals(this.serComputeReq, service.serComputeReq) &&
-        Objects.equals(this.serStorageReq, service.serStorageReq) &&
-        Objects.equals(this.serLatencyReq, service.serLatencyReq) &&
-        Objects.equals(this.serThroughputReq, service.serThroughputReq) &&
-        Objects.equals(this.serServiceReq, service.serServiceReq) &&
-        Objects.equals(this.serServiceOptional, service.serServiceOptional) &&
-        Objects.equals(this.serSwImage, service.serSwImage) &&
-        Objects.equals(this.serializer, service.serializer) &&
-        Objects.equals(this.transportType, service.transportType) &&
-        Objects.equals(this.transportProtocol, service.transportProtocol) &&
-        Objects.equals(this.scopeOfLocality, service.scopeOfLocality) &&
-        Objects.equals(this.consumedLocalOnly, service.consumedLocalOnly) &&
-        Objects.equals(this.isLocal, service.isLocal);
-  }
 
-//  @Override
-//  public int hashCode() {
-//    return Objects.hash(serInstanceId, serName, serCategory, version, state, transportInfo, serializer, scopeOfLocality, consumedLocalOnly, isLocal);
-//  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ServiceInfo {\n");
+    public void setSerAutoscalingPolicies(List<AutoscalingPolicy> serAutoscalingPolicies) {
+        this.serAutoscalingPolicies = serAutoscalingPolicies;
+    }
     
-    sb.append("    serInstanceId: ").append(toIndentedString(serId)).append("\n");
-    sb.append("    serName: ").append(toIndentedString(serName)).append("\n");
-    sb.append("    serCategory: ").append(toIndentedString(serCategory)).append("\n");
-    sb.append("    version: ").append(toIndentedString(serVersion)).append("\n");
-    sb.append("    state: ").append(toIndentedString(state)).append("\n");
-    sb.append("    serType: ").append(toIndentedString(serType)).append("\n");
-    sb.append("    serProvider: ").append(toIndentedString(serProvider)).append("\n");
-    sb.append("    serDescription: ").append(toIndentedString(serDescription)).append("\n");
-    sb.append("    serAPIDescriptionURL: ").append(toIndentedString(serAPIDescriptionURL)).append("\n");
-    sb.append("    serConfigParams: ").append(toIndentedString(serConfigParams)).append("\n");
-    sb.append("    serComputeReq: ").append(toIndentedString(serComputeReq)).append("\n");
-    sb.append("    serStorageReq: ").append(toIndentedString(serStorageReq)).append("\n");
-    sb.append("    serLatencyReq: ").append(toIndentedString(serLatencyReq)).append("\n");
-    sb.append("    serThroughputReq: ").append(toIndentedString(serThroughputReq)).append("\n");
-    sb.append("    serServiceReq: ").append(toIndentedString(serServiceReq)).append("\n");
-    sb.append("    serServiceOptional: ").append(toIndentedString(serServiceOptional)).append("\n");
-    sb.append("    serSwImage: ").append(toIndentedString(serSwImage)).append("\n");
-    sb.append("    serializer: ").append(toIndentedString(serializer)).append("\n");
-    sb.append("    transportType: ").append(toIndentedString(transportType)).append("\n");
-    sb.append("    transportProtocol: ").append(toIndentedString(transportProtocol)).append("\n");
-    sb.append("    scopeOfLocality: ").append(toIndentedString(scopeOfLocality)).append("\n");
-    sb.append("    consumedLocalOnly: ").append(toIndentedString(consumedLocalOnly)).append("\n");
-    sb.append("    isLocal: ").append(toIndentedString(isLocal)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    public List<RequiredVolume> getSerRequiredVolumes() {
+        return serRequiredVolumes;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    public void setSerRequiredVolumes(List<RequiredVolume> serRequiredVolumes) {
+        this.serRequiredVolumes = serRequiredVolumes;
+    }
+
+    public List<RequiredEnvParameter> getSerRequiredEnvParameters() {
+        return serRequiredEnvParameters;
+    }
+
+    public void setSerRequiredEnvParameters(List<RequiredEnvParameter> serRequiredEnvParameters) {
+        this.serRequiredEnvParameters = serRequiredEnvParameters;
+    }
+
+    public Boolean getSerPrivileged() {
+        return serPrivileged;
+    }
+
+    public void setSerPrivileged(Boolean serPrivileged) {
+        this.serPrivileged = serPrivileged;
+    }
+
+    public String getSerPaasAutoscalingMetric() {
+        return serPaasAutoscalingMetric;
+    }
+
+    public void setSerPaasAutoscalingMetric(String serPaasAutoscalingMetric) {
+        this.serPaasAutoscalingMetric = serPaasAutoscalingMetric;
+    }
+  
 }

@@ -2,24 +2,15 @@ package TANDEM.icomtelecom.service_catalogue.Controllers;
 
 import TANDEM.icomtelecom.service_catalogue.Model.Exceptions.ProductNotFoundException;
 import TANDEM.icomtelecom.service_catalogue.Model.Product.Product;
-import TANDEM.icomtelecom.service_catalogue.Model.Product.ProductAvailabilityZones;
-import TANDEM.icomtelecom.service_catalogue.Model.Product.ProductPricePerChargeUnit;
-import TANDEM.icomtelecom.service_catalogue.Model.Product.ProductRef;
-import TANDEM.icomtelecom.service_catalogue.Model.Service.Service;
 import TANDEM.icomtelecom.service_catalogue.Repositories.ProductRepository;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.domain.PageRequest;
 
 @RestController
 @RequestMapping("servicecatalogue")
@@ -129,10 +120,4 @@ public class ProductRestController {
         return ResponseEntity.ok().build();
     }
 
-//    //------------------Security----------------------//
-//    @GetMapping("/getToken")
-//    String GetToken(@RequestParam(required = true) String username,
-//                    @RequestParam(required = true) String password){
-//        String urlParameters  = "client_id=data1&username=data2&password=data3&grant_type=";
-//    }
 }

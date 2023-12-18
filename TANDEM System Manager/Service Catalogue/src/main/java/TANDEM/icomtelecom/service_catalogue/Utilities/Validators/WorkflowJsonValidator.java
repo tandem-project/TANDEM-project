@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.AssertFalse;
 
 public class WorkflowJsonValidator implements ConstraintValidator<WorkflowJsonConstraint, Object> {
     @Override

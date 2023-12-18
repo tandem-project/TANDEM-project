@@ -1,6 +1,5 @@
 package TANDEM.icomtelecom.service_catalogue.Model.Product;
 
-import TANDEM.icomtelecom.service_catalogue.Model.Service.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

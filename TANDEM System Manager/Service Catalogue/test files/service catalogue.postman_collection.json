@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"serId\": \"TANDEM_ser2\",\r\n  \"serName\": \"Notification Service\",\r\n  \"serType\": \"Device\",\r\n  \"serProvider\": \"INTRACOM TELECOM S.A.\",\r\n  \"serDescription\": \"The user defines the sender, the recipients and the text of the e-mail message and the service responds whether the sending was successful or not\",\r\n  \"serCategory\": {\r\n    \"href\": \"Notification\",\r\n    \"id\": \"serCat2\",\r\n    \"name\": \"Notification Services\",\r\n    \"version\": \"001\"\r\n  },\r\n  \"serVersion\": \"001\",\r\n  \"state\": \"In TANDEM Test\",\r\n  \"serAPIDescriptionURL\": [\r\n    \"tandem-project.gr/Services/MonService/\",\r\n    \"edgeservices.org/TandemMonService/\"\r\n  ],\r\n  \"serConfigParams\": [\r\n    {\r\n      \"serParamName\": \"smtp_server_port\",\r\n      \"serParamType\": \"string\",\r\n      \"serParamValue\": \"smtp.tandem.com:587\",\r\n      \"serParamDescr\": \"e-mail server address and port\",\r\n      \"serParamTypicalValue\": \"string\"\r\n    },\r\n    {\r\n      \"serParamName\": \"password\",\r\n      \"serParamType\": \"string\",\r\n      \"serParamValue\": \"string\",\r\n      \"serParamDescr\": \"sender password\",\r\n      \"serParamTypicalValue\": \"string\"\r\n    }\r\n  ],\r\n  \"serOperations\": [\r\n    {\r\n      \"serOperationName\": \"SendNotification\",\r\n      \"serOperationEndPoint\": \"/ICOM/NotificationService/SendNotification\",\r\n      \"serOperationDescription\": \"send email Notification\",\r\n      \"serOperationType\": \"Synchonous\",\r\n      \"serOperationInputParams\": [\r\n        {\r\n          \"serParamName\": \"sender_email\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"TANDEM-notifications@intracom-telecom.com\",\r\n          \"serParamDescr\": \"e-mail address of the Sender\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"receiver_email1\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"tandem-administrator@intracom-telecom.com\",\r\n          \"serParamDescr\": \"e-mail address of the Recipient1\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"receiver_email2\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"string\",\r\n          \"serParamDescr\": \"e-mail address of the Recipient2\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"message_title\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"string\",\r\n          \"serParamDescr\": \"The title of the message\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        },\r\n        {\r\n          \"serParamName\": \"message_body\",\r\n          \"serParamType\": \"string\",\r\n          \"serParamValue\": \"string\",\r\n          \"serParamDescr\": \"e-mail text message\",\r\n          \"serParamTypicalValue\": \"string\"\r\n        }\r\n      ],\r\n      \"serOperationOutputParams\": [{\r\n        \"serParamName\": \"sending result\",\r\n        \"serParamType\": \"number\",\r\n        \"serParamValue\": \"201\",\r\n        \"serParamDescr\": \"e-mail sending result, success or failure codes\",\r\n        \"serParamTypicalValue\": \"string\"\r\n      }\r\n      ]\r\n    }\r\n  ],\r\n  \"serComputeReq\": {\r\n    \"serMemorySize\": \"5\",\r\n    \"serMemorySizeMU\": \"Mb\",\r\n    \"serCPUArchitecture\": \"X86\",\r\n    \"serNumVirtualCPUs\": \"100\",\r\n    \"serVirtualCPUClock\": \"string\",\r\n    \"serNumVirtualCPUsMU\": \"millicores\",\r\n    \"serNumVirtualGPUs\": \"0\"\r\n  },\r\n  \"serStorageReq\": {\r\n    \"serTypeOfStorage\": \"string\",\r\n    \"serSizeOfStorage\": \"0\",\r\n    \"serSizeOfStorageMU\": \"Gb\"\r\n  },\r\n  \"serLatencyReq\": {\r\n    \"serLatencyTimeUnit\": \"ms\",\r\n    \"serLatencyValue\": \"1000\"\r\n  },\r\n  \"serThroughputReq\": {\r\n    \"serThroughputMU\": \"mbps\",\r\n    \"serThroughputValue\": \"0.01\"\r\n  },\r\n  \"serServiceReq\": [\r\n    {\r\n      \"serServiceId\": \"e-mail server\"\r\n    }\r\n  ],\r\n  \"serServiceOptional\": [\r\n    {\r\n      \"serServiceId\": \"string\"\r\n    }\r\n  ],\r\n  \"serSwImage\": {\r\n    \"serSWImageId\": \"SWImage00015\",\r\n    \"serSWImageName\": \"SWImage00015\",\r\n    \"serSWImageContainerFormat\": \"Docker\",\r\n    \"serSWImageSizeinMBs\": \"0,5\",\r\n    \"serSWImageOS\": \"SWImage00015\",\r\n    \"serSWImageURL\": \"/ICOM/SWimages\"\r\n  },\r\n  \"serializer\": \"JSON\",\r\n  \"transportType\": \"REST_HTTP\",\r\n  \"transportProtocol\": \"TCP\",\r\n  \"scopeOfLocality\": \"TANDEM_SYSTEM\",\r\n  \"consumedLocalOnly\": true,\r\n  \"isLocal\": true\r\n}",
+					"raw": "{\r\n    \"serId\":\"marievitest\",\r\n    \"serName\":\"Marievi Test\",\r\n    \"serType\":\"FaaS Services\",\r\n    \"serProvider\":\"Intracom Telecom\",\r\n    \"serDescription\":\"Test test\",\r\n    \"serCategory\":\r\n    {\r\n        \"href\":\"\",\r\n        \"id\":\"\",\r\n        \"name\":\"Internet of Things (IoT)\",\r\n        \"version\":\"\"\r\n    },\r\n    \"serVersion\":\"001\",\r\n    \"state\":\"In Study\",\r\n    \"serAPIDescriptionURL\":[],\r\n    \"serConfigParams\":\r\n    [\r\n        {\r\n            \"serParamName\":\"instance_name\",\r\n            \"serParamType\":\"string\",\r\n            \"serParamValue\":\"\",\r\n            \"serParamDescr\":\"\",\r\n            \"serParamTypicalValue\":\"testtest\"\r\n        }\r\n    ],\r\n    \"serOperations\":[],\r\n    \"serComputeReq\":\r\n    {\r\n        \"serMemorySize\":\"5\",\r\n        \"serMemorySizeMU\":\"Gb\",\r\n        \"serCPUArchitecture\":\"\",\r\n        \"serNumVirtualCPUs\":\"50\",\r\n        \"serVirtualCPUClock\":\"\",\r\n        \"serNumVirtualCPUsMU\":\"millicores\",\r\n        \"serNumVirtualGPUs\":\"0\"\r\n    },\r\n    \"serStorageReq\":\r\n    {\r\n        \"serTypeOfStorage\":\"\",\r\n        \"serSizeOfStorage\":\"0\",\r\n        \"serSizeOfStorageMU\":\"Gb\"\r\n    },\r\n    \"serLatencyReq\":\r\n    {\r\n        \"serLatencyTimeUnit\":\"ms\",\r\n        \"serLatencyValue\":\"1000\"\r\n    },\r\n    \"serThroughputReq\":\r\n    {\r\n        \"serThroughputMU\":\"Mbps\",\r\n        \"serThroughputValue\":\"0.01\"\r\n    },\r\n    \"serServiceReq\":[],\r\n    \"serServiceOptional\":[],\r\n    \"serSwImage\":\r\n    {\r\n        \"serSWImageId\":\"\",\r\n        \"serSWImageName\":\"SWImage00018\",\r\n        \"serSWImageContainerFormat\":\"Docker\",\r\n        \"serSWImageSizeinMBs\":\"0.5\",\r\n        \"serSWImageOS\":\"Ubuntu 22.04 LTS\",\r\n        \"serSWImageURL\":\"/ICOM/SWimages\"\r\n    },\r\n    \"serializer\":\"\",\r\n    \"transportType\":\"\",\r\n    \"transportProtocol\":\"\",\r\n    \"scopeOfLocality\":\"private\",\r\n    \"consumedLocalOnly\":true,\r\n    \"isLocal\":true,\r\n    \"serApplicationPorts\":[1212],\r\n    \"serAutoscalingPolicies\":\r\n    [\r\n        {\r\n            \"policy\":\"maximize-performance\",\r\n            \"monitoring_metrics\":\r\n            [\r\n                {\r\n                    \"metric\":\"cpu\",\r\n                    \"limit\":\"1900m\",\r\n                    \"request\":\"800m\",\r\n                    \"util_percent\":60,\r\n                    \"is_default\":true\r\n                },\r\n                {\r\n                    \"metric\":\"memory\",\r\n                    \"limit\":\"0.5Gi\",\r\n                    \"request\":\"0.2Gi\",\r\n                    \"util_percent\":20,\r\n                    \"is_default\":false\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"policy\":\"minimize_cost\",\r\n            \"monitoring_metrics\":\r\n            [\r\n                {\r\n                    \"metric\":\"memory\",\r\n                    \"limit\":\"0.5Gi\",\r\n                    \"request\":\"0.2Gi\",\r\n                    \"util_percent\":20,\r\n                    \"is_default\":false\r\n                },\r\n                {\r\n                    \"metric\":\"cpu\",\r\n                    \"limit\":\"500m\",\r\n                    \"request\":\"150m\",\r\n                    \"util_percent\":30,\r\n                    \"is_default\":true\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"policy\":\"service_availability\",\r\n            \"monitoring_metrics\":\r\n            [\r\n                {\r\n                    \"metric\":\"memory\",\r\n                    \"limit\":\"0.5Gi\",\r\n                    \"request\":\"0.2Gi\",\r\n                    \"util_percent\":20,\r\n                    \"is_default\":false\r\n                },\r\n                {\r\n                    \"metric\":\"cpu\",\r\n                    \"limit\":\"500m\",\r\n                    \"request\":\"150m\",\r\n                    \"util_percent\":50,\r\n                    \"is_default\":true\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"serRequiredVolumes\":\r\n    [\r\n        {\r\n            \"name\":\"volume1\",\r\n            \"path\":\"/data/config\",\r\n            \"hostpath\":\"/data/config\",\r\n            \"storage\":\"500Mi\"\r\n        }\r\n    ],\r\n    \"serRequiredEnvParameters\":\r\n    [\r\n        {\r\n            \"name\":\"ELASTICSEARCH_URL\",\r\n            \"value\":\"http://Elasticname:...\"\r\n        }\r\n    ],\r\n    \"serPrivileged\":false,\r\n    \"serPaaSAutoscalingMetric\": \"cpu\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,12 +21,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8082/servicecatalogue/create/services",
+					"raw": "http://146.124.106.209/servicecatalogue/create/services",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"146",
+						"124",
+						"106",
+						"209"
 					],
-					"port": "8082",
 					"path": [
 						"servicecatalogue",
 						"create",
@@ -42,12 +44,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/servicecatalogue/get/services",
+					"raw": "http://146.124.106.209/servicecatalogue/get/services",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"146",
+						"124",
+						"106",
+						"209"
 					],
-					"port": "8082",
 					"path": [
 						"servicecatalogue",
 						"get",
@@ -94,17 +98,6 @@
 						"services",
 						"state"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get token",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
 				}
 			},
 			"response": []
@@ -167,6 +160,72 @@
 						"delete",
 						"services",
 						"TANDEM_ser2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PiEdge - Delete service function",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb20uaWNvbS10ZWxlY29tLmNvbm5leGlvbiIsImlhdCI6MTcwMTk1NDUyMywiZXhwIjoxNzAxOTU1MTIzLCJzdWIiOiIyXy9fYWRtaW5fc3lzdGVtX21hbmFnZXIifQ.IXg55fbjjGzRDaLjY-RwfFefrTGF2yTnzDPf13IlEEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://146.124.106.209/piedge-connector/2.0.0/serviceFunction/SWImage00018",
+					"protocol": "http",
+					"host": [
+						"146",
+						"124",
+						"106",
+						"209"
+					],
+					"path": [
+						"piedge-connector",
+						"2.0.0",
+						"serviceFunction",
+						"SWImage00018"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PiEdge - Get token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"admin_system_manager\",\"password\":\"admin_system_manager!@!\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://146.124.106.209/piedge-connector/2.0.0/authentication",
+					"protocol": "http",
+					"host": [
+						"146",
+						"124",
+						"106",
+						"209"
+					],
+					"path": [
+						"piedge-connector",
+						"2.0.0",
+						"authentication"
 					]
 				}
 			},
