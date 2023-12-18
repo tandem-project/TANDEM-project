@@ -70,19 +70,9 @@ function displayUsers(action) {
                 <th class='services-mgmttable-headers'>" + "Actions" + "<a href='#'></a></th>\
             </tr>";
 
-    for (var i = 0; i < length; i++) {   
-        /////////////////////////////// construct icons table
-        var iconstab = JSON.parse("{}");
-        iconstab["tdstyle"]="padding-bottom: 1px;padding-top: 1px;border-style: outset;";
-        iconstab["rows"] = JSON.parse("[]");
-        var iconsarr1 = JSON.parse("[]"); 
-        iconsarr1.push("<i class='far fa-trash-alt' onclick='deleteuser(\""+usersInfo[i].userId+"\")' title='Delete' style='color:red;font-size:18px'></i>");
-        
-        iconstab["rows"].push(iconsarr1);
-       
-        ////////////////////////////////// construct icons table
+    for (var i = 0; i < length; i++) {    
     //htmltext +=
-        var tmpstr = "<tr><td>" + usersInfo[i].userId + "</td>\
+    var tmpstr = "<tr><td>" + usersInfo[i].userId + "</td>\
                 <td>" ;
         if (!usersInfo[i].userFirstName) usersInfo[i].userFirstName = "";
         if (!usersInfo[i].userLastName) usersInfo[i].userLastName = "";
@@ -91,6 +81,7 @@ function displayUsers(action) {
         if (!usersInfo[i].userCompanyName) usersInfo[i].userCompanyName = "";
         if (!usersInfo[i].userPhoneNumber) usersInfo[i].userPhoneNumber = "";
         if (!usersInfo[i].userAccountType) usersInfo[i].userAccountType = "";
+        if (usersInfo[i].userAccountType=="Select") usersInfo[i].userAccountType = "";
                 tmpstr += usersInfo[i].userFirstName + "</td>\
                 <td>" + usersInfo[i].userLastName + "</td>\
                 <td>" ;
@@ -102,10 +93,10 @@ function displayUsers(action) {
                 tmpstr += usersInfo[i].userAccountType + "</td>\
                 <td>" ;
         if (!usersInfo[i].userPaymentInfo)
-            tmpstr += "</td>\<td>";
+            tmpstr += "</td><td>";
         else
             tmpstr +=
-                + usersInfo[i].userPaymentInfo.userCardNumber 
+                usersInfo[i].userPaymentInfo.userCardNumber 
                 + "<br>" 
                 + usersInfo[i].userPaymentInfo.userExpirationDate +
                 "<br>" 
@@ -116,10 +107,10 @@ function displayUsers(action) {
                 + usersInfo[i].userPaymentInfo.userPAN + "</td>\
                 <td>" ;
         if (!usersInfo[i].userBillingAddress)
-            tmpstr += "</td>\<td>";
+            tmpstr += "</td><td>";
         else
             tmpstr +=
-                + usersInfo[i].userBillingAddress.userCountry + 
+                 usersInfo[i].userBillingAddress.userCountry + 
                 "<br>" 
                 + usersInfo[i].userBillingAddress.userAddress +
                 "<br>" 
@@ -128,12 +119,12 @@ function displayUsers(action) {
                 + usersInfo[i].userBillingAddress.userState +
                 "<br>" 
                 + usersInfo[i].userBillingAddress.userPostalCode + 
-                "</td>\<td>" ;
+                "</td><td>" ;
         if (!usersInfo[i].userPhysicalAddress)
-            tmpstr += "</td>\<td>";
+            tmpstr += "</td><td>";
         else
             tmpstr +=
-                + usersInfo[i].userPhysicalAddress.userCountry + 
+                 usersInfo[i].userPhysicalAddress.userCountry + 
                 "<br>" 
                 + usersInfo[i].userPhysicalAddress.userAddress +
                 "<br>" 
@@ -142,7 +133,7 @@ function displayUsers(action) {
                 + usersInfo[i].userPhysicalAddress.userState +
                 "<br>" 
                 + usersInfo[i].userPhysicalAddress.userPostalCode + 
-                "</td>\<td>" ;
+                "</td><td>" ;
             tmpstr +=  usersInfo[i].userRole + 
                 "</td>\
                 <td>";
@@ -190,10 +181,20 @@ function displayUsers(action) {
                 else
                     htmltext += "  ";
                 htmltext = htmltext.substring(0, htmltext.length - 2);
+        /////////////////////////////// construct icons table
+        var iconstab = JSON.parse("{}");
+        iconstab["tdstyle"]="padding-bottom: 3px;padding-top: 2px;border: 1px solid black;border-radius: 4px;box-shadow: 2px 5px 5px #9e9e9e;border-style: outset;";
+        iconstab["rows"] = JSON.parse("[]");
+        var iconsarr1 = JSON.parse("[]");
+        iconsarr1.push("<i class='far fa-trash-alt' onclick='deleteuser(\""+usersInfo[i].userId+"\")' title='Delete' style='padding-bottom:5px;color:red;font-size:24px'></i>");
+        iconstab["rows"].push(iconsarr1);
+        ////////////////////////////////// construct icons table
+                
                 htmltext += "</td>\
-                <td>" + 
-                    _makeicons(iconstab) +
-                "</td>\
+                <td>" + _makeicons(iconstab)+
+                //"<a href='#'><i class='fas fa-edit' title='Edit' style='padding-bottom:5px;color:black;font-size:24px'></i></a>" +
+                    //" <a href='#'><i class='far fa-trash-alt' onclick='deleteuser(\""+usersInfo[i].userId+"\")' title='Delete' style='padding-bottom:5px;color:red;font-size:24px'></i></a>" +
+                    "</td>\
                 </tr>";       
     }
     document.getElementById("usersTable").innerHTML = htmltext;
@@ -242,13 +243,19 @@ resultfnct['errjsoninfo'] = function (sts) {
 resultfnct['errjsoninfo1'] = function (sts) {
     alert("error="+sts);
 } 
-
+var _DELETEUSERID;
 function deleteuser(id){
-    if (confirm("Delete User?") == false) {
-        return;
-    }
+    _DELETEUSERID = id;
+    dispquest("Confirmation","Do you confirm to proceed?","deleteuserok()")
+}
+function deleteuserok(){
+    var id = _DELETEUSERID;
+    //if (confirm("Delete User?") == false) {
+    //    return;
+    //}
     var url = _BACKENDSERVER+"/usercatalogue/delete/users/"+id;
     CallPostUrl(url,"DELETE",null,[],"dummyans");
+    document.getElementById('messagemodal').style.display='none';
 }
 resultfnct['dummyans'] = function (sts) {
     //alert("error="+sts);
@@ -310,4 +317,5 @@ try {
 resultfnct['errloginans'] = function (arg1) {
     alert(arg1);
 } 
+
 
