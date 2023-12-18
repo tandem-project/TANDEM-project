@@ -1,10 +1,8 @@
 package TANDEM.icomtelecom.system_manager.Model.Swagger;
 
-import TANDEM.icomtelecom.system_manager.Controllers.SystemManagerRESTController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -18,7 +16,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("TANDEM.icomtelecom.service_catalogue"))
+                .apis(RequestHandlerSelectors.basePackage("TANDEM.icomtelecom.system_manager"))
 //                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -26,8 +24,8 @@ public class SwaggerConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Tandem service catalogue")
-                .description("Service catalogue with list of Tandem services")
+                .title("System Manager")
+                .description("System Manager")
                 .version("1.0.0")
                 .build();
     }

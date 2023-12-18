@@ -13,14 +13,4 @@ public class SystemManagerApplication {
 	}
 
 
-//	@Bean
-//	CommandLineRunner runner(ServiceRepository serviceRepository){
-//		return args -> {
-//			ServiceInfo serviceInfo = new ServiceInfo();
-//			serviceInfo.setSerName("testService");
-//			serviceInfo.setVersion("0.1");
-//			serviceRepository.save(serviceInfo);
-//		};
-//	}
-
 }

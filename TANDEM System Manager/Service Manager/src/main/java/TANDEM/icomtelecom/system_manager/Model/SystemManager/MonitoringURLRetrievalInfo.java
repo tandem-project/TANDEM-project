@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author maxez
  */
-public class ServiceDeletionRequestInfo {
+public class MonitoringURLRetrievalInfo {
         
     @JsonProperty("piEdgeIP")
     private String piEdgeIP = null;
@@ -19,9 +19,11 @@ public class ServiceDeletionRequestInfo {
     @JsonProperty("piEdgePort")
     private String piEdgePort = null;
     
-    @JsonProperty("serviceName")
-    private String serviceName = null;
+
+    @JsonProperty("instance_id")
+    private String instance_id = null;
     
+
     public String getPiEdgeIP() {
         return piEdgeIP;
     }
@@ -38,12 +40,12 @@ public class ServiceDeletionRequestInfo {
         this.piEdgePort = piEdgePort;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getInstance_id() {
+        return instance_id;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setInstance_id(String instance_id) {
+        this.instance_id = instance_id;
     }
-
+    
 }

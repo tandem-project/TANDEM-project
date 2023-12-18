@@ -6,20 +6,13 @@
 package TANDEM.icomtelecom.system_manager.Model.SystemManager;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
 /**
  *
  * @author maxez
  */
 public class ServiceInstantiationRequestInfo {
-        
-    @JsonProperty("piEdgeIP")
-    private String piEdgeIP = null;
-    
-    @JsonProperty("piEdgePort")
-    private String piEdgePort = null;
-    
+
     @JsonProperty("paas_service_name")
     private String paas_service_name = null;
 
@@ -34,27 +27,36 @@ public class ServiceInstantiationRequestInfo {
     
     @JsonProperty("count_max")
     private String count_max = null;   
-
+    
+    @JsonProperty("eval_metric_name")
+    private String eval_metric_name = null;   
+    
+    @JsonProperty("data_space_enabled")
+    private Boolean data_space_enabled = null;   
+      
     @JsonProperty("location")
     private String location = null; 
 
     @JsonProperty("all_node_ports")
-    private String all_node_ports = null;
+    private Boolean all_node_ports = null;
     
-    public String getPiEdgeIP() {
-        return piEdgeIP;
+    @JsonProperty("monitoring_services")
+    private Boolean monitoring_services = null;
+
+    public String getEval_metric_name() {
+        return eval_metric_name;
     }
 
-    public void setPiEdgeIP(String piEdgeIP) {
-        this.piEdgeIP = piEdgeIP;
+    public void setEval_metric_name(String eval_metric_name) {
+        this.eval_metric_name = eval_metric_name;
     }
 
-    public String getPiEdgePort() {
-        return piEdgePort;
+    public Boolean getData_space_enabled() {
+        return data_space_enabled;
     }
 
-    public void setPiEdgePort(String piEdgePort) {
-        this.piEdgePort = piEdgePort;
+    public void setData_space_enabled(Boolean data_space_enabled) {
+        this.data_space_enabled = data_space_enabled;
     }
 
     public String getPaas_service_name() {
@@ -105,12 +107,20 @@ public class ServiceInstantiationRequestInfo {
         this.location = location;
     }
 
-    public String getAll_node_ports() {
+    public Boolean getAll_node_ports() {
         return all_node_ports;
     }
 
-    public void setAll_node_ports(String all_node_ports) {
+    public void setAll_node_ports(Boolean all_node_ports) {
         this.all_node_ports = all_node_ports;
+    }
+
+    public Boolean getMonitoring_services() {
+        return monitoring_services;
+    }
+
+    public void setMonitoring_services(Boolean monitoring_services) {
+        this.monitoring_services = monitoring_services;
     }
 
     

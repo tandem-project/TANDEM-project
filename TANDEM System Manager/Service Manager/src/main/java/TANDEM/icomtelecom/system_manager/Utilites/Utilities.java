@@ -1,15 +1,5 @@
 package TANDEM.icomtelecom.system_manager.Utilites;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,18 +7,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONObject;
 
 
 
 public class Utilities {
-
-   // private String token = null;
 
     public String sendPOSTHTTPRequest(String urlToRequest, String tokenHeader, String body){
         HttpURLConnection connection = null;
@@ -66,9 +49,7 @@ public class Utilities {
             rd.close();
             System.out.println("Response: " + response);
            
-        //    if (connection != null) {
             connection.disconnect();
-       //    }
         } catch (IOException e) {
             if (e.getMessage().contains("HTTP")){
                String[] errorCodeParts = e.getMessage().split("HTTP response code: ");
@@ -117,9 +98,7 @@ public class Utilities {
             }
             rd.close();
             System.out.println("Response: " + response);
-      //       if (connection != null) {
             connection.disconnect();
-      //      }
         } catch (Exception e) {
             if (connection != null) {
                 connection.disconnect();
@@ -168,9 +147,7 @@ public class Utilities {
             rd.close();
             System.out.println("Response: " + response);
            
-        //    if (connection != null) {
             connection.disconnect();
-       //    }
         } catch (IOException e) {
             if (e.getMessage().contains("HTTP")){
                String[] errorCodeParts = e.getMessage().split("HTTP response code: ");
@@ -190,8 +167,9 @@ public class Utilities {
     
     
     public String getPiEdgeAuthentication(String piEdgeIP, String piEdgePort){
-        String urlToRequest = "http://" + piEdgeIP + ":" + piEdgePort + "/piedge-connector/2.0.0/authentication";
-        String body = "{\"username\":\"admin_system_manager\",\"password\":\"admin_system_manager!@!\"}";
+        String urlToRequest = "http://localhost:80/piedge-connector/2.0.0/authentication";
+        System.out.println(urlToRequest);
+        String body = "{\"username\":\"USERNAME\",\"password\":\"PASSWORD\"}";
         String tokenResponse = sendPOSTHTTPRequest(urlToRequest, null, body);
         
         JSONObject tokenObject = new JSONObject(tokenResponse);
